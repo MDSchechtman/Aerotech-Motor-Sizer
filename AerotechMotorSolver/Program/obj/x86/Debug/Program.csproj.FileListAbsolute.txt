@@ -8,3 +8,5 @@ E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\obj\x86\Debug\Program.exe
 E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\obj\x86\Debug\Program.pdb
 E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\bin\Debug\MotorSolver.dll
 E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\bin\Debug\MotorSolver.pdb
+E:\work\Aerotech-Motor-Sizer\AerotechMotorSolver\Program\obj\x86\Debug\Program.exe
+E:\work\Aerotech-Motor-Sizer\AerotechMotorSolver\Program\obj\x86\Debug\Program.pdb
