@@ -1,5 +1,0 @@
-E:\work\Aerotech-Motor-Sizer\MotorSolver\MotorSolver\obj\x86\Debug\ResolveAssemblyReference.cache
-E:\work\Aerotech-Motor-Sizer\MotorSolver\MotorSolver\bin\Debug\MotorSolver.exe
-E:\work\Aerotech-Motor-Sizer\MotorSolver\MotorSolver\bin\Debug\MotorSolver.pdb
-E:\work\Aerotech-Motor-Sizer\MotorSolver\MotorSolver\obj\x86\Debug\MotorSolver.exe
-E:\work\Aerotech-Motor-Sizer\MotorSolver\MotorSolver\obj\x86\Debug\MotorSolver.pdb
