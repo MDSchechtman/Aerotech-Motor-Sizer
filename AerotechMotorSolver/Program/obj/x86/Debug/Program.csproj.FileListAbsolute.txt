@@ -1,0 +1,10 @@
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\bin\Debug\Program.exe
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\bin\Debug\Program.pdb
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\obj\x86\Debug\Program.Properties.Resources.resources
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\obj\x86\Debug\Program.exe
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\obj\x86\Debug\Program.pdb
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\bin\Debug\MotorSolver.dll
+E:\work\Aerotech-Motor-Sizer\MotorSolver\Program\bin\Debug\MotorSolver.pdb
