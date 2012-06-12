@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Program.Interfaces
+namespace Interfaces
 {
     interface IParameterSet
     {
-        public double[] Position;
-        public double[] Time;
+        public double[] Position { get; }
+        public double[] Time { get; }
 
         /// <summary>
         /// The Acceleration Time
