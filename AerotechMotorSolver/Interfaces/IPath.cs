@@ -8,12 +8,17 @@ namespace Interfaces
     interface IPath
     {
         public double[] Position { get; }
+
         public double[] Time { get; }
+
+        public IParameterSet ParameterSet { get; set; }
+        // internal SetPath();
+
+        public IFunction Function { get; set; }
+        // internal SetPath();
 
         public bool AngleOfInclination { get; set; }
 
         bool Import(string file);
-
-        bool SetPath(List<string> parameters);
     }
 }

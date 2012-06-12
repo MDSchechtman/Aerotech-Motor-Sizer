@@ -7,7 +7,16 @@ namespace Interfaces
 {
     interface ISolver
     {
-        void Start();
-        void Stop();
+        /// <summary>
+        /// Start a simulation
+        /// </summary>
+        /// <param name="initial">The initial state</param>
+        /// <param name="motor">The motor object</param>
+        /// <param name="load">The load</param>
+        /// <param name="path">The path</param>
+        bool Start(IState initial, IMotor motor, ILoad load, IPath path);
+        bool Stop();
+
+        bool Write();
     }
 }
