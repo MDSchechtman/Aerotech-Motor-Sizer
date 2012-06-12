@@ -41,11 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDatabase.cs" />
+    <Compile Include="IFunctionLibrary.cs" />
     <Compile Include="ILoad.cs" />
     <Compile Include="IMotor.cs" />
+    <Compile Include="IFunction.cs" />
     <Compile Include="IParameterSet.cs" />
     <Compile Include="IPath.cs" />
     <Compile Include="ISolver.cs" />
+    <Compile Include="IRecord.cs" />
     <Compile Include="IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

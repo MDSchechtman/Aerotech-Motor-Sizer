@@ -14,7 +14,7 @@ namespace Interfaces
         /// <param name="motor">The motor object</param>
         /// <param name="load">The load</param>
         /// <param name="path">The path</param>
-        bool Start(IState initial, IMotor motor, ILoad load, IPath path);
+        bool Start(IRecord initial, IMotor motor, ILoad load, IPath path);
         bool Stop();
 
         bool Write();
