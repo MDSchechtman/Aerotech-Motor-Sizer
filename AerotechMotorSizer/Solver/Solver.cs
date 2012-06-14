@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Interfaces
+using Interfaces;
+
+namespace MotorSolver
 {
-    interface IState
+    static class Solver
     {
+  
     }
 }

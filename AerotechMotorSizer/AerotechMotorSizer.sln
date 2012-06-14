@@ -17,6 +17,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solver.Test", "Solver.Test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\Interfaces.csproj", "{E85A1F03-275D-46B7-9A0E-22C9E5D45E85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{78D3B1BB-D256-412C-AEA4-E3CDED750E71}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E85A1F03-275D-46B7-9A0E-22C9E5D45E85} = {E85A1F03-275D-46B7-9A0E-22C9E5D45E85}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +82,16 @@ Global
 		{E85A1F03-275D-46B7-9A0E-22C9E5D45E85}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E85A1F03-275D-46B7-9A0E-22C9E5D45E85}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E85A1F03-275D-46B7-9A0E-22C9E5D45E85}.Release|x86.ActiveCfg = Release|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
