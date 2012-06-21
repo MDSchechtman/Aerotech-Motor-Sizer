@@ -7,7 +7,6 @@ namespace Interfaces
 {
     interface IParameterSet
     {
-        // TODO: Update for multiple axes
         double[] Position { get; }
         double[] Time { get; }
 
