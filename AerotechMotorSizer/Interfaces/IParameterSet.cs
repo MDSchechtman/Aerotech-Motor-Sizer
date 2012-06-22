@@ -37,6 +37,6 @@ namespace Interfaces
         // Acceleration distance
         // Max travel
         // Scan distance
-        void SetParameters(Dictionary<int, double> parameters);
+        void SetParameters(Dictionary<string, double> parameters);
     }
 }
