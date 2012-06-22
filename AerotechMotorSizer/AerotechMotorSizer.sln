@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Databa
 		{E85A1F03-275D-46B7-9A0E-22C9E5D45E85} = {E85A1F03-275D-46B7-9A0E-22C9E5D45E85}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParameterSet", "ParameterSet\ParameterSet.csproj", "{319AC215-B45B-4F50-9F21-F60796FD2D8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,16 @@ Global
 		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{78D3B1BB-D256-412C-AEA4-E3CDED750E71}.Release|x86.ActiveCfg = Release|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{319AC215-B45B-4F50-9F21-F60796FD2D8F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
