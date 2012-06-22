@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Interfaces
 {
-    interface ISolver
+    public interface ISolver
     {
         /// <summary>
         /// Start a simulation

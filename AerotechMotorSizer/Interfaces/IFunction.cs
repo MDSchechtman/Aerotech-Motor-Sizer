@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Interfaces
 {
-    interface IFunction
+    public interface IFunction
     {
 
     }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Interfaces
 {
-    interface IParameterSet
+    public interface IParameterSet
     {
         double[] Axis1_Position { get; }
         double[] Axis2_Position { get; }

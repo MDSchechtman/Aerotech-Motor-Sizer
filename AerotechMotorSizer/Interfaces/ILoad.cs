@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Interfaces
 {
-    interface ILoad
+    public interface ILoad
     {
         double Mass { get; set; }
 

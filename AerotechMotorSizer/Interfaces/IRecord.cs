@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Interfaces
 {
-    interface IRecord
+    public interface IRecord
     {
         List<double> Position { get; }
         List<double> Velocity { get; }

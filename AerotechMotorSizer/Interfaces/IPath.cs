@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Interfaces
 {
-    interface IPath
+    public interface IPath
     {
         double[] Position { get; }
 

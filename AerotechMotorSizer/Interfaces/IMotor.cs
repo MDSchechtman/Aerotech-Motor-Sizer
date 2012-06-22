@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Interfaces
 {
-    interface IMotor
+    public interface IMotor
     {
         
     }

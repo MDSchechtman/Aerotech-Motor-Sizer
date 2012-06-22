@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Interfaces
 {
-    interface IDatabase
+    public interface IDatabase
     {
         void Add(IMotor motor);
         bool Get(out IMotor motor, List<string> parameters);
