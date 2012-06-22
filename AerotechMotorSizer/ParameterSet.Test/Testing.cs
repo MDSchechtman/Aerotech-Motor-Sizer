@@ -29,6 +29,9 @@ namespace ParameterSet.Test
             Debug.Assert(set.dummyValue0 == -230);
             Debug.Assert(set.dummyValue1 == -5324);
             Debug.Assert(set.dummyValue2 == 999);
+
+            Console.WriteLine("ParameterSet.Test: All tests passed!");
+            Console.ReadLine();
         }
     }
 }
