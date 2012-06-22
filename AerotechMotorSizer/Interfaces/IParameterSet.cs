@@ -26,16 +26,5 @@ namespace Interfaces
         double Axis3_DwelTime { get; }
 
         double[] Time { get; }
-
-
-        // Distance of travel
-        // Total time of travel
-        // Percentage of time spent moving
-        // Max velocity
-        // Peak acceleration
-        // Acceleration distance
-        // Max travel
-        // Scan distance
-        void SetParameters(Dictionary<string, double> parameters);
     }
 }
