@@ -24,6 +24,7 @@ namespace Program
             _dialog.ShowDialog();
         }
 
+        // Populate the dialog
         private void BuildDialog()
         {
             _dialog = new Form();
@@ -124,6 +125,7 @@ namespace Program
             _dialog.Controls.Add(_panel);
         }
 
+        // TODO: Robust error handling.  For now this is a proof of concept
         void ok_Click(object sender, EventArgs e)
         {
             _dialog.Close();
