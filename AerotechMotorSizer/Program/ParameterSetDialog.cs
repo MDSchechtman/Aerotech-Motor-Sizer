@@ -70,39 +70,39 @@ namespace Program
                         l3.Text = "peakAcceleration";
                         break;
                     case 4: // accelDistance maxVelocity totalTravel 
-                        l1.Text = "distanceOfTravel";
-                        l2.Text = "totalTime";
-                        l3.Text = "percentage";
+                        l1.Text = "accelDistance";
+                        l2.Text = "maxVelocity";
+                        l3.Text = "totalTravel";
                         break;
                     case 5: // accelDistance maxVelocity totalTime 
-                        l1.Text = "distanceOfTravel";
-                        l2.Text = "totalTime";
-                        l3.Text = "percentage";
+                        l1.Text = "accelDistance";
+                        l2.Text = "maxVelocity";
+                        l3.Text = "totalTime";
                         break;
                     case 6: // acceleration maxVelocity maxTravel 
-                        l1.Text = "distanceOfTravel";
-                        l2.Text = "totalTime";
-                        l3.Text = "percentage";
+                        l1.Text = "acceleration";
+                        l2.Text = "maxVelocity";
+                        l3.Text = "maxTravel";
                         break;
                     case 7: // peakAcceleration maxVelocity totalTime 
-                        l1.Text = "distanceOfTravel";
-                        l2.Text = "totalTime";
-                        l3.Text = "percentage";
+                        l1.Text = "peakAcceleration";
+                        l2.Text = "maxVelocity";
+                        l3.Text = "totalTime";
                         break;
                     case 8: // peakAcceleration maxVelocity scanDistance 
-                        l1.Text = "distanceOfTravel";
-                        l2.Text = "totalTime";
-                        l3.Text = "percentage";
+                        l1.Text = "peakAcceleration";
+                        l2.Text = "maxVelocity";
+                        l3.Text = "scanDistance";
                         break;
                     case 9: // totalTravel maxVelocity scanDistance 
-                        l1.Text = "distanceOfTravel";
-                        l2.Text = "totalTime";
-                        l3.Text = "percentage";
+                        l1.Text = "totalTravel";
+                        l2.Text = "maxVelocity";
+                        l3.Text = "scanDistance";
                         break;
                     case 10: // totalTime maxVelocity scanDistance 
-                        l1.Text = "distanceOfTravel";
-                        l2.Text = "totalTime";
-                        l3.Text = "percentage";
+                        l1.Text = "totalTime";
+                        l2.Text = "maxVelocity";
+                        l3.Text = "scanDistance";
                         break;
                 }
 
