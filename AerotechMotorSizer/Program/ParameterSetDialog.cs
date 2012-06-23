@@ -141,8 +141,6 @@ namespace Program
 
             if (_dictionary != null)
                 _parameterSet = new ParameterSet.ParameterSet(_dictionary);
-            else
-                throw new Exception("Error getting parameters from _dialog!");
         }
 
         public Interfaces.IParameterSet ParameterSet
