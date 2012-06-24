@@ -73,7 +73,7 @@ namespace ParameterSet
 
             // Invoke the proper method based on the input parameters
             string invokeString = string.Format("{0}_{1}_{2}_converter", param0, param1, param2);
-            MethodInfo info = typeof(ParameterSet).GetMethod(invokeString, BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo info = typeof(ParameterSet).GetMethod(invokeString);
             double[] values = new double[] { value0, value1, value2 };
             info.Invoke(this, new object[] { values });
         }
