@@ -5,11 +5,10 @@ using System.Text;
 using System.Diagnostics;
 
 using Interfaces;
-using MotorSolver;
 
-namespace MotorSolver.Test
+namespace Testing
 {
-    public class Testing : ITesting
+    public class SolverTest : ITesting
     {
         public bool DoTest()
         {

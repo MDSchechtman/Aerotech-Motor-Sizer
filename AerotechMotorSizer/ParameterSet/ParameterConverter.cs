@@ -6,9 +6,9 @@ using System.Reflection;
 
 using Interfaces;
 
-namespace ParameterSet
+namespace Input
 {
-    public class ParameterSet : IParameterSet
+    public class ParameterConverter
     {
 
         /* DO NOT EDIT - Parameters:
@@ -26,7 +26,7 @@ namespace ParameterSet
         /// Create a new ParameterSet
         /// </summary>
         /// <param name="parameters">The dictionary of parameters to convert</param>
-        public ParameterSet(Dictionary<string, double> parameters) 
+        public ParameterConverter(Dictionary<string, double> parameters) 
         {
             if (parameters.Count == 0)
                 throw new Exception("Invalid paramter count!");
@@ -81,97 +81,41 @@ namespace ParameterSet
         #region Private variables
 
         // Axis 1
-        double m_axis1_DistanceOfTravel;
-        double m_axis1_AccelerationTime;
-        double m_axis1_TraverseTime;
-        double m_axis1_DecelerationTime;
-        double m_axis1_DwellTime;
+        double _distanceOfTravel;
+        double _accelerationTime;
+        double _traverseTime;
+        double _decelerationTime;
+        double _dwelTime;
 
         #endregion
 
         #region Public Properties
 
-        // Axis 1
-        public double[] Axis1_Position 
+        public double[] Position 
         {
             get { return new double[] { 0D }; } 
         }
 
-        public double Axis1_AccelerationTime
+        public double AccelerationTime
         {
-            get { return 0D; }
+            get { return _accelerationTime; }
         }
 
-        public double Axis1_TraverseTime
+        public double TraverseTime
         {
-            get { return 0D; }
+            get { return _traverseTime; }
         }
 
-        public double Axis1_DeccelerationTime
+        public double DeccelerationTime
         {
-            get { return 0D; }
+            get { return _decelerationTime; }
         }
 
-        public double Axis1_DwelTime
+        public double DwelTime
         {
-            get { return 0D; }
+            get { return _dwelTime; }
         }
 
-        // Axis 2
-        public double[] Axis2_Position
-        {
-            get { return new double[] { 0D }; }
-        }
-
-        public double Axis2_AccelerationTime
-        {
-            get { return 0D; }
-        }
-
-        public double Axis2_TraverseTime
-        {
-            get { return 0D; }
-        }
-
-        public double Axis2_DeccelerationTime
-        {
-            get { return 0D; }
-        }
-
-        public double Axis2_DwelTime
-        {
-            get { return 0D; }
-        }
-
-
-        // Axis 3
-        public double[] Axis3_Position
-        {
-            get { return new double[] { 0D }; }
-        }
-
-        public double Axis3_AccelerationTime
-        {
-            get { return 0D; }
-        }
-
-        public double Axis3_TraverseTime
-        {
-            get { return 0D; }
-        }
-
-        public double Axis3_DeccelerationTime
-        {
-            get { return 0D; }
-        }
-
-        public double Axis3_DwelTime
-        {
-            get { return 0D; }
-        }
-
-
-        // Time
         public double[] Time
         {
             get { return new double[] { 0D }; }
@@ -207,10 +151,10 @@ namespace ParameterSet
             else
                 throw new Exception("Invalid percentage. Must be a value between 0 and 1 or 0 and 100.");
 
-            m_axis1_DistanceOfTravel = distanceOfTravel;
-            m_axis1_AccelerationTime = .5 * percentage * totalTime;
-            m_axis1_TraverseTime = (1 - percentage) * totalTime;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            _distanceOfTravel = distanceOfTravel;
+            _accelerationTime = .5 * percentage * totalTime;
+            _traverseTime = (1 - percentage) * totalTime;
+            _decelerationTime = _accelerationTime;
         }
 
         private void distanceOfTravel_maxVelocity_percentage_converter(double[] values)
@@ -222,10 +166,10 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double percentage = values[2];
 
-            m_axis1_DistanceOfTravel = distanceOfTravel;
-            m_axis1_AccelerationTime = percentage * distanceOfTravel / maxVelocity;
-            m_axis1_TraverseTime = 2 * (1 - percentage) * m_axis1_AccelerationTime / percentage;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            _distanceOfTravel = distanceOfTravel;
+            _accelerationTime = percentage * distanceOfTravel / maxVelocity;
+            _traverseTime = 2 * (1 - percentage) * _accelerationTime / percentage;
+            _decelerationTime = _accelerationTime;
         }
 
         private void distanceOfTravel_maxVelocity_totalTime_converter(double[] values)
@@ -237,10 +181,10 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double totalTime = values[2];
 
-            m_axis1_DistanceOfTravel = distanceOfTravel;
-            m_axis1_AccelerationTime = totalTime - distanceOfTravel / maxVelocity;
-            m_axis1_TraverseTime = totalTime - 2 * m_axis1_AccelerationTime;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            _distanceOfTravel = distanceOfTravel;
+            _accelerationTime = totalTime - distanceOfTravel / maxVelocity;
+            _traverseTime = totalTime - 2 * _accelerationTime;
+            _decelerationTime = _accelerationTime;
         }
 
         private void distanceOfTravel_maxVelocity_peakAcceleration_converter(double[] values)
@@ -252,12 +196,12 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double peakAcceleration = values[2];
 
-            m_axis1_DistanceOfTravel = distanceOfTravel;
-            m_axis1_AccelerationTime = maxVelocity / peakAcceleration;
-            if (maxVelocity * m_axis1_AccelerationTime > distanceOfTravel)
-                m_axis1_AccelerationTime = Math.Sqrt(distanceOfTravel / peakAcceleration);
-            m_axis1_TraverseTime = distanceOfTravel - peakAcceleration * m_axis1_AccelerationTime * m_axis1_AccelerationTime;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            _distanceOfTravel = distanceOfTravel;
+            _accelerationTime = maxVelocity / peakAcceleration;
+            if (maxVelocity * _accelerationTime > distanceOfTravel)
+                _accelerationTime = Math.Sqrt(distanceOfTravel / peakAcceleration);
+            _traverseTime = distanceOfTravel - peakAcceleration * _accelerationTime * _accelerationTime;
+            _decelerationTime = _accelerationTime;
         }
 
         private void accelDistance_maxVelocity_totalTravel_converter(double[] values)
@@ -269,10 +213,10 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double totalTravel = values[2];
 
-            m_axis1_DistanceOfTravel = totalTravel;
-            m_axis1_AccelerationTime = 2 * accelDistance / maxVelocity;
-            m_axis1_TraverseTime = (totalTravel - 2 * accelDistance) / maxVelocity;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            _distanceOfTravel = totalTravel;
+            _accelerationTime = 2 * accelDistance / maxVelocity;
+            _traverseTime = (totalTravel - 2 * accelDistance) / maxVelocity;
+            _decelerationTime = _accelerationTime;
         }
 
         private void accelDistance_maxVelocity_totalTime_converter(double[] values)
@@ -284,10 +228,10 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double totalTime = values[2];
 
-            m_axis1_AccelerationTime = 2 * accelDistance / maxVelocity;
-            m_axis1_TraverseTime = totalTime - 2 * m_axis1_AccelerationTime;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
-            m_axis1_DistanceOfTravel = maxVelocity * (m_axis1_AccelerationTime + m_axis1_TraverseTime);
+            _accelerationTime = 2 * accelDistance / maxVelocity;
+            _traverseTime = totalTime - 2 * _accelerationTime;
+            _decelerationTime = _accelerationTime;
+            _distanceOfTravel = maxVelocity * (_accelerationTime + _traverseTime);
         }
 
         private void peakAcceleration_maxVelocity_maxTravel_converter(double[] values)
@@ -299,12 +243,12 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double maxTravel = values[2];
 
-            m_axis1_DistanceOfTravel = maxTravel;
-            m_axis1_AccelerationTime = maxVelocity / peakAcceleration;
-            if (maxVelocity * m_axis1_AccelerationTime > maxTravel)
-                m_axis1_AccelerationTime = Math.Sqrt(maxTravel / peakAcceleration);
-            m_axis1_TraverseTime = maxTravel - peakAcceleration * m_axis1_AccelerationTime * m_axis1_AccelerationTime;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            _distanceOfTravel = maxTravel;
+            _accelerationTime = maxVelocity / peakAcceleration;
+            if (maxVelocity * _accelerationTime > maxTravel)
+                _accelerationTime = Math.Sqrt(maxTravel / peakAcceleration);
+            _traverseTime = maxTravel - peakAcceleration * _accelerationTime * _accelerationTime;
+            _decelerationTime = _accelerationTime;
         }
 
         private void peakAcceleration_maxVelocity_totalTime_converter(double[] values)
@@ -316,12 +260,12 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double totalTime = values[2];
 
-            m_axis1_AccelerationTime = maxVelocity / peakAcceleration;
-            if (m_axis1_AccelerationTime * 2 > totalTime)
-                m_axis1_AccelerationTime = totalTime / 2;
-            m_axis1_TraverseTime = (totalTime - 2 * m_axis1_AccelerationTime) / maxVelocity;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
-            m_axis1_DistanceOfTravel = peakAcceleration * m_axis1_AccelerationTime * (m_axis1_AccelerationTime + m_axis1_TraverseTime);
+            _accelerationTime = maxVelocity / peakAcceleration;
+            if (_accelerationTime * 2 > totalTime)
+                _accelerationTime = totalTime / 2;
+            _traverseTime = (totalTime - 2 * _accelerationTime) / maxVelocity;
+            _decelerationTime = _accelerationTime;
+            _distanceOfTravel = peakAcceleration * _accelerationTime * (_accelerationTime + _traverseTime);
         }
 
         private void peakAcceleration_maxVelocity_scanDistance_converter(double[] values)
@@ -333,10 +277,10 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double scanDistance = values[2];
 
-            m_axis1_AccelerationTime = maxVelocity / peakAcceleration;
-            m_axis1_TraverseTime = scanDistance / maxVelocity;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
-            m_axis1_DistanceOfTravel = maxVelocity * m_axis1_AccelerationTime + scanDistance;
+            _accelerationTime = maxVelocity / peakAcceleration;
+            _traverseTime = scanDistance / maxVelocity;
+            _decelerationTime = _accelerationTime;
+            _distanceOfTravel = maxVelocity * _accelerationTime + scanDistance;
         }
 
         private void totalTravel_maxVelocity_scanDistance_converter(double[] values)
@@ -348,10 +292,10 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double scanDistance = values[2];
 
-            m_axis1_DistanceOfTravel = totalTravel;
-            m_axis1_AccelerationTime = (totalTravel - scanDistance) / maxVelocity;
-            m_axis1_TraverseTime = scanDistance / maxVelocity;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            _distanceOfTravel = totalTravel;
+            _accelerationTime = (totalTravel - scanDistance) / maxVelocity;
+            _traverseTime = scanDistance / maxVelocity;
+            _decelerationTime = _accelerationTime;
         }
 
         private void totalTime_maxVelocity_scanDistance_converter(double[] values)
@@ -363,27 +307,12 @@ namespace ParameterSet
             double maxVelocity = values[1];
             double scanDistance = values[2];
 
-            m_axis1_TraverseTime = scanDistance / maxVelocity;
-            m_axis1_AccelerationTime = (totalTime - m_axis1_TraverseTime) / 2;
-            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
-            m_axis1_DistanceOfTravel = scanDistance + maxVelocity * m_axis1_AccelerationTime;
-        }
-
-        // Unit test - Dummy method
-        public string dummyValue;
-        public double dummyValue0, dummyValue1, dummyValue2;
-        public void distanceOfTravel_scanDistance_percentage_converter(double[] values)
-        {
-            dummyValue0 = values[0];
-            dummyValue1 = values[1];
-            dummyValue2 = values[2];
-
-            dummyValue = "Dynamic invocation is neat!";
+            _traverseTime = scanDistance / maxVelocity;
+            _accelerationTime = (totalTime - _traverseTime) / 2;
+            _decelerationTime = _accelerationTime;
+            _distanceOfTravel = scanDistance + maxVelocity * _accelerationTime;
         }
 
         #endregion // Converters
-
-
-
     }
 }

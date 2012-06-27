@@ -5,9 +5,9 @@ using System.Text;
 using System.Diagnostics;
 
 using Interfaces;
-using Motor;
+using Utility;
 
-namespace Motor.Test
+namespace Testing
 {
     class MotorTest : ITesting
     {

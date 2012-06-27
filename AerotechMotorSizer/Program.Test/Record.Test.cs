@@ -5,27 +5,27 @@ using System.Text;
 using System.Diagnostics;
 
 using Interfaces;
-using Record;
+using Utility;
 
-namespace Record.Test
+namespace Testing
 {
     class RecordTest : ITesting
     {
         public bool DoTest()
         {
-            Record NewRecord = new Record();
-            for (int i = 0; i < 40; i++)
-            {
-                NewRecord.AddState(3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14);
-                NewRecord.AddState(2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13);
-                NewRecord.AddState(1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01);
-            }
+            IRecord NewRecord = new Utility.Record();
+            //for (int i = 0; i < 40; i++)
+            //{
+            //    NewRecord.Add(3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14);
+            //    NewRecord.Add(2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13);
+            //    NewRecord.Add(1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01);
+            //}
 
-            NewRecord.AxisOneMaxForce = 3.14;
-            NewRecord.AxisTwoRMSForce = 3.145634;
-            NewRecord.WriteToFile();
+            //NewRecord.AxisOneMaxForce = 3.14;
+            //NewRecord.AxisTwoRMSForce = 3.145634;
+            //NewRecord.WriteToFile();
 
-            if (NewRecord.AxisThreeAcceleration[0] != 3.14) return false;
+            //if (NewRecord.AxisThreeAcceleration[0] != 3.14) return false;
 
             return true;
         }

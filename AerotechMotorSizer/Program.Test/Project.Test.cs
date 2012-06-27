@@ -5,13 +5,10 @@ using System.Text;
 using System.Diagnostics;
 
 using Interfaces;
-using Project;
-using Motor;
-using Environment;
-using Load;
+using Utility;
+using Program;
 
-
-namespace Project.Test
+namespace Testing
 {
     class ProjectTest : ITesting
     {

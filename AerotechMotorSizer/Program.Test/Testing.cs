@@ -7,7 +7,7 @@ using System.Reflection;
 using Interfaces;
 using Program;
 
-namespace Program.Test
+namespace Testing
 {
     public class Testing
     {

@@ -5,18 +5,19 @@ using System.Text;
 using System.Windows.Forms;
 
 using Interfaces;
+using Utility;
 
 namespace Program
 {
-    public class ParameterSetDialog
+    public class ParameterSetConverterDialog
     {
         private Dictionary<string, double> _dictionary;
-        private Interfaces.IParameterSet _parameterSet;
+        private ParameterSetConverter _parameterSet;
 
         private Form _dialog;
         private TableLayoutPanel _panel;
 
-        public ParameterSetDialog()
+        public ParameterSetConverterDialog()
         {
             _dictionary = new Dictionary<string, double>();
 
@@ -142,10 +143,10 @@ namespace Program
             }
 
             if (_dictionary != null)
-                _parameterSet = new ParameterSet.ParameterSet(_dictionary);
+                _parameterSet = new ParameterSetConverter(_dictionary);
         }
 
-        public Interfaces.IParameterSet ParameterSet
+        public ParameterSetConverter ConvertertedSet
         {
             get
             {

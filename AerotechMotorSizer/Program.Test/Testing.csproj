@@ -37,56 +37,28 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Environment.Test.cs" />
+    <Compile Include="Converters.Test.cs" />
+    <Compile Include="Sanity.cs" />
+    <Compile Include="SimulationEnv.Test.cs" />
     <Compile Include="Load.Test.cs" />
     <Compile Include="Motor.Test.cs" />
-    <Compile Include="ParameterSet.Test.cs" />
     <Compile Include="Project.Test.cs" />
     <Compile Include="Record.Test.cs" />
     <Compile Include="Solver.Test.cs" />
     <Compile Include="Testing.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Database\Database.csproj">
-      <Project>{78D3B1BB-D256-412C-AEA4-E3CDED750E71}</Project>
-      <Name>Database</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Environment\Environment.csproj">
-      <Project>{7D4E59F5-2E86-40CE-8E8C-B9B610BB103C}</Project>
-      <Name>Environment</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{E85A1F03-275D-46B7-9A0E-22C9E5D45E85}</Project>
       <Name>Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Load\Load.csproj">
-      <Project>{4CD28823-4049-4D9D-A547-5C01E3E1C27F}</Project>
-      <Name>Load</Name>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{60EC2483-3F8E-47E3-9299-84A18E638EAE}</Project>
+      <Name>Utility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Motor\Motor.csproj">
-      <Project>{F5FC5D42-DF7B-4066-9652-4E43BE1F7268}</Project>
-      <Name>Motor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ParameterSet\ParameterSet.csproj">
-      <Project>{319AC215-B45B-4F50-9F21-F60796FD2D8F}</Project>
-      <Name>ParameterSet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Program\Program.csproj">
-      <Project>{0B18ADD9-FC72-449D-BB86-F9EB3DF07603}</Project>
-      <Name>Program</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Project\Project.csproj">
-      <Project>{C33472FB-32B7-4404-8BAF-C55A4AF0DBBD}</Project>
-      <Name>Project</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Record\Record.csproj">
-      <Project>{A19C04B8-8234-430E-B26B-FAF10B20B530}</Project>
-      <Name>Record</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Solver\Solver.csproj">
-      <Project>{AC8C73A7-20D8-4CE7-8A90-241AFC51A0CC}</Project>
-      <Name>Solver</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

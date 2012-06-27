@@ -5,9 +5,9 @@ using System.Text;
 using System.Diagnostics;
 
 using Interfaces;
-using Load;
+using Utility;
 
-namespace Load.Test
+namespace Testing
 {
     class LoadTest : ITesting
     {
