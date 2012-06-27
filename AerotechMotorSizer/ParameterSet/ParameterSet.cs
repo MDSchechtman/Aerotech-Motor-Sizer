@@ -78,6 +78,17 @@ namespace ParameterSet
             info.Invoke(this, new object[] { values });
         }
 
+        #region Private variables
+
+        // Axis 1
+        double m_axis1_DistanceOfTravel;
+        double m_axis1_AccelerationTime;
+        double m_axis1_TraverseTime;
+        double m_axis1_DecelerationTime;
+        double m_axis1_DwellTime;
+
+        #endregion
+
         #region Public Properties
 
         // Axis 1
@@ -171,58 +182,191 @@ namespace ParameterSet
         #region Converters
 
         private void distanceOfTravel_totalTime_percentage_converter(double[] values) 
-        { 
+        {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values. Three values required).");
 
+            double distanceOfTravel;
+            double totalTime;
+            double percentage;
+
+            if (values[0] >= 0)
+                distanceOfTravel = values[0];
+            else
+                throw new Exception("Invalid distance of travel. Must be a positive number");
+
+            if (values[1] >= 0)
+                totalTime = values[1];
+            else
+                throw new Exception("Invalid total time. Must be a positive number");
+
+            if (values[2] >= 0 && values[2] <= 1)
+                percentage = values[2];
+            else if (values[2] >= 0 && values[2] <= 100)
+                percentage = values[2];
+            else
+                throw new Exception("Invalid percentage. Must be a value between 0 and 1 or 0 and 100.");
+
+            m_axis1_DistanceOfTravel = distanceOfTravel;
+            m_axis1_AccelerationTime = .5 * percentage * totalTime;
+            m_axis1_TraverseTime = (1 - percentage) * totalTime;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
         }
 
         private void distanceOfTravel_maxVelocity_percentage_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double distanceOfTravel = values[0];
+            double maxVelocity = values[1];
+            double percentage = values[2];
+
+            m_axis1_DistanceOfTravel = distanceOfTravel;
+            m_axis1_AccelerationTime = percentage * distanceOfTravel / maxVelocity;
+            m_axis1_TraverseTime = 2 * (1 - percentage) * m_axis1_AccelerationTime / percentage;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
         }
 
         private void distanceOfTravel_maxVelocity_totalTime_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double distanceOfTravel = values[0];
+            double maxVelocity = values[1];
+            double totalTime = values[2];
+
+            m_axis1_DistanceOfTravel = distanceOfTravel;
+            m_axis1_AccelerationTime = totalTime - distanceOfTravel / maxVelocity;
+            m_axis1_TraverseTime = totalTime - 2 * m_axis1_AccelerationTime;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
         }
 
         private void distanceOfTravel_maxVelocity_peakAcceleration_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double distanceOfTravel = values[0];
+            double maxVelocity = values[1];
+            double peakAcceleration = values[2];
+
+            m_axis1_DistanceOfTravel = distanceOfTravel;
+            m_axis1_AccelerationTime = maxVelocity / peakAcceleration;
+            if (maxVelocity * m_axis1_AccelerationTime > distanceOfTravel)
+                m_axis1_AccelerationTime = Math.Sqrt(distanceOfTravel / peakAcceleration);
+            m_axis1_TraverseTime = distanceOfTravel - peakAcceleration * m_axis1_AccelerationTime * m_axis1_AccelerationTime;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
         }
 
         private void accelDistance_maxVelocity_totalTravel_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double accelDistance = values[0];
+            double maxVelocity = values[1];
+            double totalTravel = values[2];
+
+            m_axis1_DistanceOfTravel = totalTravel;
+            m_axis1_AccelerationTime = 2 * accelDistance / maxVelocity;
+            m_axis1_TraverseTime = (totalTravel - 2 * accelDistance) / maxVelocity;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
         }
 
         private void accelDistance_maxVelocity_totalTime_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double accelDistance = values[0];
+            double maxVelocity = values[1];
+            double totalTime = values[2];
+
+            m_axis1_AccelerationTime = 2 * accelDistance / maxVelocity;
+            m_axis1_TraverseTime = totalTime - 2 * m_axis1_AccelerationTime;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            m_axis1_DistanceOfTravel = maxVelocity * (m_axis1_AccelerationTime + m_axis1_TraverseTime);
         }
 
         private void peakAcceleration_maxVelocity_maxTravel_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double peakAcceleration = values[0];
+            double maxVelocity = values[1];
+            double maxTravel = values[2];
+
+            m_axis1_DistanceOfTravel = maxTravel;
+            m_axis1_AccelerationTime = maxVelocity / peakAcceleration;
+            if (maxVelocity * m_axis1_AccelerationTime > maxTravel)
+                m_axis1_AccelerationTime = Math.Sqrt(maxTravel / peakAcceleration);
+            m_axis1_TraverseTime = maxTravel - peakAcceleration * m_axis1_AccelerationTime * m_axis1_AccelerationTime;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
         }
 
         private void peakAcceleration_maxVelocity_totalTime_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double peakAcceleration = values[0];
+            double maxVelocity = values[1];
+            double totalTime = values[2];
+
+            m_axis1_AccelerationTime = maxVelocity / peakAcceleration;
+            if (m_axis1_AccelerationTime * 2 > totalTime)
+                m_axis1_AccelerationTime = totalTime / 2;
+            m_axis1_TraverseTime = (totalTime - 2 * m_axis1_AccelerationTime) / maxVelocity;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            m_axis1_DistanceOfTravel = peakAcceleration * m_axis1_AccelerationTime * (m_axis1_AccelerationTime + m_axis1_TraverseTime);
         }
 
         private void peakAcceleration_maxVelocity_scanDistance_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double peakAcceleration = values[0];
+            double maxVelocity = values[1];
+            double scanDistance = values[2];
+
+            m_axis1_AccelerationTime = maxVelocity / peakAcceleration;
+            m_axis1_TraverseTime = scanDistance / maxVelocity;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            m_axis1_DistanceOfTravel = maxVelocity * m_axis1_AccelerationTime + scanDistance;
         }
 
         private void totalTravel_maxVelocity_scanDistance_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double totalTravel = values[0];
+            double maxVelocity = values[1];
+            double scanDistance = values[2];
+
+            m_axis1_DistanceOfTravel = totalTravel;
+            m_axis1_AccelerationTime = (totalTravel - scanDistance) / maxVelocity;
+            m_axis1_TraverseTime = scanDistance / maxVelocity;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
         }
 
         private void totalTime_maxVelocity_scanDistance_converter(double[] values)
         {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
 
+            double totalTime = values[0];
+            double maxVelocity = values[1];
+            double scanDistance = values[2];
+
+            m_axis1_TraverseTime = scanDistance / maxVelocity;
+            m_axis1_AccelerationTime = (totalTime - m_axis1_TraverseTime) / 2;
+            m_axis1_DecelerationTime = m_axis1_AccelerationTime;
+            m_axis1_DistanceOfTravel = scanDistance + maxVelocity * m_axis1_AccelerationTime;
         }
 
         // Unit test - Dummy method
