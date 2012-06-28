@@ -13,20 +13,24 @@ namespace Testing
     {
         public bool DoTest()
         {
-            IRecord NewRecord = new Utility.Record();
-            //for (int i = 0; i < 40; i++)
-            //{
-            //    NewRecord.Add(3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14, 3.14);
-            //    NewRecord.Add(2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13, 2.13);
-            //    NewRecord.Add(1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01, 1.01);
-            //}
+            IRecord record = new Utility.Record();
+            Random r = new Random(66642);
 
-            //NewRecord.AxisOneMaxForce = 3.14;
-            //NewRecord.AxisTwoRMSForce = 3.145634;
-            //NewRecord.WriteToFile();
+            record.Add(0, 0, 0, 0, 0, 0, 0);
+            for (int i = 1; i < 100; i++)
+            {
+                double time = i;
+                double position = r.Next((int) record.Position[i - 1] - 5, (int) record.Position[i - 1] + 5);
+                double velocity = r.Next((int) record.Position[i - 1] - 5, (int) record.Position[i - 1] + 5);
+                double temperature = r.Next(0, 10);
+                double acceleration = r.Next(0, 10);
+                double current = r.Next(0, 10);
+                double torque = r.Next(0, 10);
 
-            //if (NewRecord.AxisThreeAcceleration[0] != 3.14) return false;
+                record.Add(position, velocity, time, temperature, acceleration, current, torque);
+            }
 
+            record.Write(string.Format(@"{0}/RecordTest.txt", System.IO.Directory.GetCurrentDirectory()));
             return true;
         }
     }

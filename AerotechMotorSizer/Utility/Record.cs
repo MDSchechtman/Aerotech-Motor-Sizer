@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 using Interfaces;
 
@@ -102,16 +103,29 @@ namespace Utility
 
         public void Write(string filename)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(filename))
+            TextWriter file = new StreamWriter(filename, false);
             {
-                file.WriteLine("Max Torque      " + GetMaxTorque());
-                file.WriteLine("RMS Torque      " + GetAverageTorque());
-                file.WriteLine("Max Current     " + GetMaxCurrent());
-                file.WriteLine("RMS Current     " + GetAverageCurrent());
-                file.WriteLine("Max Temp. Rise  " + GetMaxTemperatureRise());
+                file.WriteLine("Max Torque:" + GetMaxTorque());
+                file.WriteLine("RMS Torque:" + GetAverageTorque());
+                file.WriteLine("Max Current:" + GetMaxCurrent());
+                file.WriteLine("RMS Current:" + GetAverageCurrent());
+                file.WriteLine("Max Temp. Rise:" + GetMaxTemperatureRise());
+
+                file.WriteLine("Time,Position,Velocity,Acceleration,Torque,Current,Temperature");
+                for (int i = 0; i < _time.Count; i++)
+                {
+                    string s = string.Format("{0},{1},{2},{3},{4},{5},{6}", _time[i],
+                                                                           _position[i],
+                                                                           _velocity[i],
+                                                                           _acceleration[i],
+                                                                           _torque[i],
+                                                                           _current[i],
+                                                                           _temperature[i]);
+                    file.WriteLine(s);
+                }
             }
 
-            // TODO: Write arrays in a way that doesn't make my eyes bleed
+            file.Close();
         }
     }
 }
