@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-using ParameterSet;
+using Utility;
 using Interfaces;
 
 namespace Program
@@ -13,12 +13,22 @@ namespace Program
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        //[STAThread]
+        //static void Main()
+        //{
+        //    Application.EnableVisualStyles();
+        //    Application.SetCompatibleTextRenderingDefault(false);
+        //    Application.Run(new Form1());
+        //}
+
         [STAThread]
         static void Main()
         {
-            ParameterSetDialog dialog = new ParameterSetDialog();
+            ParameterSetConverterDialog dialog = new ParameterSetConverterDialog();
 
-            IParameterSet parameterSet = dialog.ParameterSet;
+            double a = dialog.ConvertertedSet.AccelerationTime;
+            double b = dialog.ConvertertedSet.DeccelerationTime;
+            double[] c = dialog.ConvertertedSet.Position;
 
             // Main program currently disabled
             //Application.EnableVisualStyles();

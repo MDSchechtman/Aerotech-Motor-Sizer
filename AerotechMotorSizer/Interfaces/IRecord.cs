@@ -7,21 +7,23 @@ namespace Interfaces
 {
     public interface IRecord
     {
-        List<double> Position { get; }
-        List<double> Velocity { get; }
-        List<double> Time { get; }
-        List<double> Temperature { get; }
-        List<double> Acceleration { get; }
-        List<double> Current { get; }
-        List<double> Torque { get; }
+        double[] Position { get; }
+        double[] Velocity { get; }
+        double[] Time { get; }
+        double[] Temperature { get; }
+        double[] Acceleration { get; }
+        double[] Current { get; }
+        double[] Torque { get; }
 
         void Add(double position, double velocity, double time, double temperature, 
-                        double acceleration, double current, double torque);
+                 double acceleration, double current, double torque);
+
+        void Write(string file);
 
         double GetMaxCurrent();
         double GetMaxTorque();
         double GetAverageCurrent();
         double GetAverageTorque();
-        double GetMaxTemperature();
+        double GetMaxTemperatureRise();
     }
 }

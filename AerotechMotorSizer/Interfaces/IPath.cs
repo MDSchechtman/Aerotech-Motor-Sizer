@@ -7,18 +7,8 @@ namespace Interfaces
 {
     public interface IPath
     {
-        double[] Position { get; }
-
-        double[] Time { get; }
-
-        IParameterSet ParameterSet { get; set; }
-        // internal SetPath();
-
-        IFunction Function { get; set; }
-        // internal SetPath();
-
+        double[] Position { get; set; }
+        double[] Time { get; set; }
         bool AngleOfInclination { get; set; }
-
-        bool Import(string file);
     }
 }

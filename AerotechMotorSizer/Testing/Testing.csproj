@@ -2,18 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E85A1F03-275D-46B7-9A0E-22C9E5D45E85}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{4B2C31E7-8C92-40DA-A5EF-503375299ABD}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Interfaces</RootNamespace>
-    <AssemblyName>Interfaces</AssemblyName>
+    <RootNamespace>Program.Test</RootNamespace>
+    <AssemblyName>Program.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,7 +24,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,28 +33,32 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Compile Include="Converters.Test.cs" />
+    <Compile Include="Sanity.cs" />
+    <Compile Include="SimulationEnv.Test.cs" />
+    <Compile Include="Load.Test.cs" />
+    <Compile Include="Motor.Test.cs" />
+    <Compile Include="Project.Test.cs" />
+    <Compile Include="Record.Test.cs" />
+    <Compile Include="Solver.Test.cs" />
+    <Compile Include="Testing.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IConverter.cs" />
-    <Compile Include="IDatabase.cs" />
-    <Compile Include="ILoad.cs" />
-    <Compile Include="IMotor.cs" />
-    <Compile Include="IFunction.cs" />
-    <Compile Include="IAxis.cs" />
-    <Compile Include="IPath.cs" />
-    <Compile Include="ISolver.cs" />
-    <Compile Include="IRecord.cs" />
-    <Compile Include="IState.cs" />
-    <Compile Include="ITesting.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{E85A1F03-275D-46B7-9A0E-22C9E5D45E85}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{60EC2483-3F8E-47E3-9299-84A18E638EAE}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
