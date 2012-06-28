@@ -8,7 +8,8 @@ namespace Interfaces
     public interface IPath
     {
         double[] Position { get; set; }
+        double[] Velocity { get; }
+        double[] Acceleration { get; }
         double[] Time { get; set; }
-        bool AngleOfInclination { get; set; }
     }
 }

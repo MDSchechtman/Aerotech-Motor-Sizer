@@ -105,11 +105,11 @@ namespace Utility
         {
             TextWriter file = new StreamWriter(filename, false);
             {
-                file.WriteLine("Max Torque:" + GetMaxTorque());
-                file.WriteLine("RMS Torque:" + GetAverageTorque());
-                file.WriteLine("Max Current:" + GetMaxCurrent());
-                file.WriteLine("RMS Current:" + GetAverageCurrent());
-                file.WriteLine("Max Temp. Rise:" + GetMaxTemperatureRise());
+                file.WriteLine("Max Torque," + GetMaxTorque());
+                file.WriteLine("RMS Torque," + GetAverageTorque());
+                file.WriteLine("Max Current," + GetMaxCurrent());
+                file.WriteLine("RMS Current," + GetAverageCurrent());
+                file.WriteLine("Max Temp. Rise," + GetMaxTemperatureRise());
 
                 file.WriteLine("Time,Position,Velocity,Acceleration,Torque,Current,Temperature");
                 for (int i = 0; i < _time.Count; i++)

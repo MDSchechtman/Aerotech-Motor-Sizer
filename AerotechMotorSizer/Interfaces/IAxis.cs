@@ -11,6 +11,10 @@ namespace Interfaces
         double[] Velocity { get; }
         double[] Acceleration { get; }
         double[] Time { get; }
+
+        double AngleOfInclination { get; set; }
+        
         IPath Path { get; }
+        IRecord Record { get; }
     }
 }

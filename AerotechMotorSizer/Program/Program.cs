@@ -24,16 +24,9 @@ namespace Program
         [STAThread]
         static void Main()
         {
-            ParameterSetConverterDialog dialog = new ParameterSetConverterDialog();
-
-            double a = dialog.ConvertertedSet.AccelerationTime;
-            double b = dialog.ConvertertedSet.DeccelerationTime;
-            double[] c = dialog.ConvertertedSet.Position;
-
-            // Main program currently disabled
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Utility
     public class Path : IPath
     {
         private double[] _position;
+        private double[] _velocity;
+        private double[] _acceleration;
         private double[] _time;
         private bool _angleOfInclination;
 
@@ -32,6 +34,18 @@ namespace Utility
         {
             get { return _position; }
             set { _position = value; }
+        }
+
+        public double[] Velocity
+        {
+            get { return _velocity; }
+            set { _velocity = value; }
+        }
+
+        public double[] Acceleration
+        {
+            get { return _acceleration; }
+            set { _acceleration = value; }
         }
 
         public double[] Time

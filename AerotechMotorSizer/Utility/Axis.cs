@@ -11,9 +11,11 @@ namespace Utility
     {
         private IPath _path;
         private IRecord _record;
+        private double _angleOfInclination;
 
         /// <summary>
-        /// An Axis defines the positions, accelerations, and velocities at descrete times.
+        /// An Axis contains the positions, accelerations, and velocities at descrete times
+        /// which are used for solving.
         /// The axis is responsible for garunteeing consistency between its Path and Record times.
         /// </summary>
         public Axis()
@@ -39,12 +41,12 @@ namespace Utility
 
         public double[] Velocity
         {
-            get { return _record.Velocity; }
+            get { return _path.Velocity; }
         }
 
         public double[] Acceleration
         {
-            get { return _record.Acceleration; }
+            get { return _path.Acceleration; }
         }
 
         public double[] Time 
@@ -52,9 +54,20 @@ namespace Utility
             get { return _path.Time; }
         }
 
+        public double AngleOfInclination
+        {
+            get { return _angleOfInclination; }
+            set { _angleOfInclination = value; }
+        }
+
         public IPath Path
         {
             get { return _path; }
+        }
+
+        public IRecord Record
+        {
+            get { return _record; }
         }
 
         private bool Check()

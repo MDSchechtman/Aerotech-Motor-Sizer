@@ -7,7 +7,12 @@ namespace Interfaces
 {
     public interface IConverter
     {
+        bool HasPosition { get; }
+        bool HasVelocity { get; }
+        bool HasAcceleration { get; }
         double[] Position { get; }
+        double[] Velocity { get; }
+        double[] Acceleration { get; }
         double[] Time  {get; }
     }
 }

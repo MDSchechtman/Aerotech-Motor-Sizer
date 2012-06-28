@@ -11,17 +11,45 @@ namespace Utility
     public class ParameterSetConverter : IConverter
     {
 
-        /* DO NOT EDIT - Parameters:
-            distanceOfTravel,   // Distance of travel
-            totalTime,          // Total time of travel
-            percentage,         // Percentage of time spent moving
-            maxVelocity,        // Max velocity
-            peakAcceleratiin,   // Peak acceleration
-            accelDistance,      // Acceleration distance
-            maxTravel,          // Max travel
-            scanDistance        // Scan distance
-        */
+        #region IConverter Implementation
 
+        public bool HasPosition
+        {
+            get { return true; }
+        }
+
+        public bool HasVelocity
+        {
+            get { return false; }
+        }
+
+        public bool HasAcceleration
+        {
+            get { return false; }
+        }
+
+        public double[] Position
+        {
+            get { return _position; }
+        }
+
+        public double[] Velocity
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public double[] Acceleration
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public double[] Time
+        {
+            get { return _time; }
+        }
+        #endregion // IConverter Implementation
+
+        #region Internal Implementation
         /// <summary>
         /// Create a new ParameterSet
         /// </summary>
@@ -78,53 +106,13 @@ namespace Utility
             info.Invoke(this, new object[] { values });
         }
 
-        #region Private variables
-
-        double[] _position;
-        double _distanceOfTravel;
-        double _accelerationTime;
-        double _traverseTime;
-        double _decelerationTime;
-        double _dwelTime;
-        double[] _time;
-
-        #endregion
-
-        #region Public Properties
-
-        public double[] Position 
-        {
-            get { return new double[] { 0D }; } 
-        }
-
-        public double AccelerationTime
-        {
-            get { return _accelerationTime; }
-        }
-
-        public double TraverseTime
-        {
-            get { return _traverseTime; }
-        }
-
-        public double DeccelerationTime
-        {
-            get { return _decelerationTime; }
-        }
-
-        public double DwelTime
-        {
-            get { return _dwelTime; }
-        }
-
-        public double[] Time
-        {
-            get { return new double[] { 0D }; }
-        }
-
-        #endregion //Public Properties
-
-        #region Converters
+        private double[] _position;
+        private double[] _time;
+        private double _distanceOfTravel;
+        private double _accelerationTime;
+        private double _traverseTime;
+        private double _decelerationTime;
+        private double _dwelTime;
 
         private void distanceOfTravel_totalTime_percentage_converter(double[] values) 
         {
@@ -313,7 +301,6 @@ namespace Utility
             _decelerationTime = _accelerationTime;
             _distanceOfTravel = scanDistance + maxVelocity * _accelerationTime;
         }
-
-        #endregion // Converters
+        #endregion // Internal Implemenetation
     }
 }

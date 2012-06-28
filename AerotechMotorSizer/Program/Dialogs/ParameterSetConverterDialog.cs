@@ -12,7 +12,6 @@ namespace Program
     public class ParameterSetConverterDialog
     {
         private Dictionary<string, double> _dictionary;
-        private ParameterSetConverter _parameterSet;
 
         private Form _dialog;
         private TableLayoutPanel _panel;
@@ -141,17 +140,11 @@ namespace Program
                     _dictionary.Add(l.Text, Double.Parse(c.Text));
                 }
             }
-
-            if (_dictionary != null)
-                _parameterSet = new ParameterSetConverter(_dictionary);
         }
 
-        public ParameterSetConverter ConvertertedSet
+        public Dictionary<string, double> Parameters
         {
-            get
-            {
-                return _parameterSet;
-            }
+            get { return _dictionary; }
         }
     }
 }

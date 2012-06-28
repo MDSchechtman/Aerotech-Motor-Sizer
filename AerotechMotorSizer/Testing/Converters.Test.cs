@@ -22,11 +22,6 @@ namespace Program.Test
 
                 // Set the parameters to the ParameterSet
                 ParameterSetConverter set = new ParameterSetConverter(p);
-
-                // Tests
-                if (set.AccelerationTime != 5) return false;
-                if (set.DeccelerationTime != 5) return false;
-                if (set.TraverseTime != 10) return false;
             }
 
             // Test the FunctionConverter
