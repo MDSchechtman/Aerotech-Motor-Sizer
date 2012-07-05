@@ -13,16 +13,20 @@ namespace Utility
 
         #region IConverter Implementation
 
+        // Input parameters are only allowed to define
+        // postion vs. time paths
         public bool HasPosition
         {
             get { return true; }
         }
 
+        // Not valid for this converter
         public bool HasVelocity
         {
             get { return false; }
         }
 
+        // Not valid for this converter
         public bool HasAcceleration
         {
             get { return false; }
