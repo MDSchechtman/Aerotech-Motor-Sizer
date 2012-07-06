@@ -21,17 +21,11 @@ namespace Program
             MainMenu menu = new MainMenu(this);
             MainPanel panel = new MainPanel(this);
             ProfileList list = new ProfileList(this);
-            ProfileList list2 = new ProfileList(this);
 
             this.SuspendLayout();
 
             // Setup Controls
             panel.Add(list.Component, 0, 0);
-            list.Component.Anchor = AnchorStyles.Top;
-            list.Component.Dock = DockStyle.Top;
-            panel.Add(list2.Component, 0, 1);
-            list2.Component.Anchor = AnchorStyles.Top;
-            list2.Component.Dock = DockStyle.Top;
 
             // Add controls
             this.Controls.Add(panel.Component);

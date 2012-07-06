@@ -51,8 +51,8 @@
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainMenu.cs" />
-    <Compile Include="MainPanel.cs" />
+    <Compile Include="Components\MainMenu.cs" />
+    <Compile Include="Components\MainPanel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -26,9 +26,8 @@ namespace Program
 
         private void Initialize()
         {
+            _list.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _list.Dock = DockStyle.Fill;
-            _list.Size = new System.Drawing.Size(MainForm.initialSize.Width / 6, MainForm.initialSize.Height - 50);
-            _list.Items.Add(new ListViewItem("TEST"));
         }
     }
 }
