@@ -48,6 +48,8 @@ namespace Program
             _panel.BorderStyle = BorderStyle.FixedSingle;
             _panel.Location = new Point(5, 25);
             _panel.Dock = DockStyle.Fill;
+
+            _panel.BackColor = Color.LightSteelBlue;
         }
 
         private void DoSetup()
@@ -141,6 +143,7 @@ namespace Program
         void line1_Click(object sender, EventArgs e)
         {
             ParameterInputScene scene = new ParameterInputScene();
+            _mainForm.MainPanel.SetMiddle(scene.Component);
         }
 
         void line1_MouseLeave(object sender, EventArgs e)
