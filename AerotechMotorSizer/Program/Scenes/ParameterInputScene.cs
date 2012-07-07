@@ -9,14 +9,14 @@ using Utility;
 
 namespace Program
 {
-    public class ParameterSetConverterDialog
+    public class ParameterInputScene
     {
         private Dictionary<string, double> _dictionary;
 
         private Form _dialog;
         private TableLayoutPanel _panel;
 
-        public ParameterSetConverterDialog()
+        public ParameterInputScene()
         {
             _dictionary = new Dictionary<string, double>();
 

@@ -9,9 +9,9 @@ namespace Program
     public class MainMenu
     {
         private MenuStrip _menuStrip;
-        private Form _mainForm;
+        private MainForm _mainForm;
 
-        public MainMenu(Form mainForm)
+        public MainMenu(MainForm mainForm)
         {
             _mainForm = mainForm;
             _menuStrip = new MenuStrip();
@@ -90,7 +90,7 @@ namespace Program
 
         void file1_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            _mainForm.MainPanel.SetMiddle(new NewProjectScene(_mainForm).Component);
         }
 
         void file2_Click(object sender, EventArgs e)

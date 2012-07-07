@@ -9,6 +9,7 @@ namespace Program
     public class MainForm : Form
     {
         private System.ComponentModel.IContainer components = null;
+        private MainPanel _panel;
         public static System.Drawing.Size initialSize = new System.Drawing.Size(1440, 768);
 
         public MainForm()
@@ -16,16 +17,29 @@ namespace Program
             InitializeComponents();
         }
 
+        public MainPanel MainPanel
+        {
+            get { return _panel; }
+        }
+
         private void InitializeComponents()
         {
             MainMenu menu = new MainMenu(this);
             MainPanel panel = new MainPanel(this);
             ProfileList list = new ProfileList(this);
+            NewProjectScene scene = new NewProjectScene(this); 
+
+            ///////
+            list.Component.Nodes.Add(new TreeNode("Item"));
+            list.Component.Nodes.Add(new TreeNode("Item"));
+            list.Component.Nodes.Add(new TreeNode("Item"));
+
 
             this.SuspendLayout();
 
             // Setup Controls
-            panel.Add(list.Component, 0, 0);
+            panel.SetLeft(list.Component);
+            panel.SetMiddle(scene.Component);
 
             // Add controls
             this.Controls.Add(panel.Component);
@@ -41,6 +55,8 @@ namespace Program
 
             this.ResumeLayout(false);
             this.PerformLayout();
+
+            _panel = panel;
         }
 
         protected override void Dispose(bool disposing)

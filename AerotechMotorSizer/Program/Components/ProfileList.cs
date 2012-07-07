@@ -9,25 +9,25 @@ namespace Program
     public class ProfileList
     {
         private Form _mainForm;
-        private ListView _list;
+        private TreeView _tree;
 
         public ProfileList(MainForm mainForm)
         {
             _mainForm = mainForm;
-            _list = new ListView();
+            _tree = new TreeView();
 
             Initialize();
         }
 
-        public ListView Component
+        public TreeView Component
         {
-            get { return _list; }
+            get { return _tree; }
         }
 
         private void Initialize()
         {
-            _list.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            _list.Dock = DockStyle.Fill;
+            _tree.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            _tree.Dock = DockStyle.Fill;
         }
     }
 }

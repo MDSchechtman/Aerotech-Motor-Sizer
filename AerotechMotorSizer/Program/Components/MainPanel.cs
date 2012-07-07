@@ -9,52 +9,58 @@ namespace Program
     public class MainPanel
     {
         private Form _mainForm;
-        private TableLayoutPanel _panel;
+        private SplitContainer _first;
+        private SplitContainer _second;
 
         public MainPanel(Form mainForm)
         {
             _mainForm = mainForm;
-            _panel = new TableLayoutPanel();
+            _first = new SplitContainer();
+            _second = new SplitContainer();
 
             Initialize();
         }
 
-        public TableLayoutPanel Component
+        public SplitContainer Component
         {
-            get { return _panel; }
+            get { return _first; }
         }
 
-        public void Add(Control c, int row, int col)
+        public void SetLeft(Control c)
         {
-            _panel.Controls.Add(c, col, row);
+            _first.Panel1.Controls.Clear();
+            _first.Panel1.Controls.Add(c);
+        }
+
+        public void SetMiddle(Control c)
+        {
+            _second.Panel1.Controls.Clear();
+            _second.Panel1.Controls.Add(c);
+        }
+
+        public void SetRight(Control c)
+        {
+            _second.Panel2.Controls.Clear();
+            _second.Panel2.Controls.Add(c);
         }
 
         private void Initialize()
         {
-            _panel.Padding = new Padding(3);
-            _panel.RowCount = 1;
-            _panel.ColumnCount = 3;
-            _panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
-
-            _panel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-            for (int i = 0; i < _panel.ColumnCount; i++)
-            {
-                ColumnStyle style = new ColumnStyle(SizeType.Percent);
-                if (i == 0)
-                    style.Width = 0.10F;
-                else if (i == 1)
-                    style.Width = 0.70F;
-                else
-                    style.Width = 0.20F;
-
-                _panel.ColumnStyles.Add(style);
-            }
+            _first.Padding = new Padding(3);
+            _second.Padding = new Padding(3);           
             
-            
-            _panel.BorderStyle = BorderStyle.FixedSingle;
-            _panel.Location = new System.Drawing.Point(5, 25);
-            _panel.Dock = DockStyle.Fill;
+            _first.BorderStyle = BorderStyle.FixedSingle;
+            _first.Location = new System.Drawing.Point(5, 25);
+            _first.Dock = DockStyle.Fill;
+            _first.Panel1MinSize = 125;
+            _first.FixedPanel = FixedPanel.Panel1;
+
+            _second.BorderStyle = BorderStyle.FixedSingle;
+            _second.Dock = DockStyle.Fill;
+            _second.Panel2MinSize = 125;
+            _second.FixedPanel = FixedPanel.Panel2;
+
+            _first.Panel2.Controls.Add(_second);
         }
     }
 }
