@@ -10,31 +10,39 @@ namespace Program
     public class Project
     {
         private Motor _projectMotor;
+        private String _name;
 
-        //constructor
-        public Project(Motor projectMotor)
-        {
-            _projectMotor = projectMotor;
-        }
-
-        //another constructor
+        // Default constructor
         public Project()
         {
+            _name = "Unnamed Project";
             Motor ProjectMotor = new Motor();
         }
 
-        //get and set the project motor
-        public Motor Motor
+        public Project(Motor projectMotor)
         {
-            get
-            {
-                return _projectMotor;
-            }
-            set
-            {
-                _projectMotor = value;
-            }
+            _name = "Unnamed Project";
+            _projectMotor = projectMotor;
         }
 
+        public Project(Motor projectMotor, String name)
+        {
+            _name = name;
+            _projectMotor = projectMotor;
+        }
+
+        // Project Motor
+        public Motor Motor
+        {
+            get  { return _projectMotor; }
+            set { _projectMotor = value; }
+        }
+
+        // Project Name
+        public String Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
     }
 }

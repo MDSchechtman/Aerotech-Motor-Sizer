@@ -10,6 +10,7 @@ namespace Program
     {
         private System.ComponentModel.IContainer components = null;
         private MainPanel _panel;
+        private ProjectList _projectList;
         public static System.Drawing.Size initialSize = new System.Drawing.Size(1440, 768);
 
         public MainForm()
@@ -22,23 +23,23 @@ namespace Program
             get { return _panel; }
         }
 
+        public ProjectList ProjectList
+        {
+            get { return _projectList; }
+        }
+
         private void InitializeComponents()
         {
+            _projectList = new ProjectList(this);
+
             MainMenu menu = new MainMenu(this);
             MainPanel panel = new MainPanel(this);
-            ProfileList list = new ProfileList(this);
             NewProjectScene scene = new NewProjectScene(this); 
-
-            ///////
-            list.Component.Nodes.Add(new TreeNode("Item"));
-            list.Component.Nodes.Add(new TreeNode("Item"));
-            list.Component.Nodes.Add(new TreeNode("Item"));
-
 
             this.SuspendLayout();
 
             // Setup Controls
-            panel.SetLeft(list.Component);
+            panel.SetLeft(_projectList.Component);
             panel.SetMiddle(scene.Component);
 
             // Add controls

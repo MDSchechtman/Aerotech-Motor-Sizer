@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\ProfileList.cs" />
+    <Compile Include="Components\ProjectList.cs" />
     <Compile Include="Scenes\ParameterInputScene.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
