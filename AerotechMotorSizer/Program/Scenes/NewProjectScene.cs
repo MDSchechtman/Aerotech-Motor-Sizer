@@ -142,7 +142,7 @@ namespace Program
 
         void line1_Click(object sender, EventArgs e)
         {
-            ParameterInputScene scene = new ParameterInputScene();
+            ParameterInputScene scene = new ParameterInputScene(_mainForm);
             _mainForm.MainPanel.SetMiddle(scene.Component);
         }
 
