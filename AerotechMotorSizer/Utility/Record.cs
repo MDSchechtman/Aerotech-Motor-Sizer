@@ -64,6 +64,12 @@ namespace Utility
             get { return _torque.ToArray(); }
         }
 
+        public double RMScurrent { get; set; }
+        public double MAXcurrent { get; set; }
+        public double RMSforce { get; set; }
+        public double MAXforce { get; set; }
+        public double TemperatureRise { get; set; }
+
         public void Add(double position, double velocity, double time, double temperature,
                         double acceleration, double current, double torque)
         {
