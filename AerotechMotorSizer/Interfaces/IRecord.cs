@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace Interfaces
 {
     public interface IRecord
     {
-        List<double> Position { get; }
-        List<double> Velocity { get; }
-        List<double> Time { get; }
-        List<double> Temperature { get; }
-        List<double> Acceleration { get; }
-        List<double> Current { get; }
-        List<double> Torque { get; }
+        double[] Position { get; }
+        double[] Velocity { get; }
+        double[] Time { get; }
+        double[] Acceleration { get; }
+        double RMScurrent { get; set; }
+        double MAXcurrent { get; set; }
+        double RMSforce { get; set; }
+        double MAXforce { get; set; }
+        double TemperatureRise { get; set; }
 
         void Add(double position, double velocity, double time, double temperature, 
                         double acceleration, double current, double torque);

@@ -7,6 +7,12 @@ namespace Interfaces
 {
     public interface IMotor
     {
-        
+        double Mass { get; set; }
+        double MaxTemp { get; set; }
+        double MomentOfInertia { get; set; }
+        double Resistance { get; set; }
+        double Inductance { get; set; }
+        double ThermalResistance { get; set; }
+        double KT { get; set; }
     }
 }
