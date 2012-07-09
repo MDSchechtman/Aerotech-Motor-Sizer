@@ -43,11 +43,6 @@ namespace Program
             get { return _panel; }
         }
 
-        public IConverter Converter
-        {
-            get { return new ParameterSetConverter(_dictionary); }
-        }
-
         private void Initialize()
         {
             _view = new ListView();
@@ -272,6 +267,8 @@ namespace Program
             _dictionary.Add(_parameter1, value1);
             _dictionary.Add(_parameter2, value2);
             _dictionary.Add(_parameter3, value3);
+
+            _mainForm.DoSolver(new Utility.Converters.ParameterSetConverter(_dictionary));
         }
     }
 }

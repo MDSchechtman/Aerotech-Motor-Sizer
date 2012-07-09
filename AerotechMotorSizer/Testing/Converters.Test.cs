@@ -21,7 +21,7 @@ namespace Program.Test
                 p.Add("percentage", 0.50);
 
                 // Set the parameters to the ParameterSet
-                ParameterSetConverter set = new ParameterSetConverter(p);
+                Utility.Converters.ParameterSetConverter set = new Utility.Converters.ParameterSetConverter(p);
             }
 
             // Test the FunctionConverter

@@ -6,7 +6,7 @@ using System.Reflection;
 
 using Interfaces;
 
-namespace Utility
+namespace Utility.Converters
 {
     public class ParameterSetConverter : IConverter
     {

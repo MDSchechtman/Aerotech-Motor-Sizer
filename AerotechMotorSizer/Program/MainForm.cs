@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Interfaces;
+
 namespace Program
 {
     public class MainForm : Form
@@ -18,6 +20,11 @@ namespace Program
             InitializeComponents();
         }
 
+        public static void Alert(string alert)
+        {
+            MessageBox.Show(alert);
+        }
+
         public MainPanel MainPanel
         {
             get { return _panel; }
@@ -26,6 +33,17 @@ namespace Program
         public ProjectList ProjectList
         {
             get { return _projectList; }
+        }
+
+        public void DoSolver(IConverter converter)
+        {
+            // ISolver solver = new Solver();
+        }
+
+        private void LoadOutputScene()
+        {
+            OutputScene scene = new OutputScene(this);
+            _panel.SetMiddle(scene.Component);
         }
 
         private void InitializeComponents()

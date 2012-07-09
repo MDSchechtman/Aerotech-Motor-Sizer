@@ -158,8 +158,8 @@ namespace Program
 
         void line2_Click(object sender, EventArgs e)
         {
-            //FileConverterScene scene = new FileConverterScene();
-            //_mainForm.MainPanel.SetMiddle(scene.Component);
+            FileConverterScene scene = new FileConverterScene(_mainForm);
+            _mainForm.MainPanel.SetMiddle(scene.Component);
         }
 
         void line2_MouseLeave(object sender, EventArgs e)
@@ -174,8 +174,8 @@ namespace Program
 
         void line3_Click(object sender, EventArgs e)
         {
-            //FunctionConverterScene scene = new FunctionConverterScene();
-            //_mainForm.MainPanel.SetMiddle(scene.Component);
+            FunctionConverterScene scene = new FunctionConverterScene(_mainForm);
+            _mainForm.MainPanel.SetMiddle(scene.Component);
         }
 
         void line3_MouseLeave(object sender, EventArgs e)
