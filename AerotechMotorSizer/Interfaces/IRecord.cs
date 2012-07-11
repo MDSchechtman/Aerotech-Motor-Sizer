@@ -10,10 +10,12 @@ namespace Interfaces
         double[] Position { get; }
         double[] Velocity { get; }
         double[] Time { get; }
-        double[] Temperature { get; }
         double[] Acceleration { get; }
-        double[] Current { get; }
-        double[] Torque { get; }
+        double RMScurrent { get; set; }
+        double MAXcurrent { get; set; }
+        double RMSforce { get; set; }
+        double MAXforce { get; set; }
+        double TemperatureRise { get; set; }
 
         void Add(double position, double velocity, double time, double temperature, 
                  double acceleration, double current, double torque);
