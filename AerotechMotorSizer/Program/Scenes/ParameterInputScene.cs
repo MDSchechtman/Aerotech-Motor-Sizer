@@ -248,6 +248,8 @@ namespace Program
 
         private void button_Click(object sender, EventArgs e)
         {
+            (sender as Button).Enabled = false;
+
             double value1 = 0D;
             double value2 = 0D;
             double value3 = 0D;
