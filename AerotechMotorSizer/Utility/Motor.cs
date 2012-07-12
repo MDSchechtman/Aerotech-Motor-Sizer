@@ -7,7 +7,7 @@ using Interfaces;
 
 namespace Utility
 {
-    public class Motor
+    public class Motor : IMotor
     {
         private double MotorMass;
         private double MotorMaxTemp;

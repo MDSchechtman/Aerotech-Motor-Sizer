@@ -17,19 +17,19 @@ namespace Utility
         // postion vs. time paths
         public bool HasPosition
         {
-            get { return true; }
+            get { return _position != null; }
         }
 
         // Not valid for this converter
         public bool HasVelocity
         {
-            get { return false; }
+            get { return _velocity != null; }
         }
 
         // Not valid for this converter
         public bool HasAcceleration
         {
-            get { return false; }
+            get { return _acceleration != null; }
         }
 
         public double[] Position
@@ -39,12 +39,12 @@ namespace Utility
 
         public double[] Velocity
         {
-            get { throw new NotImplementedException(); }
+            get { return _velocity; }
         }
 
         public double[] Acceleration
         {
-            get { throw new NotImplementedException(); }
+            get { return _acceleration; }
         }
 
         public double[] Time
@@ -58,8 +58,10 @@ namespace Utility
         /// Create a new ParameterSet
         /// </summary>
         /// <param name="parameters">The dictionary of parameters to convert</param>
-        public ParameterSetConverter(Dictionary<string, double> parameters) 
+        public ParameterSetConverter(Dictionary<string, double> parameters, double timeStep) 
         {
+            this._timeStep = timeStep;
+
             if (parameters.Count == 0)
                 throw new Exception("Invalid paramter count!");
             else
@@ -108,15 +110,56 @@ namespace Utility
             MethodInfo info = typeof(ParameterSetConverter).GetMethod(invokeString, BindingFlags.IgnoreCase | BindingFlags.NonPublic | BindingFlags.Instance);
             double[] values = new double[] { value0, value1, value2 };
             info.Invoke(this, new object[] { values });
+
+            fillArrays();
         }
 
+        private double[] _acceleration;
+        private double[] _velocity;
         private double[] _position;
         private double[] _time;
         private double _distanceOfTravel;
         private double _accelerationTime;
         private double _traverseTime;
         private double _decelerationTime;
-        private double _dwelTime;
+        private double _dwellTime;
+        private double _timeStep;
+
+        private void fillArrays()
+        {
+            _dwellTime = 0; // for now
+
+            double totalTime = _accelerationTime + _traverseTime + _decelerationTime;
+            double accelAndTraverseTime = _accelerationTime + _traverseTime;
+            double maxVelocity = _distanceOfTravel / accelAndTraverseTime;
+            double maxAcceleration = maxVelocity / _accelerationTime;
+            double maxDeceleration = -1 * maxAcceleration;
+
+            int timeSteps = (int) Math.Ceiling((totalTime + _dwellTime) / _timeStep);
+            int stopAccel = (int) Math.Round(_accelerationTime / _timeStep);
+            int startDecel = (int) Math.Round(accelAndTraverseTime / _timeStep);
+
+            _time = new double[timeSteps];
+            _acceleration = new double[timeSteps];
+
+            for (int i = 0; i < stopAccel; i++)
+            {
+                _acceleration[i] = maxAcceleration;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = stopAccel; i < startDecel; i++)
+            {
+                _acceleration[i] = 0;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = startDecel; i < timeSteps; i++)
+            {
+                _acceleration[i] = maxDeceleration;
+                _time[i] = i * _timeStep;
+            }
+        }
 
         private void distanceOfTravel_totalTime_percentage_converter(double[] values) 
         {

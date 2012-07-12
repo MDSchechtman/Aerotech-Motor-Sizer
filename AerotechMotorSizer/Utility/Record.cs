@@ -10,58 +10,62 @@ namespace Utility
 {
     public class Record : IRecord
     {
-        private List<double> _position;
-        private List<double> _velocity;
-        private List<double> _time;
-        private List<double> _temperature;
-        private List<double> _acceleration;
-        private List<double> _current;
-        private List<double> _torque;
+        public double[] _position;
+        public double[] _velocity;
+        public double[] _time;
+        public double[] _temperature;
+        public double[] _acceleration;
+        public double[] _current;
+        public double[] _torque;
 
-        public Record()
+        public Record(IPath path)
         {
-            _position = new List<double>();
-            _velocity = new List<double>();
-            _time = new List<double>();
-            _temperature = new List<double>();
-            _acceleration = new List<double>();
-            _current = new List<double>();
-            _torque = new List<double>();
+            _time = path.Time;
+            _position = path.Position;
+            _velocity = path.Velocity;
+            _acceleration = path.Acceleration;
         }
 
         public double[] Position
         {
-            get { return _position.ToArray(); }
+            get { return _position; }
+            set { _position = value; }
         }
 
         public double[] Velocity
         {
-            get { return _velocity.ToArray(); }
+            get { return _velocity; }
+            set { _velocity = value; }
         }
 
         public double[] Time
         {
-            get { return _time.ToArray(); }
+            get { return _time; }
+            set { _time = value; }
         }
 
         public double[] Temperature
         {
-            get { return _temperature.ToArray(); }
+            get { return _temperature; }
+            set { _temperature = value; }
         }
 
         public double[] Acceleration
         {
-            get { return _acceleration.ToArray(); }
+            get { return _acceleration; }
+            set { _acceleration = value; }
         }
 
         public double[] Current
         {
-            get { return _current.ToArray(); }
+            get { return _current; }
+            set { _current = value; }
         }
 
         public double[] Torque
         {
-            get { return _torque.ToArray(); }
+            get { return _torque; }
+            set { _torque = value; }
         }
 
         public double RMScurrent { get; set; }
@@ -70,55 +74,18 @@ namespace Utility
         public double MAXforce { get; set; }
         public double TemperatureRise { get; set; }
 
-        public void Add(double position, double velocity, double time, double temperature,
-                        double acceleration, double current, double torque)
-        {
-            _position.Add(position);
-            _velocity.Add(velocity);
-            _time.Add(time);
-            _temperature.Add(temperature);
-            _acceleration.Add(acceleration);
-            _current.Add(current);
-            _torque.Add(torque);
-        }
-
-        public double GetMaxCurrent()
-        {
-            return _current.Max();
-        }
-
-        public double GetMaxTorque()
-        {
-            return _torque.Max();
-        }
-
-        public double GetAverageCurrent()
-        {
-            return _current.Sum() / _current.Count();
-        }
-
-        public double GetAverageTorque()
-        {
-            return _torque.Sum() / _torque.Count();
-        }
-
-        public double GetMaxTemperatureRise()
-        {
-            return _temperature.Sum() / _temperature.Count();
-        }
-
         public void Write(string filename)
         {
             TextWriter file = new StreamWriter(filename, false);
             {
-                file.WriteLine("Max Torque," + GetMaxTorque());
-                file.WriteLine("RMS Torque," + GetAverageTorque());
-                file.WriteLine("Max Current," + GetMaxCurrent());
-                file.WriteLine("RMS Current," + GetAverageCurrent());
-                file.WriteLine("Max Temp. Rise," + GetMaxTemperatureRise());
+                file.WriteLine("Max Force," + RMSforce);
+                file.WriteLine("RMS Force," + MAXforce);
+                file.WriteLine("Max Current," + MAXcurrent);
+                file.WriteLine("RMS Current," + RMScurrent);
+                file.WriteLine("Max Temp. Rise," + TemperatureRise);
 
                 file.WriteLine("Time,Position,Velocity,Acceleration,Torque,Current,Temperature");
-                for (int i = 0; i < _time.Count; i++)
+                for (int i = 0; i < _time.Length; i++)
                 {
                     string s = string.Format("{0},{1},{2},{3},{4},{5},{6}", _time[i],
                                                                            _position[i],

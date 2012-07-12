@@ -18,15 +18,10 @@ namespace Utility
         /// which are used for solving.
         /// The axis is responsible for garunteeing consistency between its Path and Record times.
         /// </summary>
-        public Axis()
-        {
-            _record = new Record();
-        }
-
         public Axis(IPath path)
         {
             SetPath(path);
-            _record = new Record();
+            _record = new Record(path);
         }
 
         public void SetPath(IPath path)

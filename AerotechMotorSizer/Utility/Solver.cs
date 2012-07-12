@@ -36,10 +36,13 @@ namespace MotorSolver
                 return false;
 
             if (myRecord.Acceleration == null)
-                myRecord.Acceleration[0] = 0; 
+                myRecord.Acceleration = new double[count];
 
             if (myRecord.Velocity == null)
-                myRecord.Velocity[0] = 0;
+                myRecord.Velocity = new double[count];
+
+            if (myRecord.Position == null)
+                myRecord.Position = new double[count];
 
             myRecord.RMSforce = Math.Pow(myLoad.Mass * myRecord.Acceleration[0], 2);
 
@@ -72,6 +75,8 @@ namespace MotorSolver
             myRecord.MAXcurrent = myMotor.KT * myRecord.MAXforce;
             myRecord.TemperatureRise = Math.Pow(myRecord.RMSforce / myMotor.KT, 2) * myMotor.ThermalResistance;
 
+            Write();
+
             return true;
         }
 
@@ -88,9 +93,16 @@ namespace MotorSolver
             projectDirectory = "C:\\Users\\John\\Desktop";
             StreamWriter outfile = new StreamWriter(projectDirectory + "\\output.txt");
 
+            outfile.WriteLine("Project Name");
+            outfile.WriteLine("Motor Name");
+            outfile.WriteLine("Load");
+            outfile.WriteLine("Mass:               " + myLoad.Mass);
+            outfile.WriteLine("Moment of Intertia: " + myLoad.MomentOfInertia);
+            outfile.WriteLine("Max Temperature: " + myLoad.MaxTemperature);
+            outfile.WriteLine("\nAxis Name");
             outfile.WriteLine("t\tx\tv\ta");
 
-            for (int i = 0; i < myRecord.Position.Length; i++)
+            for (int i = 0; i < myRecord.Time.Length; i++)
             {
                 outfile.WriteLine(myRecord.Time[i] + "\t" + myRecord.Position[i] + "\t" + myRecord.Velocity[i] + "\t" + myRecord.Acceleration[i]);
             }

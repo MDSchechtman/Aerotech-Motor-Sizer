@@ -26,6 +26,8 @@ namespace Utility
 
         public void FromConverter(IConverter converter)
         {
+            _acceleration = converter.Acceleration;
+            _velocity = converter.Velocity;
             _position = converter.Position;
             _time = converter.Time;
         }

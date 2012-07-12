@@ -13,10 +13,15 @@ namespace Testing
     {
         public bool DoTest()
         {
-            IRecord record = new Utility.Record();
+            Dictionary<string, double> myParams = new Dictionary<string, double>();
+            myParams.Add("distanceOfTravel", 1000);
+            myParams.Add("totalTime", 100);
+            myParams.Add("percentage", 0.5);
+            ParameterSetConverter PSC = new ParameterSetConverter(myParams, 0.1);
+            IPath P = new Path(PSC);
+            IRecord record = new Utility.Record(P);
             Random r = new Random(66642);
 
-            record.Add(0, 0, 0, 0, 0, 0, 0);
             for (int i = 1; i < 100; i++)
             {
                 double time = i;
@@ -26,8 +31,6 @@ namespace Testing
                 double acceleration = r.Next(0, 10);
                 double current = r.Next(0, 10);
                 double torque = r.Next(0, 10);
-
-                record.Add(position, velocity, time, temperature, acceleration, current, torque);
             }
 
             record.Write(string.Format(@"{0}/RecordTest.txt", System.IO.Directory.GetCurrentDirectory()));

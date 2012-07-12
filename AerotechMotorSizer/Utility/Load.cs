@@ -7,16 +7,17 @@ using Interfaces;
 
 namespace Utility
 {
-    public class Load
+    public class Load : ILoad
     {
-        private double LoadMass;
-        private double LoadMomentOfInertia;
+        private double _Mass;
+        private double _MomentOfInertia;
+        private double _MaxTemperature;
 
         //constructor
         public Load(double Mass, double MomentOfInertia)
         {
-            LoadMass = Mass;
-            LoadMomentOfInertia = MomentOfInertia;
+            _Mass = Mass;
+            _MomentOfInertia = MomentOfInertia;
         }
 
         //another constructor
@@ -24,29 +25,42 @@ namespace Utility
         {
         }
 
-        //get and set the load mass
+        //get and set the mass
         public double Mass
         {
             get
             {
-                return LoadMass;
+                return _Mass;
             }
             set
             {
-                LoadMass = value;
+                _Mass = value;
             }
         }
 
-        //get and set the environment load moment of inertia
+        //get and set the moment of inertia
         public double MomentOfInertia
         {
             get
             {
-                return LoadMomentOfInertia;
+                return _MomentOfInertia;
             }
             set
             {
-                LoadMomentOfInertia = value;
+                _MomentOfInertia = value;
+            }
+        }
+
+        //get and set the max temperature
+        public double MaxTemperature
+        {
+            get
+            {
+                return _MaxTemperature;
+            }
+            set
+            {
+                _MaxTemperature = value;
             }
         }
     }
