@@ -46,15 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Components\ProjectList.cs" />
+    <Compile Include="Scenes\FileConverterScene.cs" />
+    <Compile Include="Scenes\FunctionConverterScene.cs" />
+    <Compile Include="Scenes\OutputScene.cs" />
+    <Compile Include="Scenes\ParameterInputScene.cs" />
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ParameterSetConverterDialog.cs" />
+    <Compile Include="Components\MainMenu.cs" />
+    <Compile Include="Components\MainPanel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenes\NewProjectScene.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

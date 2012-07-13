@@ -17,8 +17,8 @@ namespace Testing
             myParams.Add("distanceOfTravel", 1000);
             myParams.Add("totalTime", 100);
             myParams.Add("percentage", 0.5);
-            ParameterSetConverter PSC = new ParameterSetConverter(myParams, 0.1);
-            IPath P = new Path(PSC);
+            IConverter converter = new Utility.Converters.ParameterSetConverter(myParams, 0.1);
+            IPath P = new Path(converter);
             IRecord record = new Utility.Record(P);
             Random r = new Random(66642);
 

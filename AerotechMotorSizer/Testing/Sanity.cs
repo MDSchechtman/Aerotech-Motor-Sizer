@@ -17,7 +17,7 @@ namespace Program.Test
             dictionary.Add("totalTime", 5000);
             dictionary.Add("percentage", 0.80);
 
-            IConverter converter = new ParameterSetConverter(dictionary, 1);
+            IConverter converter = new Utility.Converters.ParameterSetConverter(dictionary, 0.1);
             IPath path = new Path(converter);
             IAxis axis = new Axis(path);
 
