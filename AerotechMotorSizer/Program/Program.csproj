@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\ProjectList.cs" />
+    <Compile Include="Scenes\ChooseMotorScene.cs" />
     <Compile Include="Scenes\FileConverterScene.cs" />
     <Compile Include="Scenes\FunctionConverterScene.cs" />
     <Compile Include="Scenes\OutputScene.cs" />
