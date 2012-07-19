@@ -36,7 +36,7 @@ namespace Testing
                         else
                         {
                             fail++;
-                            Console.WriteLine(string.Format("[Test] failed: {0}", t.ToString()));
+                            Console.WriteLine(string.Format("[Test] FAILED: {0}", t.ToString()));
                         }
                     }
                 }

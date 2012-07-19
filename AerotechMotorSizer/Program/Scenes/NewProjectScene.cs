@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
+using Interfaces;
+
 namespace Program
 {
     public class NewProjectScene

@@ -47,7 +47,7 @@ namespace Program
         private void InitializeComponents()
         {
             _project = new Project();
-            _project.Update += new Project.UpdateHandler(_project_Update);
+            _project.Update += new global::Program.Project.UpdateHandler(_project_Update);
 
             _projectList = new ProjectList(this, _project);
 
@@ -79,7 +79,7 @@ namespace Program
             _panel = panel;
         }
 
-        void _project_Update(object sender, UpdateEventArgs args)
+        void _project_Update(object sender, EventArgs args)
         {
             _projectList.ReDraw();
         }

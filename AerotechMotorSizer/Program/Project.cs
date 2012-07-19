@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Utility;
 using Interfaces;
 
 namespace Program
 {
-    public class UpdateEventArgs : EventArgs
-    {
-        public UpdateEventArgs() { }
-    }
-
     public class Project
     {
         private string _Name;
@@ -24,10 +18,10 @@ namespace Program
         private SimulationEnv _Environment;
         private IConverter _converter;
 
-        public delegate void UpdateHandler(object sender, UpdateEventArgs args);
+        public delegate void UpdateHandler(object sender, EventArgs args);
         public event UpdateHandler Update;
 
-        protected void OnUpdate(object sender, UpdateEventArgs args)
+        protected void OnUpdate(object sender, EventArgs args)
         {
             if (Update != null)
             {
@@ -35,16 +29,13 @@ namespace Program
             }
         }
 
+        //defualt constructor
+        public Project() { }
+
         //constructor
         public Project(IMotor motor)
         {
             _Motor = motor;
-        }
-
-        //another constructor
-        public Project()
-        {
-            Motor ProjectMotor = new Motor();
         }
 
         //get and set the project name
@@ -57,7 +48,7 @@ namespace Program
             set
             {
                 _Name = value;
-                OnUpdate(this, new UpdateEventArgs());
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -71,7 +62,7 @@ namespace Program
             set
             {
                 _Motor = value;
-                OnUpdate(this, new UpdateEventArgs());
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -84,7 +75,7 @@ namespace Program
             set
             {
                 _Load = value;
-                OnUpdate(this, new UpdateEventArgs());
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -97,7 +88,7 @@ namespace Program
             set
             {
                 _Axis1 = value;
-                OnUpdate(this, new UpdateEventArgs());
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -110,7 +101,7 @@ namespace Program
             set
             {
                 _Axis2 = value;
-                OnUpdate(this, new UpdateEventArgs());
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -123,7 +114,7 @@ namespace Program
             set
             {
                 _Axis3 = value;
-                OnUpdate(this, new UpdateEventArgs());
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -136,7 +127,7 @@ namespace Program
             set
             {
                 _Environment = value;
-                OnUpdate(this, new UpdateEventArgs());
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -149,7 +140,7 @@ namespace Program
             set
             {
                 _converter = value;
-                OnUpdate(this, new UpdateEventArgs());
+                OnUpdate(this, new EventArgs());
             }
         }
     }
