@@ -34,14 +34,9 @@ namespace Program
             DoSetup();
         }
 
-        public Project Project
+        public void ReDraw()
         {
-            get { return _project; }
-            set 
-            { 
-                _project = value;
-                DoSetup();
-            }
+            DoSetup();
         }
 
         public TreeView Component
@@ -63,7 +58,6 @@ namespace Program
             TreeNode input = new TreeNode("Input");
             TreeNode output = new TreeNode("Output");
 
-
             _root = new TreeNode(_project.Name);
 
             _root.Nodes.Add(motor);
@@ -78,6 +72,10 @@ namespace Program
                 motor.Nodes.Add(_project.Motor.ThermalResistance.ToString());
             }
             _root.Nodes.Add(input);
+            if (_project.Converter != null)
+            {
+                input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Position.Length));
+            }
             _root.Nodes.Add(output);
 
             _tree.Nodes.Add(_root);

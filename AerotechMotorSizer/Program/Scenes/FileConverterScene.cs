@@ -141,7 +141,7 @@ namespace Program
                 else if (string.Compare(_box.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
                     type = 2;
 
-                _mainForm.DoSolver(new Utility.Converters.FileConverter(_fileName, type));
+                _mainForm.Project.Converter = new Utility.Converters.FileConverter(_fileName, type);
             }
         }
     }

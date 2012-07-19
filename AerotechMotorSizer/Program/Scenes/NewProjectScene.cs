@@ -18,6 +18,8 @@ namespace Program
             _mainForm = mainForm;
             _panel = new TableLayoutPanel();
 
+            _mainForm.Project = new Project();
+
             Initialize();
             DoSetup();
         }

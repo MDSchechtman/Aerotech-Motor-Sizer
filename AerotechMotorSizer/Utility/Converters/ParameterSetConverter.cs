@@ -58,10 +58,8 @@ namespace Utility.Converters
         /// Create a new ParameterSet
         /// </summary>
         /// <param name="parameters">The dictionary of parameters to convert</param>
-        public ParameterSetConverter(Dictionary<string, double> parameters, double timeStep) 
+        public ParameterSetConverter(Dictionary<string, double> parameters) 
         {
-            this._timeStep = timeStep;
-
             if (parameters.Count == 0)
                 throw new Exception("Invalid paramter count!");
             else
@@ -92,18 +90,23 @@ namespace Utility.Converters
             string param0 = string.Empty;
             string param1 = string.Empty;
             string param2 = string.Empty;
+            string timeStepStr = string.Empty;
 
             double value0 = 0;
             double value1 = 0;
             double value2 = 0;
+            double timeStep = 0;
 
             // Get the parameters, checking for errors
-            bool zero = getKey(parameters, 0, out param0, out value0);
-            bool one = getKey(parameters, 1, out param1, out value1);
-            bool two = getKey(parameters, 2, out param2, out value2);
+            bool zeroValid = getKey(parameters, 0, out param0, out value0);
+            bool oneValid = getKey(parameters, 1, out param1, out value1);
+            bool twoValid = getKey(parameters, 2, out param2, out value2);
+            bool timeValid = getKey(parameters, 3, out timeStepStr, out timeStep);
 
-            if (!(zero && one && two))
+            if (!(zeroValid && oneValid && twoValid && timeValid))
                 throw new Exception("Parameters could not be determined!");
+
+            _timeStep = timeStep;
 
             // Invoke the proper method based on the input parameters
             string invokeString = string.Format("{0}_{1}_{2}_converter", param0, param1, param2);

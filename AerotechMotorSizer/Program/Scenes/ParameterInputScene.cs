@@ -20,14 +20,17 @@ namespace Program
         private String _parameter1;
         private String _parameter2;
         private String _parameter3;
+        private String _timestep;
 
         private Label _label1;
         private Label _label2;
         private Label _label3;
+        private Label _label4;
 
         private TextBox _textBox1;
         private TextBox _textBox2;
         private TextBox _textBox3;
+        private TextBox _textBox4;
 
         public ParameterInputScene(MainForm mainForm)
         {
@@ -55,9 +58,10 @@ namespace Program
 
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.125F));
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F));
-            _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F / 3F));
-            _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F / 3F));
-            _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F / 3F));
+            _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F / 4F));
+            _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F / 4F));
+            _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F / 4F));
+            _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F / 4F));
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F));
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.125F));
 
@@ -70,38 +74,48 @@ namespace Program
             _label1 = new Label();
             _label2 = new Label();
             _label3 = new Label();
+            _label4 = new Label();
 
             _label1.Enabled = false;
             _label2.Enabled = false;
             _label3.Enabled = false;
+            _label4.Enabled = false;
 
-            _label1.Margin = new Padding(0, 5, 0, 0);
-            _label2.Margin = new Padding(0, 5, 0, 0);
-            _label3.Margin = new Padding(0, 5, 0, 0);
+            Padding p = new Padding(0, 5, 0, 0);
+            _label1.Margin = p;
+            _label2.Margin = p;
+            _label3.Margin = p;
+            _label4.Margin = p;
 
             _label1.TextAlign = ContentAlignment.TopRight;
             _label2.TextAlign = ContentAlignment.TopRight;
             _label3.TextAlign = ContentAlignment.TopRight;
+            _label4.TextAlign = ContentAlignment.TopRight;
 
             _label1.Dock = DockStyle.Right;
             _label2.Dock = DockStyle.Right;
             _label3.Dock = DockStyle.Right;
+            _label4.Dock = DockStyle.Right;
 
             _textBox1 = new TextBox();
             _textBox2 = new TextBox();
             _textBox3 = new TextBox();
+            _textBox4 = new TextBox();
 
             _textBox1.Enabled = false;
             _textBox2.Enabled = false;
             _textBox3.Enabled = false;
+            _textBox4.Enabled = false;
 
             _textBox1.Dock = DockStyle.Left;
             _textBox2.Dock = DockStyle.Left;
             _textBox3.Dock = DockStyle.Left;
+            _textBox4.Dock = DockStyle.Left;
 
             _label1.Text = "Parameter 1";
             _label2.Text = "Parameter 2";
             _label3.Text = "Parameter 3";
+            _label4.Text = "Time Step";
 
             Label title = new Label();
             title.Text = "Select an item from the list on the left, input the values for each parameter, and click OK to proceed.";
@@ -119,20 +133,22 @@ namespace Program
             button.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 
             _panel.Controls.Add(_view, 1, 1);
-            _panel.SetRowSpan(_view, 5);
+            _panel.SetRowSpan(_view, 6);
 
             _panel.Controls.Add(_label1, 2, 2);
             _panel.Controls.Add(_label2, 2, 3);
             _panel.Controls.Add(_label3, 2, 4);
+            _panel.Controls.Add(_label4, 2, 5);
 
             _panel.Controls.Add(_textBox1, 3, 2);
             _panel.Controls.Add(_textBox2, 3, 3);
             _panel.Controls.Add(_textBox3, 3, 4);
+            _panel.Controls.Add(_textBox4, 3, 5);
 
             _panel.Controls.Add(title, 2, 1);
             _panel.SetColumnSpan(title, 2);
 
-            _panel.Controls.Add(button, 3, 5);
+            _panel.Controls.Add(button, 3, 6);
         }
 
         private void DoSetup()
@@ -162,10 +178,12 @@ namespace Program
             _label1.Enabled = true;
             _label2.Enabled = true;
             _label3.Enabled = true;
+            _label4.Enabled = true;
 
             _textBox1.Enabled = true;
             _textBox2.Enabled = true;
             _textBox3.Enabled = true;
+            _textBox4.Enabled = true;
         }
 
         private void SetLabels(int index, string text)
@@ -253,12 +271,14 @@ namespace Program
             double value1 = 0D;
             double value2 = 0D;
             double value3 = 0D;
+            double value4 = 0D;
 
             try
             {
                 value1 = Double.Parse(_textBox1.Text);
                 value2 = Double.Parse(_textBox2.Text);
                 value3 = Double.Parse(_textBox3.Text);
+                value4 = Double.Parse(_textBox4.Text);
             }
             catch (System.FormatException exception)
             {
@@ -269,6 +289,9 @@ namespace Program
             _dictionary.Add(_parameter1, value1);
             _dictionary.Add(_parameter2, value2);
             _dictionary.Add(_parameter3, value3);
+            _dictionary.Add("timeStep", value4);
+
+            _mainForm.Project.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
         }
     }
 }

@@ -12,8 +12,10 @@ namespace Program
     {
         private System.ComponentModel.IContainer components = null;
         private MainPanel _panel;
+        private NewProjectScene _newProjectScene;
         private ProjectList _projectList;
-        public static System.Drawing.Size initialSize = new System.Drawing.Size(1440, 768);
+        private Project _project;
+        public static System.Drawing.Size initialSize = new System.Drawing.Size(1400, 700);
 
         public MainForm()
         {
@@ -30,14 +32,10 @@ namespace Program
             get { return _panel; }
         }
 
-        public ProjectList ProjectList
+        public Project Project
         {
-            get { return _projectList; }
-        }
-
-        public void DoSolver(IConverter converter)
-        {
-            // ISolver solver = new Solver();
+            get { return _project; }
+            set { _project = value; }
         }
 
         private void LoadOutputScene()
@@ -48,17 +46,20 @@ namespace Program
 
         private void InitializeComponents()
         {
-            _projectList = new ProjectList(this);
+            _project = new Project();
+            _project.Update += new Project.UpdateHandler(_project_Update);
+
+            _projectList = new ProjectList(this, _project);
 
             MainMenu menu = new MainMenu(this);
             MainPanel panel = new MainPanel(this);
-            NewProjectScene scene = new NewProjectScene(this); 
+            _newProjectScene = new NewProjectScene(this); 
 
             this.SuspendLayout();
 
             // Setup Controls
             panel.SetLeft(_projectList.Component);
-            panel.SetMiddle(scene.Component);
+            panel.SetMiddle(_newProjectScene.Component);
 
             // Add controls
             this.Controls.Add(panel.Component);
@@ -76,6 +77,11 @@ namespace Program
             this.PerformLayout();
 
             _panel = panel;
+        }
+
+        void _project_Update(object sender, UpdateEventArgs args)
+        {
+            _projectList.ReDraw();
         }
 
         protected override void Dispose(bool disposing)

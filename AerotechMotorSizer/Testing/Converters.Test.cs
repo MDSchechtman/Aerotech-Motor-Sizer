@@ -19,9 +19,10 @@ namespace Program.Test
                 p.Add("distanceOfTravel", 10);
                 p.Add("totalTime", 20);
                 p.Add("percentage", 0.50);
+                p.Add("timeStep", 0.1);
 
                 // Set the parameters to the ParameterSet
-                Utility.Converters.ParameterSetConverter set = new Utility.Converters.ParameterSetConverter(p, 0.1);
+                Utility.Converters.ParameterSetConverter set = new Utility.Converters.ParameterSetConverter(p);
             }
 
             // Test the FunctionConverter
