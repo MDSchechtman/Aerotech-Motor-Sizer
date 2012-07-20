@@ -38,11 +38,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Converters.Test.cs" />
+    <Compile Include="Project.Test.cs" />
     <Compile Include="Sanity.cs" />
     <Compile Include="SimulationEnv.Test.cs" />
     <Compile Include="Load.Test.cs" />
     <Compile Include="Motor.Test.cs" />
-    <Compile Include="Project.Test.cs" />
     <Compile Include="Record.Test.cs" />
     <Compile Include="Solver.Test.cs" />
     <Compile Include="Testing.cs" />
@@ -51,6 +51,10 @@
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{E85A1F03-275D-46B7-9A0E-22C9E5D45E85}</Project>
       <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Program\Program.csproj">
+      <Project>{0B18ADD9-FC72-449D-BB86-F9EB3DF07603}</Project>
+      <Name>Program</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{60EC2483-3F8E-47E3-9299-84A18E638EAE}</Project>

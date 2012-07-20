@@ -57,7 +57,6 @@
     <Compile Include="Load.cs" />
     <Compile Include="Motor.cs" />
     <Compile Include="Path.cs" />
-    <Compile Include="Project.cs" />
     <Compile Include="Solver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

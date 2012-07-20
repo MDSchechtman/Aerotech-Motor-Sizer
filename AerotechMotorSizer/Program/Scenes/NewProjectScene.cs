@@ -5,6 +5,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
+using Interfaces;
+using Simulation;
+
 namespace Program
 {
     public class NewProjectScene
@@ -12,10 +15,16 @@ namespace Program
         private TableLayoutPanel _panel;
         private MainPanel _mainPanel;
         private MainForm _mainForm;
+        private Form _parent;
+        private bool _modal;
 
-        public NewProjectScene(MainForm mainForm)
+        public NewProjectScene(MainForm mainForm, Form p = null, bool modal = false)
         {
+            _modal = modal;
+            // Only valid if modal == false
             _mainForm = mainForm;
+            // Only valid if modal == true
+            _parent = p;
             _panel = new TableLayoutPanel();
 
             Initialize();
@@ -143,7 +152,17 @@ namespace Program
         void line1_Click(object sender, EventArgs e)
         {
             ParameterInputScene scene = new ParameterInputScene(_mainForm);
-            _mainForm.MainPanel.SetMiddle(scene.Component);
+            scene.OnClose += new EventHandler(scene_OnClose);
+
+            if (_modal)
+            {
+                _parent.Controls.Clear();
+                _parent.Controls.Add(scene.Component);
+            }
+            else
+            {
+                _mainForm.MainPanel.SetMiddle(scene.Component);
+            }
         }
 
         void line1_MouseLeave(object sender, EventArgs e)
@@ -159,7 +178,17 @@ namespace Program
         void line2_Click(object sender, EventArgs e)
         {
             FileConverterScene scene = new FileConverterScene(_mainForm);
-            _mainForm.MainPanel.SetMiddle(scene.Component);
+            scene.OnClose += new EventHandler(scene_OnClose);
+
+            if (_modal)
+            {
+                _parent.Controls.Clear();
+                _parent.Controls.Add(scene.Component);
+            }
+            else
+            {
+                _mainForm.MainPanel.SetMiddle(scene.Component);
+            }
         }
 
         void line2_MouseLeave(object sender, EventArgs e)
@@ -175,7 +204,17 @@ namespace Program
         void line3_Click(object sender, EventArgs e)
         {
             FunctionConverterScene scene = new FunctionConverterScene(_mainForm);
-            _mainForm.MainPanel.SetMiddle(scene.Component);
+            scene.OnClose += new EventHandler(scene_OnClose);
+
+            if (_modal)
+            {
+                _parent.Controls.Clear();
+                _parent.Controls.Add(scene.Component);
+            }
+            else
+            {
+                _mainForm.MainPanel.SetMiddle(scene.Component);
+            }
         }
 
         void line3_MouseLeave(object sender, EventArgs e)
@@ -186,6 +225,19 @@ namespace Program
         void line3_MouseEnter(object sender, EventArgs e)
         {
             (sender as Label).ForeColor = Color.Blue;
+        }
+
+        void scene_OnClose(object sender, EventArgs e)
+        {
+            if (_modal)
+            {
+                _parent.Controls.Clear();
+                _parent.Dispose();
+            }
+            else
+            {
+                _mainForm.LoadOutputScene();
+            }
         }
     }
 }

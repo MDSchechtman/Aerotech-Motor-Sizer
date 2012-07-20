@@ -19,6 +19,8 @@ namespace Program
         private string _fileName;
         private MainForm _mainForm;
 
+        public event EventHandler OnClose;
+
         public FileConverterScene(MainForm mainForm)
         {
             _mainForm = mainForm;
@@ -141,7 +143,10 @@ namespace Program
                 else if (string.Compare(_box.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
                     type = 2;
 
-                _mainForm.DoSolver(new Utility.Converters.FileConverter(_fileName, type));
+                _mainForm.Project.Converter = new Utility.Converters.FileConverter(_fileName, type);
+
+                if (this.OnClose != null)
+                    this.OnClose(this, EventArgs.Empty);
             }
         }
     }

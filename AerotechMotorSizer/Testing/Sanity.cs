@@ -16,8 +16,9 @@ namespace Program.Test
             dictionary.Add("distanceOfTravel", 1000);
             dictionary.Add("totalTime", 5000);
             dictionary.Add("percentage", 0.80);
+            dictionary.Add("timeStep", 0.50);
 
-            IConverter converter = new Utility.Converters.ParameterSetConverter(dictionary, 0.1);
+            IConverter converter = new Utility.Converters.ParameterSetConverter(dictionary);
             IPath path = new Path(converter);
             IAxis axis = new Axis(path);
 

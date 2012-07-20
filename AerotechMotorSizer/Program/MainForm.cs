@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Interfaces;
+using Simulation;
 
 namespace Program
 {
@@ -13,7 +14,8 @@ namespace Program
         private System.ComponentModel.IContainer components = null;
         private MainPanel _panel;
         private ProjectList _projectList;
-        public static System.Drawing.Size initialSize = new System.Drawing.Size(1440, 768);
+        private Project _project;
+        public static System.Drawing.Size initialSize = new System.Drawing.Size(1400, 700);
 
         public MainForm()
         {
@@ -30,17 +32,28 @@ namespace Program
             get { return _panel; }
         }
 
-        public ProjectList ProjectList
+        public Project Project
         {
-            get { return _projectList; }
+            get { return _project; }
+            set 
+            {
+                _project = value;
+                // Projectlist subscribes to Project.Update
+                _projectList = new ProjectList(this, _project);
+            }
         }
 
-        public void DoSolver(IConverter converter)
+        public void LoadNewProjectScene(bool modal)
         {
-            // ISolver solver = new Solver();
+            Popup p = new Popup(this);
+            NewProjectScene scene = new NewProjectScene(this, p, true);
+            if (modal)
+                p.Show(scene.Component);
+            else
+                _panel.SetMiddle(scene.Component);
         }
 
-        private void LoadOutputScene()
+        public void LoadOutputScene()
         {
             OutputScene scene = new OutputScene(this);
             _panel.SetMiddle(scene.Component);
@@ -48,22 +61,21 @@ namespace Program
 
         private void InitializeComponents()
         {
-            _projectList = new ProjectList(this);
+            Project = new Project();
+            _projectList = new ProjectList(this, Project);
 
             MainMenu menu = new MainMenu(this);
             MainPanel panel = new MainPanel(this);
-            NewProjectScene scene = new NewProjectScene(this); 
 
             this.SuspendLayout();
 
             // Setup Controls
             panel.SetLeft(_projectList.Component);
-            panel.SetMiddle(scene.Component);
 
             // Add controls
             this.Controls.Add(panel.Component);
             this.Controls.Add(menu.Component);
-            
+
             this.MainMenuStrip = menu.Component;
             this.Padding = new Padding(1);
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

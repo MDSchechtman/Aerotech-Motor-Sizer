@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Utility;
 using Interfaces;
 
-namespace Program
+namespace Simulation
 {
     public class Project
     {
@@ -16,7 +15,22 @@ namespace Program
         private IAxis _Axis1;
         private IAxis _Axis2;
         private IAxis _Axis3;
-        private SimulationEnv _Environment;
+        private Simulation.Environment _Environment;
+        private IConverter _converter;
+
+        public delegate void UpdateHandler(object sender, EventArgs args);
+        public event UpdateHandler Update;
+
+        protected void OnUpdate(object sender, EventArgs args)
+        {
+            if (Update != null)
+            {
+                Update(this, args);
+            }
+        }
+
+        //defualt constructor
+        public Project() { }
 
         //constructor
         public Project(IMotor motor)
@@ -24,22 +38,17 @@ namespace Program
             _Motor = motor;
         }
 
-        //another constructor
-        public Project()
-        {
-            Motor ProjectMotor = new Motor();
-        }
-
         //get and set the project name
         public string Name
         {
             get
             {
-                return _Name;
+                return (_Name != null && _Name != string.Empty) ? _Name : "Unnamed Project";
             }
             set
             {
                 _Name = value;
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -53,6 +62,7 @@ namespace Program
             set
             {
                 _Motor = value;
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -65,6 +75,7 @@ namespace Program
             set
             {
                 _Load = value;
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -77,6 +88,7 @@ namespace Program
             set
             {
                 _Axis1 = value;
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -89,6 +101,7 @@ namespace Program
             set
             {
                 _Axis2 = value;
+                OnUpdate(this, new EventArgs());
             }
         }
 
@@ -101,10 +114,11 @@ namespace Program
             set
             {
                 _Axis3 = value;
+                OnUpdate(this, new EventArgs());
             }
         }
 
-        public SimulationEnv Environment
+        public Simulation.Environment Environment
         {
             get
             {
@@ -113,6 +127,20 @@ namespace Program
             set
             {
                 _Environment = value;
+                OnUpdate(this, new EventArgs());
+            }
+        }
+
+        public IConverter Converter
+        {
+            get
+            {
+                return _converter;
+            }
+            set
+            {
+                _converter = value;
+                OnUpdate(this, new EventArgs());
             }
         }
     }
