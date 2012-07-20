@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Drawing;
 
 using Interfaces;
+using Simulation;
 
 namespace Program
 {
@@ -19,8 +20,6 @@ namespace Program
         {
             _mainForm = mainForm;
             _panel = new TableLayoutPanel();
-
-            _mainForm.Project = new Project();
 
             Initialize();
             DoSetup();

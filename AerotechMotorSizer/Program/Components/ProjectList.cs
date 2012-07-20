@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Interfaces;
+using Simulation;
 
 namespace Program
 {
@@ -36,11 +37,6 @@ namespace Program
             DoSetup();
         }
 
-        public void ReDraw()
-        {
-            DoSetup();
-        }
-
         public TreeView Component
         {
             get { return _tree; }
@@ -50,6 +46,8 @@ namespace Program
         {
             _tree.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _tree.Dock = DockStyle.Fill;
+
+            _project.Update += new Project.UpdateHandler(_project_Update);
         }
 
         private void DoSetup()
@@ -76,12 +74,26 @@ namespace Program
             _root.Nodes.Add(input);
             if (_project.Converter != null)
             {
-                input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Position.Length));
+                IConverter converter = _project.Converter;
+                if (converter.HasPosition)
+                    input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Position.Length));
+                if (converter.HasVelocity)
+                    input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Velocity.Length));
+                if (converter.HasAcceleration)
+                    input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Acceleration.Length));
+
+                input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Time.Length));
+
             }
             _root.Nodes.Add(output);
 
             _tree.Nodes.Add(_root);
             _root.ExpandAll();
+        }
+
+        void _project_Update(object sender, EventArgs args)
+        {
+            DoSetup();
         }
     }
 }

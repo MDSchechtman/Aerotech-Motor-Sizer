@@ -5,9 +5,9 @@ using System.Text;
 
 using Interfaces;
 
-namespace Program
+namespace Simulation
 {
-    public class SimulationEnv
+    public class Environment
     {
         private double EnvironmentFriction;
         private double EnvironmentPreLoadForce;
@@ -17,7 +17,7 @@ namespace Program
         private double EnvironmentCooling;
 
         //constructor
-        public SimulationEnv(double Friction, double PreLoadForce, double ThrustForce, double AmbientTemp, double MechEfficiency, double Cooling)
+        public Environment(double Friction, double PreLoadForce, double ThrustForce, double AmbientTemp, double MechEfficiency, double Cooling)
         {
             EnvironmentFriction = Friction;
             EnvironmentPreLoadForce = PreLoadForce;
@@ -28,7 +28,7 @@ namespace Program
         }
 
         //another constructor
-        public SimulationEnv()
+        public Environment()
         {
         }
 

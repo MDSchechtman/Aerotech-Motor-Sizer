@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\ProjectList.cs" />
-    <Compile Include="Project.cs" />
+    <Compile Include="Project.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Scenes\ChooseMotorScene.cs" />
     <Compile Include="Scenes\FileConverterScene.cs" />
     <Compile Include="Scenes\FunctionConverterScene.cs" />

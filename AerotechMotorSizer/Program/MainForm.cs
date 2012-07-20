@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Interfaces;
+using Simulation;
 
 namespace Program
 {
@@ -35,7 +36,12 @@ namespace Program
         public Project Project
         {
             get { return _project; }
-            set { _project = value; }
+            set 
+            {
+                _project = value;
+                // Projectlist subscribes to Project.Update
+                _projectList = new ProjectList(this, _project);
+            }
         }
 
         private void LoadOutputScene()
@@ -46,10 +52,7 @@ namespace Program
 
         private void InitializeComponents()
         {
-            _project = new Project();
-            _project.Update += new global::Program.Project.UpdateHandler(_project_Update);
-
-            _projectList = new ProjectList(this, _project);
+            Project = new Project();
 
             MainMenu menu = new MainMenu(this);
             MainPanel panel = new MainPanel(this);
@@ -77,11 +80,6 @@ namespace Program
             this.PerformLayout();
 
             _panel = panel;
-        }
-
-        void _project_Update(object sender, EventArgs args)
-        {
-            _projectList.ReDraw();
         }
 
         protected override void Dispose(bool disposing)

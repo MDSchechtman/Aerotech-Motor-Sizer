@@ -5,7 +5,7 @@ using System.Text;
 
 using Interfaces;
 
-namespace Program
+namespace Simulation
 {
     public class Project
     {
@@ -15,7 +15,7 @@ namespace Program
         private IAxis _Axis1;
         private IAxis _Axis2;
         private IAxis _Axis3;
-        private SimulationEnv _Environment;
+        private Simulation.Environment _Environment;
         private IConverter _converter;
 
         public delegate void UpdateHandler(object sender, EventArgs args);
@@ -118,7 +118,7 @@ namespace Program
             }
         }
 
-        public SimulationEnv Environment
+        public Simulation.Environment Environment
         {
             get
             {
