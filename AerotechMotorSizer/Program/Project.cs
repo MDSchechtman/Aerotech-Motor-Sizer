@@ -21,7 +21,111 @@ namespace Program
         public delegate void UpdateHandler(object sender, EventArgs args);
         public event UpdateHandler Update;
 
-        //private Program.Project.
+        private ParameterInputScene _ParameterInputScene;
+        private FileConverterScene _FileConverterScene;
+        private FunctionConverterScene _FunctionConverterScene;
+        private ChooseMotorScene _ChooseMotorScene;
+        private NewProjectScene _NewProjectScene;
+        private ProfileScene _ProfileScene;
+        private SequenceScene _SequenceScene;
+
+        //get and set the 
+        public ParameterInputScene ParameterInput
+        {
+            get
+            {
+                return _ParameterInputScene;
+            }
+            set
+            {
+                _ParameterInputScene = value;
+                //OnUpdate(this, new EventArgs());
+            }
+        }
+
+        //get and set the 
+        public FileConverterScene FileConverter
+        {
+            get
+            {
+                return _FileConverterScene;
+            }
+            set
+            {
+                _FileConverterScene = value;
+                //OnUpdate(this, new EventArgs());
+            }
+        }
+
+        //get and set the 
+        public FunctionConverterScene FunctionConverter
+        {
+            get
+            {
+                return _FunctionConverterScene;
+            }
+            set
+            {
+                _FunctionConverterScene = value;
+                //OnUpdate(this, new EventArgs());
+            }
+        }
+
+        //get and set the 
+        public ChooseMotorScene ChooseMotor
+        {
+            get
+            {
+                return _ChooseMotorScene;
+            }
+            set
+            {
+                _ChooseMotorScene = value;
+                //OnUpdate(this, new EventArgs());
+            }
+        }
+
+        //get and set the 
+        public NewProjectScene NewProject
+        {
+            get
+            {
+                return _NewProjectScene;
+            }
+            set
+            {
+                _NewProjectScene = value;
+                //OnUpdate(this, new EventArgs());
+            }
+        }
+
+        //get and set the 
+        public ProfileScene Profile
+        {
+            get
+            {
+                return _ProfileScene;
+            }
+            set
+            {
+                _ProfileScene = value;
+                //OnUpdate(this, new EventArgs());
+            }
+        }
+
+        //get and set the 
+        public SequenceScene Sequence
+        {
+            get
+            {
+                return _SequenceScene;
+            }
+            set
+            {
+                _SequenceScene = value;
+                //OnUpdate(this, new EventArgs());
+            }
+        }
 
         protected void OnUpdate(object sender, EventArgs args)
         {

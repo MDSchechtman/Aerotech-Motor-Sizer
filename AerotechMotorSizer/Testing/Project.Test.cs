@@ -14,7 +14,7 @@ namespace Testing
     {
         public bool DoTest()
         {
-            Project TestProject = new Project();
+            //Project TestProject = new Project();
             //TestProject.Motor.Mass = 3.14;
             //Console.WriteLine(TestProject.Motor.Mass);
 

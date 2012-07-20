@@ -117,6 +117,27 @@ namespace Program
         private ComboBox _finalCoilTemperatureUnits;
         private ComboBox _totalRMSForceForEntireSequenceUnits;
 
+        private Button _solve;
+
+        private double _RMSforce;
+        private double _loadMass;
+
+        public double RMSForce
+        {
+            get { return _RMSforce; }
+            set
+            {
+                _RMSforce = value;
+                _totalRMSForce.Text = Math.Round(_RMSforce, 1).ToString(); // _RMSforce.ToString();
+            }
+        }
+
+        public string Name
+        {
+            get { return _profileNameLabel.Text; }
+            set { _profileNameLabel.Text = value; }
+        }
+
         public ProfileScene(MainForm mainForm)
         {
             _mainForm = mainForm;
@@ -245,34 +266,44 @@ namespace Program
 
             _profileName.Dock = DockStyle.Fill;
             _profileName.Text = "Profile 1";
-            _lengthOfTravel.Dock = DockStyle.Left;
-            _massOfLoad.Dock = DockStyle.Left;
-            _accelerationTime.Dock = DockStyle.Left;
-            _traverseTime.Dock = DockStyle.Left;
-            _decelerationTime.Dock = DockStyle.Left;
-            _dwellTime.Dock = DockStyle.Left;
-            _inclineAngle.Dock = DockStyle.Left;
-            _thrustForce.Dock = DockStyle.Left;
-            _maxStaticFriction.Dock = DockStyle.Left;
-            _dynamicFriction.Dock = DockStyle.Left;
-            _ambientTemperature.Dock = DockStyle.Left;
-            _mechanicalEfficiency.Dock = DockStyle.Left;
-            _cooling.Dock = DockStyle.Left;
-            _totalMoveTime.Dock = DockStyle.Left;
-            _dutyCycle.Dock = DockStyle.Left;
-            _maxLinearSpeed.Dock = DockStyle.Left;
-            _peakAcceleration.Dock = DockStyle.Left;
-            _peakAccelerationForce.Dock = DockStyle.Left;
-            _peakTraverseForce.Dock = DockStyle.Left;
-            _peaDecelerationForce.Dock = DockStyle.Left;
-            _peakDwellForce.Dock = DockStyle.Left;
-            _totalRMSForce.Dock = DockStyle.Left;
-            _peakCurrent.Dock = DockStyle.Left;
-            _continuousCurrent.Dock = DockStyle.Left;
-            _minBusVoltage.Dock = DockStyle.Left;
-            _finalCoilTemperature.Dock = DockStyle.Left;
-            _totalRMSForceForEntireSequence.Dock = DockStyle.Left;
+            _lengthOfTravel.Dock = DockStyle.Fill;
+            _massOfLoad.Dock = DockStyle.Fill;
+            _accelerationTime.Dock = DockStyle.Fill;
+            _traverseTime.Dock = DockStyle.Fill;
+            _decelerationTime.Dock = DockStyle.Fill;
+            _dwellTime.Dock = DockStyle.Fill;
+            _inclineAngle.Dock = DockStyle.Fill;
+            _thrustForce.Dock = DockStyle.Fill;
+            _maxStaticFriction.Dock = DockStyle.Fill;
+            _dynamicFriction.Dock = DockStyle.Fill;
+            _ambientTemperature.Dock = DockStyle.Fill;
+            _mechanicalEfficiency.Dock = DockStyle.Fill;
+            _cooling.Dock = DockStyle.Fill;
+            _totalMoveTime.Dock = DockStyle.Fill;
+            _dutyCycle.Dock = DockStyle.Fill;
+            _maxLinearSpeed.Dock = DockStyle.Fill;
+            _peakAcceleration.Dock = DockStyle.Fill;
+            _peakAccelerationForce.Dock = DockStyle.Fill;
+            _peakTraverseForce.Dock = DockStyle.Fill;
+            _peaDecelerationForce.Dock = DockStyle.Fill;
+            _peakDwellForce.Dock = DockStyle.Fill;
+            _totalRMSForce.Dock = DockStyle.Fill;
+            _peakCurrent.Dock = DockStyle.Fill;
+            _continuousCurrent.Dock = DockStyle.Fill;
+            _minBusVoltage.Dock = DockStyle.Fill;
+            _finalCoilTemperature.Dock = DockStyle.Fill;
+            _totalRMSForceForEntireSequence.Dock = DockStyle.Fill;
             _comments.Dock = DockStyle.Fill;
+
+            _profileName.Enabled = false;
+            _lengthOfTravel.Enabled = false;
+            //_massOfLoad.Enabled = false;
+            _accelerationTime.Enabled = false;
+            _traverseTime.Enabled = false;
+            _decelerationTime.Enabled = false;
+            _dwellTime.Enabled = false;
+            _inclineAngle.Enabled = false;
+            _thrustForce.Enabled = false;
 
             _maxStaticFriction.Enabled = false;
             _dynamicFriction.Enabled = false;
@@ -340,17 +371,24 @@ namespace Program
             button.Text = "Open..";
             button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             button.Click += new EventHandler(button_Click);
-
-            _ok = new Button();
-            _ok.Text = "OK";
-            _ok.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _ok.Enabled = false;
-            _ok.Click += new EventHandler(_ok_Click);
+             * _ok.Enabled = false;
             */
+            _solve = new Button();
+            _solve.Text = "Solve";
+            _solve.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            _solve.Click += new EventHandler(_solve_Click);
+            _solve.Padding = new Padding(10);
+            _solve.Font = new Font("Tahoma", 14, FontStyle.Bold);
+            _solve.Dock = DockStyle.Fill;
 
             _panel.Controls.Add(_profileNameLabel, 0, 0);
             _panel.SetColumnSpan(_profileNameLabel, 2);
             _panel.Controls.Add(_accelerationTypeLabel, 0, 1);
+
+            _panel.Controls.Add(_solve, 2, 1);
+            _panel.SetColumnSpan(_solve, 2);
+            _panel.SetRowSpan(_solve, 2);
+
             _panel.Controls.Add(_inputs, 0, 3);
             _panel.Controls.Add(_lengthOfTravelLabel, 0, 4);
             _panel.Controls.Add(_massOfLoadLabel, 0, 5);
@@ -449,13 +487,30 @@ namespace Program
             _panel.Controls.Add(_totalRMSForceForEntireSequenceUnits, 5, 17);
         }
 
+        void _solve_Click(object sender, EventArgs e)
+        {
+            if (Double.TryParse(_massOfLoad.Text, out _loadMass))
+            {
+                Project P = new Project();
+                P.Motor = new Motor(1000, 200, 0, 0, 0, 1000, 1000);
+
+                IPath Q = new Path();//converter);
+                P.Axis1 = new Axis(Q);
+
+                P.Load = new Load(_loadMass, 0);
+
+                ISolver mySolver = new MotorSolver.Solver();
+                mySolver.Start(P.Axis1.Record, P.Motor, P.Load, P.Axis1.Path);
+            }
+        }
+
         private ComboBox fillComboBox(string units, int selectedItem)
         {
             ComboBox box = new ComboBox();
             string[] unitList = _unitLists[units];
             for (int i = 0; i < unitList.Length; i++)
                 box.Items.Add(string.Format(unitList[i]));
-            box.Width = 200;
+            box.Width = 20000;
             box.Dock = DockStyle.Right;
             box.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             box.DropDownStyle = ComboBoxStyle.DropDownList;

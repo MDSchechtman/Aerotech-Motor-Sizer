@@ -70,6 +70,11 @@ namespace Program
             Initialize();
         }
 
+        public string Name
+        {
+            get { return _motorUnits.SelectedText; }
+        }
+
         public TableLayoutPanel Component
         {
             get { return _panel; }
