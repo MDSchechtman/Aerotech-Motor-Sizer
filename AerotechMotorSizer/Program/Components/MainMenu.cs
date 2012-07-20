@@ -88,9 +88,10 @@ namespace Program
             _menuStrip.PerformLayout();
         }
 
+        // File -> New
         void file1_Click(object sender, EventArgs e)
         {
-            _mainForm.MainPanel.SetMiddle(new NewProjectScene(_mainForm).Component);
+            _mainForm.LoadNewProjectScene(true);
         }
 
         void file2_Click(object sender, EventArgs e)
@@ -108,6 +109,7 @@ namespace Program
             throw new NotImplementedException();
         }
 
+        // File -> Exit
         void file5_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();

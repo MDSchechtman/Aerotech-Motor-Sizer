@@ -13,7 +13,6 @@ namespace Program
     {
         private System.ComponentModel.IContainer components = null;
         private MainPanel _panel;
-        private NewProjectScene _newProjectScene;
         private ProjectList _projectList;
         private Project _project;
         public static System.Drawing.Size initialSize = new System.Drawing.Size(1400, 700);
@@ -44,7 +43,17 @@ namespace Program
             }
         }
 
-        private void LoadOutputScene()
+        public void LoadNewProjectScene(bool modal)
+        {
+            Popup p = new Popup(this);
+            NewProjectScene scene = new NewProjectScene(this, p, true);
+            if (modal)
+                p.Show(scene.Component);
+            else
+                _panel.SetMiddle(scene.Component);
+        }
+
+        public void LoadOutputScene()
         {
             OutputScene scene = new OutputScene(this);
             _panel.SetMiddle(scene.Component);
@@ -53,21 +62,20 @@ namespace Program
         private void InitializeComponents()
         {
             Project = new Project();
+            _projectList = new ProjectList(this, Project);
 
             MainMenu menu = new MainMenu(this);
             MainPanel panel = new MainPanel(this);
-            _newProjectScene = new NewProjectScene(this); 
 
             this.SuspendLayout();
 
             // Setup Controls
             panel.SetLeft(_projectList.Component);
-            panel.SetMiddle(_newProjectScene.Component);
 
             // Add controls
             this.Controls.Add(panel.Component);
             this.Controls.Add(menu.Component);
-            
+
             this.MainMenuStrip = menu.Component;
             this.Padding = new Padding(1);
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

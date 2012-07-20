@@ -17,21 +17,13 @@ namespace Program
 
         private Project _project;
 
-        public ProjectList(MainForm mainForm)
-        {
-            _project = new Project();
-            _mainForm = mainForm;
-            _tree = new TreeView();
-
-            Initialize();
-            DoSetup();
-        }
-
         public ProjectList(MainForm mainForm, Project project)
         {
             _project = project;
             _mainForm = mainForm;
             _tree = new TreeView();
+
+            _project.Update += new Project.UpdateHandler(_project_Update);
 
             Initialize();
             DoSetup();
@@ -46,8 +38,6 @@ namespace Program
         {
             _tree.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _tree.Dock = DockStyle.Fill;
-
-            _project.Update += new Project.UpdateHandler(_project_Update);
         }
 
         private void DoSetup()

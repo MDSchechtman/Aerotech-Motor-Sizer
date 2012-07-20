@@ -20,7 +20,6 @@ namespace Program
         private String _parameter1;
         private String _parameter2;
         private String _parameter3;
-        private String _timestep;
 
         private Label _label1;
         private Label _label2;
@@ -31,6 +30,8 @@ namespace Program
         private TextBox _textBox2;
         private TextBox _textBox3;
         private TextBox _textBox4;
+
+        public event EventHandler OnClose;
 
         public ParameterInputScene(MainForm mainForm)
         {
@@ -290,6 +291,9 @@ namespace Program
             _dictionary.Add("timeStep", value4);
 
             _mainForm.Project.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
+
+            if (this.OnClose != null)
+                this.OnClose(this, EventArgs.Empty);
         }
     }
 }

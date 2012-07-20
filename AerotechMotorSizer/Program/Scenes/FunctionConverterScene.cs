@@ -11,6 +11,8 @@ namespace Program
         private TableLayoutPanel _panel;
         private MainForm _mainForm;
 
+        public event EventHandler OnClose;
+
         public FunctionConverterScene(MainForm mainForm)
         {
             _mainForm = mainForm;
