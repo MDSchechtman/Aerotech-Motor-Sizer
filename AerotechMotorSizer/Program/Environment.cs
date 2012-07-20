@@ -5,7 +5,7 @@ using System.Text;
 
 using Interfaces;
 
-namespace Simulation
+namespace Program
 {
     public class Environment
     {

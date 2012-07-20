@@ -35,9 +35,14 @@ namespace Utility
         private double MotorThermalResistance_PercentDifference_0psi;
         private double MotorThermalResistance_PercentDifference_20psi;
 
-
         //constructor
-        public Motor(string Name, double ForceConstant, double MotorConstant, double BackEMFConstant, double Resistance, double PeakForce, double PeakCurrent, double ContinuousForce_0psi, double ContinuousForce_10psi, double ContinuousForce_20psi, double ContinuousForce_40psi, double ContinuousCurrent_0psi, double ContinuousCurrent_10psi, double ContinuousCurrent_20psi, double ContinuousCurrent_40psi, double CoilMass, double CoilLength, double ThermalResistance_100CTEMP_0psi, double ThermalResistance_100CTEMP_10psi, double ThermalResistance_100CTEMP_20psi, double ThermalResistance_100CTEMP_40psi, double ThermalResistance_Catalog_0psi, double ThermalResistance_Catalog_20psi, double ThermalResistance_PercentDifference_0psi, double ThermalResistance_PercentDifference_20psi)
+        public Motor(string Name, double ForceConstant, double MotorConstant, double BackEMFConstant, double Resistance, 
+                     double PeakForce, double PeakCurrent, double ContinuousForce_0psi, double ContinuousForce_10psi, 
+                     double ContinuousForce_20psi, double ContinuousForce_40psi, double ContinuousCurrent_0psi, 
+                     double ContinuousCurrent_10psi, double ContinuousCurrent_20psi, double ContinuousCurrent_40psi, 
+                     double CoilMass, double CoilLength, double ThermalResistance_100CTEMP_0psi, double ThermalResistance_100CTEMP_10psi, 
+                     double ThermalResistance_100CTEMP_20psi, double ThermalResistance_100CTEMP_40psi, double ThermalResistance_Catalog_0psi, 
+                     double ThermalResistance_Catalog_20psi, double ThermalResistance_PercentDifference_0psi, double ThermalResistance_PercentDifference_20psi)
         {
             MotorName = Name;
             MotorForceConstant = ForceConstant;
@@ -67,8 +72,83 @@ namespace Utility
         }
 
         //another constructor
-        public Motor()
+        public Motor(double Mass, double MaxTemp, double MomentOfInertia, double Resistance, double Inductance, double ThermalResistance, double KT)
         {
+            //////////
+            // TODO //
+            //////////
+        }
+
+        public double Mass
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public double MaxTemp
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public double MomentOfInertia
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public double Inductance
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public double ThermalResistance
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public double KT
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public string Name
@@ -220,9 +300,5 @@ namespace Utility
             get { return MotorThermalResistance_PercentDifference_20psi; }
             set { MotorThermalResistance_PercentDifference_20psi = ThermalResistance_PercentDifference_20psi; }
         }
-
-
-
-
     }
 }

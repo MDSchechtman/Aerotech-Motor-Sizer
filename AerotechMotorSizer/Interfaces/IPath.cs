@@ -11,5 +11,7 @@ namespace Interfaces
         double[] Velocity { get; }
         double[] Acceleration { get; }
         double[] Time { get; set; }
+
+        void FromConverter(IConverter converter);
     }
 }

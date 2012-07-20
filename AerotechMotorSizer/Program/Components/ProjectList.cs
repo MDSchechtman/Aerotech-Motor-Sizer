@@ -5,28 +5,89 @@ using System.Text;
 using System.Windows.Forms;
 
 using Interfaces;
-using Simulation;
 
 namespace Program
 {
     public class ProjectList
     {
-        private Form _mainForm;
+        private MainForm _mainForm;
         private TreeView _tree;
-        private TreeNode _root;
 
-        private Project _project;
+        private List<Project> _projects;
+        private Dictionary<string, TableLayoutPanel> _panels;
+        private Dictionary<string, TableLayoutPanel> _motorPanels;
 
-        public ProjectList(MainForm mainForm, Project project)
+        public ProjectList(MainForm mainForm)
         {
-            _project = project;
+            _projects = new List<Project>();
+            _panels = new Dictionary<string, TableLayoutPanel>();
+            _motorPanels = new Dictionary<string, TableLayoutPanel>();
+
+            Project project = new Project();
+            project.Name = "Project 1";
+            project.ParameterInput = new ParameterInputScene(_mainForm);
+            project.NewProject = new NewProjectScene(_mainForm);
+            project.Profile = new ProfileScene(_mainForm);
+            project.Profile.Name = "Profile 1";
+            project.Sequence = new SequenceScene(_mainForm);
+            project.Sequence.Name = "Sequence 1";
+            project.ChooseMotor = new ChooseMotorScene(_mainForm);
+
+            // Subscribe to update event
+            project.Update += new Project.UpdateHandler(project_Update);
+
+            _panels.Add(project.Name, project.NewProject.Component);
+            _panels.Add(project.Profile.Name, project.Profile.Component);
+            _panels.Add(project.Sequence.Name, project.Sequence.Component);
+
+            _motorPanels.Add(project.Profile.Name, project.ChooseMotor.Component);
+
+            _projects.Add(project);
             _mainForm = mainForm;
             _tree = new TreeView();
 
-            _project.Update += new Project.UpdateHandler(_project_Update);
+            Initialize();
+            DoSetup();
+        }
+
+        public ProjectList(MainForm mainForm, Project project)
+        {
+            _projects = new List<Project>();
+
+            // Subscribe to update event
+            project.Update += new Project.UpdateHandler(project_Update);
+
+            _projects.Add(project);
+            _mainForm = mainForm;
+            _tree = new TreeView();
 
             Initialize();
             DoSetup();
+        }
+
+        public void Add(Project project)
+        {
+            _projects.Add(project);
+            DoSetup();
+        }
+
+        public void Add(string name)
+        {
+            Project project = new Project();
+            project.Name = name;
+            _projects.Add(project);
+            DoSetup();
+        }
+
+        public Project Get(string name)
+        {
+            for (int i = 0; i < _projects.Count; i++)
+            {
+                if (_projects[i].Name.Equals(name))
+                    return _projects[i];
+            }
+
+            return null;
         }
 
         public TreeView Component
@@ -44,46 +105,68 @@ namespace Program
         {
             _tree.Nodes.Clear();
 
-            TreeNode motor = new TreeNode("Motor");
-            TreeNode input = new TreeNode("Input");
-            TreeNode output = new TreeNode("Output");
-
-            _root = new TreeNode(_project.Name);
-
-            _root.Nodes.Add(motor);
-            if (_project.Motor != null)
+            foreach (Project p in _projects)
             {
-                motor.Nodes.Add(_project.Motor.Inductance.ToString());
-                motor.Nodes.Add(_project.Motor.KT.ToString());
-                motor.Nodes.Add(_project.Motor.Mass.ToString());
-                motor.Nodes.Add(_project.Motor.MaxTemp.ToString());
-                motor.Nodes.Add(_project.Motor.MomentOfInertia.ToString());
-                motor.Nodes.Add(_project.Motor.Resistance.ToString());
-                motor.Nodes.Add(_project.Motor.ThermalResistance.ToString());
+                TreeNode root = new TreeNode(p.Name);
+
+                TreeNode motor = new TreeNode("Motor");
+                root.Nodes.Add(motor);
+                if (p.Motor != null)
+                {
+                    motor.Nodes.Add(p.Motor.Name.ToString());
+                    motor.Nodes.Add(p.Motor.Inductance.ToString());
+                    motor.Nodes.Add(p.Motor.KT.ToString());
+                    motor.Nodes.Add(p.Motor.Mass.ToString());
+                    motor.Nodes.Add(p.Motor.MaxTemp.ToString());
+                    motor.Nodes.Add(p.Motor.MomentOfInertia.ToString());
+                    motor.Nodes.Add(p.Motor.Resistance.ToString());
+                    motor.Nodes.Add(p.Motor.ThermalResistance.ToString());
+                }
+
+                TreeNode input = new TreeNode("Input");
+                root.Nodes.Add(input);
+                if (p.Converter != null)
+                {
+                    IConverter converter = p.Converter;
+                    if (converter.HasPosition)
+                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Position.Length));
+                    if (converter.HasVelocity)
+                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Velocity.Length));
+                    if (converter.HasAcceleration)
+                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Acceleration.Length));
+
+                    input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Time.Length));
+
+                }
+
+                TreeNode output = new TreeNode("Output");
+                root.Nodes.Add(output);
+
+                TreeNode profileNode = new TreeNode("Profile X");
+                TreeNode sequenceNode = new TreeNode("Sequence X");
+                sequenceNode.Nodes.Add(profileNode);
+                root.Nodes.Add(sequenceNode);
+
+                _tree.AfterSelect += new TreeViewEventHandler(_tree_AfterSelect);
+                _tree.Nodes.Add(root);
+                root.ExpandAll();
             }
-            _root.Nodes.Add(input);
-            if (_project.Converter != null)
-            {
-                IConverter converter = _project.Converter;
-                if (converter.HasPosition)
-                    input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Position.Length));
-                if (converter.HasVelocity)
-                    input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Velocity.Length));
-                if (converter.HasAcceleration)
-                    input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Acceleration.Length));
-
-                input.Nodes.Add(string.Format("Array: [{0}]", _project.Converter.Time.Length));
-
-            }
-            _root.Nodes.Add(output);
-
-            _tree.Nodes.Add(_root);
-            _root.ExpandAll();
         }
 
-        void _project_Update(object sender, EventArgs args)
+        void project_Update(object sender, EventArgs args)
         {
             DoSetup();
+        }
+
+        void _tree_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (_panels.Keys.Contains(e.Node.Text))
+                _mainForm.MainPanel.SetMiddle(_panels[e.Node.Text]);
+
+            if (_motorPanels.Keys.Contains(e.Node.Text))
+                _mainForm.MainPanel.SetRight(_motorPanels[e.Node.Text]);
+            else
+                _mainForm.MainPanel.SetRight(new TableLayoutPanel());
         }
     }
 }
