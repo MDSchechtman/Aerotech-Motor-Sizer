@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows.Forms;
 
 using Interfaces;
-using Simulation;
 
 namespace Program
 {

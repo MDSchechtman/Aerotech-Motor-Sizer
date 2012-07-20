@@ -17,6 +17,8 @@ namespace Utility
         private double MotorThermalResistance;
         private double MotorKT;
 
+        private string _name;
+
         //constructor
         public Motor(double Mass, double MaxTemp, double MomentOfInertia, double Resistance, double Inductance, double ThermalResistance, double KT)
         {
@@ -27,11 +29,25 @@ namespace Utility
             MotorInductance = Inductance;
             MotorThermalResistance = ThermalResistance;
             MotorKT = KT;
+
+            _name = "New Motor";
         }
 
         //another constructor
         public Motor()
         {
+        }
+
+        public String Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
         }
 
         //get and set the motor's mass

@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using System.Drawing;
 
 using Interfaces;
-using Simulation;
 
 namespace Program
 {

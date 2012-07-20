@@ -2,10 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+<<<<<<< HEAD
+=======
+using System.Diagnostics;
+>>>>>>> JohnGUI
 
 using Interfaces;
 using Utility;
 using Program;
+<<<<<<< HEAD
+using Simulation;
+=======
+>>>>>>> JohnGUI
 
 namespace Testing
 {
@@ -13,6 +21,7 @@ namespace Testing
     {
         public bool DoTest()
         {
+<<<<<<< HEAD
             Project p = new Project();
             p.Update += new Project.UpdateHandler(p_Update);
             p.Name = "New Name";
@@ -27,5 +36,13 @@ namespace Testing
             (sender as Project).Update -= p_Update;
             (sender as Project).Name = "Success";
         }
+=======
+            //Project TestProject = new Project();
+            //TestProject.Motor.Mass = 3.14;
+            //Console.WriteLine(TestProject.Motor.Mass);
+
+            return true;
+        }
+>>>>>>> JohnGUI
     }
 }

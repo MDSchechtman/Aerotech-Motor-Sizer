@@ -14,5 +14,7 @@ namespace Interfaces
         double Inductance { get; set; }
         double ThermalResistance { get; set; }
         double KT { get; set; }
+
+        string Name { get; set; }
     }
 }
