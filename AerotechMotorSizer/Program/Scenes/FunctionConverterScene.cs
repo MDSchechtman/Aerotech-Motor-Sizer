@@ -28,6 +28,7 @@ namespace Program
         private Button _ok;
         private ComboBox _box;
         private MainForm _mainForm;
+        public event EventHandler OnClose;
 
         public FunctionConverterScene(MainForm mainForm)
         {
