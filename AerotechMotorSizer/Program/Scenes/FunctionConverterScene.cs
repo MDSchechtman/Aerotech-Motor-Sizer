@@ -3,25 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-<<<<<<< HEAD
-=======
 using System.Drawing;
 
 using Interfaces;
 using Utility;
->>>>>>> function converter scene
 
 namespace Program
 {
     public class FunctionConverterScene
     {
         private TableLayoutPanel _panel;
-<<<<<<< HEAD
-        private MainForm _mainForm;
-
-        public event EventHandler OnClose;
-
-=======
         private TextBox _box1;
         private TextBox _box2;
         private TextBox _box3;
@@ -38,16 +29,12 @@ namespace Program
         private ComboBox _box;
         private MainForm _mainForm;
 
->>>>>>> function converter scene
         public FunctionConverterScene(MainForm mainForm)
         {
             _mainForm = mainForm;
             _panel = new TableLayoutPanel();
-<<<<<<< HEAD
-=======
 
             Initialize();
->>>>>>> function converter scene
         }
 
         public TableLayoutPanel Component
@@ -57,12 +44,6 @@ namespace Program
 
         private void Initialize()
         {
-<<<<<<< HEAD
-        }
-
-        private void DoSetup()
-        {
-=======
             _panel = new TableLayoutPanel();
             _panel.Dock = DockStyle.Fill;
             _panel.RowCount = 7;
@@ -204,7 +185,7 @@ namespace Program
 
             _panel.Controls.Add(boxTitle, 1, 1);
             _panel.Controls.Add(_box, 2, 1);
-            
+
             _panel.Controls.Add(boxTitle1, 0, 3);
             _panel.Controls.Add(_box1, 1, 3);
             _panel.Controls.Add(_box1step, 2, 3);
@@ -233,32 +214,19 @@ namespace Program
 
         private void _ok_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(_box1.Text.ToString()+ " " + Double.Parse(_box1step.Text) + " " + Double.Parse(_box1length.Text));
+            Console.WriteLine(_box1.Text.ToString() + " " + Double.Parse(_box1step.Text) + " " + Double.Parse(_box1length.Text));
             int type = 0;
-               if (string.Compare(_box.SelectedItem.ToString(), "Position vs. Time") == 0)
-                  type = 0;
-              else if (string.Compare(_box.SelectedItem.ToString(), "Velocity vs. Time") == 0)
-                  type = 1;
-             else if (string.Compare(_box.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
+            if (string.Compare(_box.SelectedItem.ToString(), "Position vs. Time") == 0)
+                type = 0;
+            else if (string.Compare(_box.SelectedItem.ToString(), "Velocity vs. Time") == 0)
+                type = 1;
+            else if (string.Compare(_box.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
                 type = 2;
-               Console.WriteLine(type);
-            //if (_fileName == null)
-              //  MessageBox.Show("No file selected!");
-           // else if (_box1.SelectedItem == null)
-            //    MessageBox.Show("No data type selected!");
-           // else
-           // {
-            //    int type = 0;
-             //   if (string.Compare(_box1.SelectedItem.ToString(), "Position vs. Time") == 0)
-              //      type = 0;
-              //  else if (string.Compare(_box1.SelectedItem.ToString(), "Velocity vs. Time") == 0)
-              //      type = 1;
-              // else if (string.Compare(_box1.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
-                //    type = 2;
 
-               // _mainForm.DoSolver(new Utility.Converters.FileConverter(_fileName, type));
-            
->>>>>>> function converter scene
+
+            //_mainForm.DoSolver(new Utility.Converters.FunctionConverter(_box1.Text.ToString(), Double.Parse(_box1length.Text), Double.Parse(_box1step.Text), type));
+            //_mainForm.DoSolver(new Utility.Converters.FunctionConverter(_box2.Text.ToString(), Double.Parse(_box2length.Text), Double.Parse(_box2step.Text), type));
+            //_mainForm.DoSolver(new Utility.Converters.FunctionConverter(_box3.Text.ToString(), Double.Parse(_box3length.Text), Double.Parse(_box3step.Text), type));
         }
     }
 }
