@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
-
+using System.Windows.Forms;
 
 namespace Utility
 {
@@ -16,6 +16,13 @@ namespace Utility
         private string dbfilename = @"C:\Users\John\Documents\Aerotech-Motor-Sizer\AerotechMotorSizer\motordb";
         public Database()
         {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "Please select a motor database:";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                dbfilename = dialog.FileName;
+            }
+
             string MotorName;
             double MotorForceConstant;
             double MotorMotorConstant;
