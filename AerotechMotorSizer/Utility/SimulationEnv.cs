@@ -9,17 +9,19 @@ namespace Utility
 {
     public class SimulationEnv
     {
-        private double EnvironmentFriction;
+        private double EnvironmentStaticFriction;
+        private double EnvironmentDynamicFriction;
         private double EnvironmentPreLoadForce;
         private double EnvironmentThrustForce;
         private double EnvironmentAmbientTemp;
         private double EnvironmentMechEfficiency;
-        private double EnvironmentCooling;
+        private string EnvironmentCooling;
 
         //constructor
-        public SimulationEnv(double Friction, double PreLoadForce, double ThrustForce, double AmbientTemp, double MechEfficiency, double Cooling)
+        public SimulationEnv(double StaticFriction, double DynamicFriction, double PreLoadForce, double ThrustForce, double AmbientTemp, double MechEfficiency, string Cooling)
         {
-            EnvironmentFriction = Friction;
+            EnvironmentStaticFriction = StaticFriction;
+            EnvironmentDynamicFriction = DynamicFriction;
             EnvironmentPreLoadForce = PreLoadForce;
             EnvironmentThrustForce = ThrustForce;
             EnvironmentAmbientTemp = AmbientTemp;
@@ -32,16 +34,29 @@ namespace Utility
         {
         }
 
-        //get and set the environment friction
-        public double Friction
+        //get and set the environment static friction
+        public double StaticFriction
         {
             get
             {
-                return EnvironmentFriction;
+                return EnvironmentStaticFriction;
             }
             set
             {
-                EnvironmentFriction = value;
+                EnvironmentStaticFriction = value;
+            }
+        }
+
+        //get and set the environment dynamic friction
+        public double DynamicFriction
+        {
+            get
+            {
+                return EnvironmentDynamicFriction;
+            }
+            set
+            {
+                EnvironmentDynamicFriction = value;
             }
         }
 
@@ -98,7 +113,7 @@ namespace Utility
         }
 
         //get and set the environment cooling
-        public double Cooling
+        public string Cooling
         {
             get
             {

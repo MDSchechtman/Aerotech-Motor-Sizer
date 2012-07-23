@@ -138,11 +138,13 @@ namespace Utility.Converters
             double maxAcceleration = maxVelocity / _accelerationTime;
             double maxDeceleration = -1 * maxAcceleration;
 
-            int timeSteps = (int) Math.Ceiling((totalTime + _dwellTime) / _timeStep);
+            int timeSteps = (int) Math.Ceiling((totalTime + _dwellTime) / _timeStep) + 1;
             int stopAccel = (int) Math.Round(_accelerationTime / _timeStep);
             int startDecel = (int) Math.Round(accelAndTraverseTime / _timeStep);
 
             _time = new double[timeSteps];
+            _position = new double[timeSteps];
+            _velocity = new double[timeSteps];
             _acceleration = new double[timeSteps];
 
             for (int i = 0; i < stopAccel; i++)
@@ -162,6 +164,27 @@ namespace Utility.Converters
                 _acceleration[i] = maxDeceleration;
                 _time[i] = i * _timeStep;
             }
+
+            for (int i = 1; i < timeSteps; i++)
+            {
+                _velocity[i] = (_time[i] - _time[i - 1]) * _acceleration[i] + _velocity[i - 1];
+                _position[i] = (_time[i] - _time[i - 1]) * _velocity[i] + _position[i - 1];
+            }
+        }
+
+        private void distanceOfTravel_accelerationTime_traverseTime_converter(double[] values)
+        {
+            if (values.Length != 3)
+                throw new Exception("Invalid number of values (three required).");
+
+            double distanceOfTravel = values[0];
+            double accelerationTime = values[1];
+            double traverseTime = values[2];
+
+            _distanceOfTravel = distanceOfTravel;
+            _accelerationTime = accelerationTime;
+            _traverseTime = traverseTime;
+            _decelerationTime = _accelerationTime;
         }
 
         private void distanceOfTravel_totalTime_percentage_converter(double[] values) 

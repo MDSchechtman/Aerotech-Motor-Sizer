@@ -70,6 +70,7 @@ namespace Program
 
             // Setup Controls
             panel.SetLeft(_projectList.Component);
+            panel.SetRight(Project.ChooseMotor.Component);
 
             // Add controls
             this.Controls.Add(panel.Component);

@@ -13,7 +13,7 @@ namespace Utility
     {
         private List<Motor> Motors;
         private List<Motor> SearchedMotors;
-        private string dbfilename = @"C:\Users\Nathan\Documents\GitHub\Aerotech-Motor-Sizer\AerotechMotorSizer\motordb";
+        private string dbfilename = @"C:\Users\John\Documents\Aerotech-Motor-Sizer\AerotechMotorSizer\motordb";
         public Database()
         {
             string MotorName;
@@ -43,6 +43,7 @@ namespace Utility
             double MotorThermalResistance_PercentDifference_20psi;
             Motor temp;
             SearchedMotors = new List<Motor>();
+            Motors = new List<Motor>();
             const string sql = "select * from Motors;";
             var conn = new SQLiteConnection("Data Source=" + dbfilename + ";Version=3;");
                 conn.Open();
@@ -78,6 +79,7 @@ namespace Utility
                     MotorThermalResistance_PercentDifference_20psi = Convert.ToDouble(ds.Tables[0].Rows[i]["ThermalResistance_PercentDifference_20psi"].ToString());
                     temp = new Motor(MotorName, MotorForceConstant, MotorMotorConstant, MotorBackEMFConstant, MotorResistance, MotorPeakForce, MotorPeakCurrent, MotorContinuousForce_0psi, MotorContinuousForce_10psi, MotorContinuousForce_20psi, MotorContinuousForce_40psi, MotorContinuousCurrent_0psi, MotorContinuousCurrent_10psi, MotorContinuousCurrent_20psi, MotorContinuousCurrent_40psi, MotorCoilMass, MotorCoilLength, MotorThermalResistance_100CTEMP_0psi, MotorThermalResistance_100CTEMP_10psi, MotorThermalResistance_100CTEMP_20psi, MotorThermalResistance_100CTEMP_40psi, MotorThermalResistance_Catalog_0psi, MotorThermalResistance_Catalog_20psi, MotorThermalResistance_PercentDifference_0psi, MotorThermalResistance_PercentDifference_20psi);
                     SearchedMotors.Add(temp);
+                    Motors.Add(temp);
                 }
         }
         public List<Motor> Get(String[,] MotorProperties)
