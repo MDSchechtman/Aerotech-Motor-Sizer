@@ -62,9 +62,14 @@ namespace Program
         private ComboBox _movingMassUnits;
         private ComboBox _totalStageMassUnits;
 
+        Project _project;
+        List<Motor> _motors;
+        Motor _selectedMotor;
+
         public ChooseMotorScene(MainForm mainForm)
         {
             _mainForm = mainForm;
+            _project = mainForm.Project;
             _panel = new TableLayoutPanel();
 
             Initialize();
@@ -73,6 +78,30 @@ namespace Program
         public string Name
         {
             get { return _motorUnits.SelectedText; }
+        }
+
+        public Motor Motor
+        {
+            get { return _selectedMotor; }
+            set
+            {
+                int i;
+                for (i = 0; i < _motors.Count; i++)
+                {
+                    if (_motors[i].Name.Equals(value.Name))
+                        break;
+                }
+
+                _motorUnits.SelectedIndex = i;
+            }
+        }
+
+        public List<Motor> Motors
+        {
+            get
+            {
+                return new List<Motor>(_motors);
+            }
         }
 
         public TableLayoutPanel Component
@@ -106,6 +135,7 @@ namespace Program
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1.0F / 3.0F));
 
             _unitLists = new Dictionary<string, string[]>();
+            _unitLists.Add("none", new string[] { });
             _unitLists.Add("length", new string[] { "m", "mm", "cm", "in", "ft" });
             _unitLists.Add("mass", new string[] { "kg", "g", "lb" });
             _unitLists.Add("time", new string[] { "s", "ms", "min" });
@@ -133,50 +163,39 @@ namespace Program
             _movingMassLabel = addLabel("Moving Mass");
             _totalStageMassLabel = addLabel("Total Stage Mass");
 
-            _stage = new TextBox();
-            _motor = new TextBox();
-            _peakForce = new TextBox();
-            _continuousForce = new TextBox();
-            _forceConstant = new TextBox();
-            _motorConstant = new TextBox();
-            _backEMF = new TextBox();
-            _hotCoilResistance = new TextBox();
-            _thermalResistance = new TextBox();
-            _coilMass = new TextBox();
-            _coilLength = new TextBox();
-            _movingMass = new TextBox();
-            _totalStageMass = new TextBox();
+            _stage = addTextBox(true);
+            _motor = addTextBox(true);
+            _peakForce = addTextBox(true);
+            _continuousForce = addTextBox(true);
+            _forceConstant = addTextBox(true);
+            _motorConstant = addTextBox(true);
+            _backEMF = addTextBox(true);
+            _hotCoilResistance = addTextBox(true);
+            _thermalResistance = addTextBox(true);
+            _coilMass = addTextBox(true);
+            _coilLength = addTextBox(true);
+            _movingMass = addTextBox(true);
+            _totalStageMass = addTextBox(true);
 
-            _stage.Dock = DockStyle.Fill;
-            _motor.Dock = DockStyle.Fill;
-            _peakForce.Dock = DockStyle.Fill;
-            _continuousForce.Dock = DockStyle.Fill;
-            _forceConstant.Dock = DockStyle.Fill;
-            _motorConstant.Dock = DockStyle.Fill;
-            _backEMF.Dock = DockStyle.Fill;
-            _hotCoilResistance.Dock = DockStyle.Fill;
-            _thermalResistance.Dock = DockStyle.Fill;
-            _coilMass.Dock = DockStyle.Fill;
-            _coilLength.Dock = DockStyle.Fill;
-            _movingMass.Dock = DockStyle.Fill;
-            _totalStageMass.Dock = DockStyle.Fill;
+            _stageUnits = fillComboBox("none", 0);
+            //_motorUnits = fillComboBox("none", 0);
 
-            _stage.Enabled = false;
-            _motor.Enabled = false;
-            _peakForce.Enabled = false;
-            _continuousForce.Enabled = false;
-            _forceConstant.Enabled = false;
-            _motorConstant.Enabled = false;
-            _backEMF.Enabled = false;
-            _hotCoilResistance.Enabled = false;
-            _thermalResistance.Enabled = false;
-            _coilMass.Enabled = false;
-            _coilLength.Enabled = false;
-            _movingMass.Enabled = false;
-            _totalStageMass.Enabled = false;
+            _motorUnits = new ComboBox();
+            _motorUnits.Width = 2000;
+            _motorUnits.Dock = DockStyle.Right;
+            _motorUnits.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            _motorUnits.DropDownStyle = ComboBoxStyle.DropDownList;
+            _motorUnits.SelectedIndexChanged += new EventHandler(_motorUnits_SelectedIndexChanged);
 
-            _stageUnits = fillComboBox("force", 0);
-            _motorUnits = fillComboBox("force", 0);
+            Database db = new Database();
+
+            _motors = db.motors;
+
+            for (int i = 0; i < _motors.Count; i++)
+                _motorUnits.Items.Add(string.Format(_motors[i].Name));
+
+            _motorUnits.SelectedItem = _motorUnits.Items[0];
+
             _peakForceUnits = fillComboBox("force", 0);
             _continuousForceUnits = fillComboBox("force", 0);
             _forceConstantUnits = fillComboBox("force constant", 0);
@@ -237,6 +256,26 @@ namespace Program
             _panel.Controls.Add(_totalStageMassUnits, 2, 12);
         }
 
+        void _motorUnits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedMotor = _motors[(sender as ComboBox).SelectedIndex];
+            _project.Motor = _selectedMotor;
+
+            _peakForce.Text = _motors[(sender as ComboBox).SelectedIndex].PeakForce.ToString();
+            _continuousForce.Text = _motors[(sender as ComboBox).SelectedIndex].ContinuousForce_0psi.ToString();
+            _forceConstant.Text = _motors[(sender as ComboBox).SelectedIndex].ForceConstant.ToString();
+            _motorConstant.Text = _motors[(sender as ComboBox).SelectedIndex].MotorConstant.ToString();
+            _backEMF.Text = _motors[(sender as ComboBox).SelectedIndex].BackEMFConstant.ToString();
+            _hotCoilResistance.Text = _motors[(sender as ComboBox).SelectedIndex].Resistance.ToString();
+            _thermalResistance.Text = _motors[(sender as ComboBox).SelectedIndex].ThermalResistance_100CTEMP_0psi.ToString();
+            _coilMass.Text = _motors[(sender as ComboBox).SelectedIndex].CoilMass.ToString();
+            _coilLength.Text = _motors[(sender as ComboBox).SelectedIndex].CoilLength.ToString();
+            _movingMass.Text = "0";
+            _totalStageMass.Text = "0";
+
+            _project.Profile.Solve();
+        }
+
         private ComboBox fillComboBox(string units, int selectedItem)
         {
             ComboBox box = new ComboBox();
@@ -247,7 +286,8 @@ namespace Program
             box.Dock = DockStyle.Right;
             box.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             box.DropDownStyle = ComboBoxStyle.DropDownList;
-            box.SelectedItem = box.Items[selectedItem];
+            if (unitList.Length > 0)
+                box.SelectedItem = box.Items[selectedItem];
 
             return box;
         }
@@ -264,6 +304,16 @@ namespace Program
             myLabel.Margin = new Padding(0, 0, 0, 0);
 
             return myLabel;
+        }
+
+        private TextBox addTextBox(bool readOnly)
+        {
+            TextBox box = new TextBox();
+            box.Dock = DockStyle.Fill;
+            box.ReadOnly = readOnly;
+            box.TextAlign = HorizontalAlignment.Right;
+
+            return box;
         }
     }
 }

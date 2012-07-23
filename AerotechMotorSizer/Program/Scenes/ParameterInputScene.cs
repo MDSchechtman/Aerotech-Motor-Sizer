@@ -33,9 +33,12 @@ namespace Program
 
         public event EventHandler OnClose;
 
+        private Project _project;
+
         public ParameterInputScene(MainForm mainForm)
         {
             _mainForm = mainForm;
+            _project = mainForm.Project;
             _dictionary = new Dictionary<string, double>();
 
             Initialize();
@@ -45,6 +48,12 @@ namespace Program
         public TableLayoutPanel Component
         {
             get { return _panel; }
+        }
+
+        public Project Project
+        {
+            get { return _project; }
+            set { _project = value; }
         }
 
         private void Initialize()
@@ -170,6 +179,7 @@ namespace Program
             _view.Items.Add(new ListViewItem("Peak Acceleration, Max Velocity, Scan Distance", 8));
             _view.Items.Add(new ListViewItem("Total Travel, Max Velocity, Scan Distance", 9));
             _view.Items.Add(new ListViewItem("Total Time, Max Velocity, Scan Distance", 10));
+            _view.Items.Add(new ListViewItem("Distance Of Travel, Acceleration Time, Traverse Time", 11));
 
             _view.Click += new EventHandler(_view_Click);
         }
@@ -252,6 +262,11 @@ namespace Program
                     _parameter2 = string.Format("maxVelocity");
                     _parameter3 = string.Format("scanDistance");
                     break;
+                case 11: // totalTime maxVelocity scanDistance 
+                    _parameter1 = string.Format("distanceOfTravel");
+                    _parameter2 = string.Format("accelerationTime");
+                    _parameter3 = string.Format("traverseTime");
+                    break;
             }
         }
 
@@ -285,6 +300,7 @@ namespace Program
                 return;
             }
 
+            _dictionary = new Dictionary<string, double>();
             _dictionary.Add(_parameter1, value1);
             _dictionary.Add(_parameter2, value2);
             _dictionary.Add(_parameter3, value3);
@@ -292,8 +308,20 @@ namespace Program
 
             _mainForm.Project.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
 
+            IPath Q = new Path(new Utility.Converters.ParameterSetConverter(_dictionary));
+            _project.Axis1 = new Axis(Q);
+            _project.Axis1.AngleOfInclination = 0;
+
+            (sender as Button).Enabled = true;
+
             if (this.OnClose != null)
                 this.OnClose(this, EventArgs.Empty);
+
+            _mainForm.MainPanel.SetMiddle(_project.Profile.Component);
+
+            _mainForm.MainPanel.SetRight(_project.ChooseMotor.Component);
+
+            _project.Profile.Solve();
         }
     }
 }

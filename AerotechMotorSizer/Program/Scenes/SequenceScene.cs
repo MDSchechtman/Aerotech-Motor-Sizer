@@ -33,6 +33,7 @@ namespace Program
         private Label _totalSeqTimeLabel;
         private Label _maxLinearSpeedLabel;
         private Label _peakAccelerationLabel;
+        private Label _peakForceLabel;
         private Label _totalRMSForceLabel;
         private Label _peakCurrentLabel;
         private Label _continuousCurrentLabel;
@@ -50,6 +51,7 @@ namespace Program
         private TextBox _totalSeqTime;
         private TextBox _maxLinearSpeed;
         private TextBox _peakAcceleration;
+        private TextBox _peakForce;
         private TextBox _totalRMSForce;
         private TextBox _peakCurrent;
         private TextBox _continuousCurrent;
@@ -68,6 +70,7 @@ namespace Program
         private ComboBox _totalSeqTimeUnits;
         private ComboBox _maxLinearSpeedUnits;
         private ComboBox _peakAccelerationUnits;
+        private ComboBox _peakForceUnits;
         private ComboBox _totalRMSForceUnits;
 
         private Label _peakCurrentUnits;
@@ -76,10 +79,13 @@ namespace Program
 
         private ComboBox _finalCoilTemperatureUnits;
 
+        private Project _project;
+
         public SequenceScene(MainForm mainForm)
         {
             _mainForm = mainForm;
             _panel = new TableLayoutPanel();
+            _project = mainForm.Project;
 
             Initialize();
         }
@@ -162,66 +168,47 @@ namespace Program
             _totalSeqTimeLabel = addLabel("Total Seq. Time");
             _maxLinearSpeedLabel = addLabel("Max Linear Speed");
             _peakAccelerationLabel = addLabel("Peak Acceleration");
-            _totalRMSForceLabel = addLabel("Total RMS Force");
+            _peakForceLabel = addLabel("Peak Force");
+            _totalRMSForceLabel = addLabel("RMS Force");
             _peakCurrentLabel = addLabel("Peak Current");
-            _continuousCurrentLabel = addLabel("Continuous Current");
+            _continuousCurrentLabel = addLabel("RMS Current");
             _minBusVoltageLabel = addLabel("Min Bus Voltage");
             _finalCoilTemperatureLabel = addLabel("Final Coil Temp.");
             _commentsLabel = addLabel("Comments");
 
 
 
-            _sequenceName = new TextBox();
-            _maxStaticFriction = new TextBox();
-            _dynamicFriction = new TextBox();
-            _ambientTemperature = new TextBox();
-            _mechanicalEfficiency = new TextBox();
-            _stackedMass = new TextBox();
+            _sequenceName = addTextBox(false);
+            _maxStaticFriction = addTextBox(false);
+            _dynamicFriction = addTextBox(false);
+            _ambientTemperature = addTextBox(false);
+            _mechanicalEfficiency = addTextBox(false);
+            _stackedMass = addTextBox(true);
 
-            _totalSeqTime = new TextBox();
-            _maxLinearSpeed = new TextBox();
-            _peakAcceleration = new TextBox();
-            _totalRMSForce = new TextBox();
-            _peakCurrent = new TextBox();
-            _continuousCurrent = new TextBox();
-            _minBusVoltage = new TextBox();
-            _finalCoilTemperature = new TextBox();
-            _comments = new TextBox();
+            _totalSeqTime = addTextBox(true);
+            _maxLinearSpeed = addTextBox(true);
+            _peakAcceleration = addTextBox(true);
+            _peakForce = addTextBox(true);
+            _totalRMSForce = addTextBox(true);
+            _peakCurrent = addTextBox(true);
+            _continuousCurrent = addTextBox(true);
+            _minBusVoltage = addTextBox(true);
+            _finalCoilTemperature = addTextBox(true);
+            _comments = addTextBox(false);
             _comments.Multiline = true;
 
-            _sequenceName.Dock = DockStyle.Fill;
+            _sequenceName.TextAlign = HorizontalAlignment.Left;
+            _sequenceName.Name = "_sequenceName";
+            _maxStaticFriction.Name = "_maxStaticFriction";
+            _dynamicFriction.Name = "_dynamicFriction";
+            _ambientTemperature.Name = "_ambientTemperature";
+            _mechanicalEfficiency.Name = "_mechanicalEfficiency";
+
             _sequenceName.Text = "Sequence 1";
-            _maxStaticFriction.Dock = DockStyle.Fill;
-            _dynamicFriction.Dock = DockStyle.Fill;
-            _ambientTemperature.Dock = DockStyle.Fill;
-            _mechanicalEfficiency.Dock = DockStyle.Fill;
-            _stackedMass.Dock = DockStyle.Fill;
-
-            _totalSeqTime.Dock = DockStyle.Fill;
-            _maxLinearSpeed.Dock = DockStyle.Fill;
-            _peakAcceleration.Dock = DockStyle.Fill;
-            _totalRMSForce.Dock = DockStyle.Fill;
-            _peakCurrent.Dock = DockStyle.Fill;
-            _continuousCurrent.Dock = DockStyle.Fill;
-            _minBusVoltage.Dock = DockStyle.Fill;
-            _finalCoilTemperature.Dock = DockStyle.Fill;
-            _comments.Dock = DockStyle.Fill;
-
-            _maxStaticFriction.Enabled = true;
-            _dynamicFriction.Enabled = true;
-            _ambientTemperature.Enabled = true;
-            _mechanicalEfficiency.Enabled = true;
-            _stackedMass.Enabled = false;
-
-            _totalSeqTime.Enabled = false;
-            _maxLinearSpeed.Enabled = false;
-            _peakAcceleration.Enabled = false;
-            _totalRMSForce.Enabled = false;
-            _peakCurrent.Enabled = false;
-            _continuousCurrent.Enabled = false;
-            _minBusVoltage.Enabled = false;
-            _finalCoilTemperature.Enabled = false;
-            _comments.Enabled = true;
+            _maxStaticFriction.Text = "0";
+            _dynamicFriction.Text = "0";
+            _ambientTemperature.Text = "20";
+            _mechanicalEfficiency.Text = "95";
 
             _maxStaticFrictionUnits = fillComboBox("force", 0);
             _dynamicFrictionUnits = fillComboBox("friction", 0);
@@ -234,6 +221,7 @@ namespace Program
             _totalSeqTimeUnits = fillComboBox("time", 1);
             _maxLinearSpeedUnits = fillComboBox("velocity", 0);
             _peakAccelerationUnits = fillComboBox("acceleration", 0);
+            _peakForceUnits = fillComboBox("force", 0);
             _totalRMSForceUnits = fillComboBox("force", 0);
 
             _peakCurrentUnits = addLabel("A");
@@ -260,10 +248,11 @@ namespace Program
             _panel.Controls.Add(_totalSeqTimeLabel, 3, 3);
             _panel.Controls.Add(_maxLinearSpeedLabel, 3, 4);
             _panel.Controls.Add(_peakAccelerationLabel, 3, 5);
-            _panel.Controls.Add(_totalRMSForceLabel, 3, 6);
-            _panel.Controls.Add(_peakCurrentLabel, 3, 7);
-            _panel.Controls.Add(_continuousCurrentLabel, 3, 8);
-            _panel.Controls.Add(_minBusVoltageLabel, 3, 9);
+            _panel.Controls.Add(_peakForceLabel, 3, 6);
+            _panel.Controls.Add(_totalRMSForceLabel, 3, 7);
+            _panel.Controls.Add(_peakCurrentLabel, 3, 8);
+            _panel.Controls.Add(_continuousCurrentLabel, 3, 9);
+            //_panel.Controls.Add(_minBusVoltageLabel, 3, 9);
             _panel.Controls.Add(_finalCoilTemperatureLabel, 3, 10);
 
             _panel.Controls.Add(_sequenceName, 2, 0);
@@ -284,10 +273,11 @@ namespace Program
             _panel.Controls.Add(_totalSeqTime, 4, 3);
             _panel.Controls.Add(_maxLinearSpeed, 4, 4);
             _panel.Controls.Add(_peakAcceleration, 4, 5);
-            _panel.Controls.Add(_totalRMSForce, 4, 6);
-            _panel.Controls.Add(_peakCurrent, 4, 7);
-            _panel.Controls.Add(_continuousCurrent, 4, 8);
-            _panel.Controls.Add(_minBusVoltage, 4, 9);
+            _panel.Controls.Add(_peakForce, 4, 6);
+            _panel.Controls.Add(_totalRMSForce, 4, 7);
+            _panel.Controls.Add(_peakCurrent, 4, 8);
+            _panel.Controls.Add(_continuousCurrent, 4, 9);
+            //_panel.Controls.Add(_minBusVoltage, 4, 9);
             _panel.Controls.Add(_finalCoilTemperature, 4, 10);
 
             _panel.Controls.Add(_maxStaticFrictionUnits, 2, 3);
@@ -299,11 +289,62 @@ namespace Program
             _panel.Controls.Add(_totalSeqTimeUnits, 5, 3);
             _panel.Controls.Add(_maxLinearSpeedUnits, 5, 4);
             _panel.Controls.Add(_peakAccelerationUnits, 5, 5);
-            _panel.Controls.Add(_totalRMSForceUnits, 5, 6);
-            _panel.Controls.Add(_peakCurrentUnits, 5, 7);
-            _panel.Controls.Add(_continuousCurrentUnits, 5, 8);
-            _panel.Controls.Add(_minBusVoltageUnits, 5, 9);
+            _panel.Controls.Add(_peakForceUnits, 5, 6);
+            _panel.Controls.Add(_totalRMSForceUnits, 5, 7);
+            _panel.Controls.Add(_peakCurrentUnits, 5, 8);
+            _panel.Controls.Add(_continuousCurrentUnits, 5, 9);
+            //_panel.Controls.Add(_minBusVoltageUnits, 5, 9);
             _panel.Controls.Add(_finalCoilTemperatureUnits, 5, 10);
+        }
+
+        public void UpdateSolution()
+        {
+            _totalSeqTime.Text = _project.Axis1.Record.Time.Max().ToString("0.####");
+            _maxLinearSpeed.Text = _project.Axis1.Record.Velocity.Max().ToString("0.####");
+            _peakAcceleration.Text = _project.Axis1.Record.Acceleration.Max().ToString("0.####");
+
+            _peakForce.Text = _project.Axis1.Record.MAXforce.ToString("0.####");
+            _totalRMSForce.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
+            _peakCurrent.Text = _project.Axis1.Record.MAXcurrent.ToString("0.####");
+            _continuousCurrent.Text = _project.Axis1.Record.RMScurrent.ToString("0.####");
+            _finalCoilTemperature.Text = (_project.Environment.AmbientTemp + _project.Axis1.Record.TemperatureRise).ToString("0.####");
+
+            //_totalRMSForceForEntireSequence.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
+        }
+
+        void _TextChanged(object sender, EventArgs e)
+        {
+            string name = (sender as TextBox).Name;
+            string text = (sender as TextBox).Text;
+            double value;
+            if (Double.TryParse(text, out value))
+            {
+                if (name.Equals("_sequenceName")){}
+                    
+                else if (name.Equals("_maxStaticFriction"))
+                    _project.Environment.StaticFriction = value;
+                else if (name.Equals("_dynamicFriction"))
+                    _project.Environment.DynamicFriction = value;
+                else if (name.Equals("_ambientTemperature"))
+                    _project.Environment.AmbientTemp = value;
+                else if (name.Equals("_mechanicalEfficiency"))
+                    _project.Environment.MechEfficiency = value;
+
+                _project.Profile.UpdateEnvironment();
+            }
+            else
+            {
+                if (name.Equals("_sequenceName")) { }
+
+                else if (name.Equals("_maxStaticFriction"))
+                    (sender as TextBox).Text = _project.Environment.StaticFriction.ToString();
+                else if (name.Equals("_dynamicFriction"))
+                    (sender as TextBox).Text = _project.Environment.DynamicFriction.ToString();
+                else if (name.Equals("_ambientTemperature"))
+                    (sender as TextBox).Text = _project.Environment.AmbientTemp.ToString();
+                else if (name.Equals("_mechanicalEfficiency"))
+                    (sender as TextBox).Text = _project.Environment.MechEfficiency.ToString();
+            }
         }
 
         private ComboBox fillComboBox(string units, int selectedItem)
@@ -333,6 +374,17 @@ namespace Program
             myLabel.Margin = new Padding(0, 0, 0, 0);
 
             return myLabel;
+        }
+
+        private TextBox addTextBox(bool readOnly)
+        {
+            TextBox box = new TextBox();
+            box.Dock = DockStyle.Fill;
+            box.ReadOnly = readOnly;
+            box.TextAlign = HorizontalAlignment.Right;
+            box.Leave += new EventHandler(_TextChanged);
+
+            return box;
         }
     }
 }

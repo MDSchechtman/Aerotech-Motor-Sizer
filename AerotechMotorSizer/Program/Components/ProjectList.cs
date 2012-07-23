@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Interfaces;
+using Utility;
 
 namespace Program
 {
@@ -13,81 +14,95 @@ namespace Program
         private MainForm _mainForm;
         private TreeView _tree;
 
-        private List<Project> _projects;
+        private Project _project;
         private Dictionary<string, TableLayoutPanel> _panels;
         private Dictionary<string, TableLayoutPanel> _motorPanels;
 
         public ProjectList(MainForm mainForm)
         {
-            _projects = new List<Project>();
+            _mainForm = mainForm;
+            //_project = mainForm.Project;
+
             _panels = new Dictionary<string, TableLayoutPanel>();
             _motorPanels = new Dictionary<string, TableLayoutPanel>();
 
-            Project project = new Project();
-            project.Name = "Project 1";
-            project.ParameterInput = new ParameterInputScene(_mainForm);
-            project.NewProject = new NewProjectScene(_mainForm);
-            project.Profile = new ProfileScene(_mainForm);
-            project.Profile.Name = "Profile 1";
-            project.Sequence = new SequenceScene(_mainForm);
-            project.Sequence.Name = "Sequence 1";
-            project.ChooseMotor = new ChooseMotorScene(_mainForm);
+            _project = new Project();
+            _project.Name = "Project 1";
 
-            // Subscribe to update event
-            project.Update += new Project.UpdateHandler(project_Update);
+            _mainForm.Project = _project;
 
-            _panels.Add(project.Name, project.NewProject.Component);
-            _panels.Add(project.Profile.Name, project.Profile.Component);
-            _panels.Add(project.Sequence.Name, project.Sequence.Component);
+            _project.ParameterInput = new ParameterInputScene(_mainForm);
+            _project.FileConverter = new FileConverterScene(_mainForm);
+            _project.FunctionConverter = new FunctionConverterScene(_mainForm);
+            _project.NewProject = new NewProjectScene(_mainForm);
+            _project.Profile = new ProfileScene(_mainForm);
+            _project.Profile.Name = "Profile 1";
+            _project.Sequence = new SequenceScene(_mainForm);
+            _project.Sequence.Name = "Sequence 1";
+            _project.ChooseMotor = new ChooseMotorScene(_mainForm);
 
-            _motorPanels.Add(project.Profile.Name, project.ChooseMotor.Component);
+            _panels.Add(_project.Name, _project.NewProject.Component);
+            _panels.Add(_project.Profile.Name, _project.Profile.Component);
+            _panels.Add(_project.Sequence.Name, _project.Sequence.Component);
 
-            _projects.Add(project);
-            _mainForm = mainForm;
+            _motorPanels.Add(_project.Profile.Name, _project.ChooseMotor.Component);
+
             _tree = new TreeView();
 
             Initialize();
             DoSetup();
+        }
+
+        public Project Project
+        {
+            get { return _project; }
+            set
+            {
+                _project = value;
+                DoSetup();
+            }
         }
 
         public ProjectList(MainForm mainForm, Project project)
         {
-            _projects = new List<Project>();
+            _mainForm = mainForm;
+            _project = project;
+            _project.Name = "Project 1";
+
+            _project.Environment = new SimulationEnv();
+            _project.Environment.StaticFriction = 0;
+            _project.Environment.DynamicFriction = 0;
+            _project.Environment.AmbientTemp = 20;
+            _project.Environment.MechEfficiency = 95;
+            _project.Environment.ThrustForce = 0;
+            _project.Environment.Cooling = "No Cooling";
+
+            _panels = new Dictionary<string, TableLayoutPanel>();
+            _motorPanels = new Dictionary<string, TableLayoutPanel>();
+
+            _project.ParameterInput = new ParameterInputScene(_mainForm);
+            _project.FileConverter = new FileConverterScene(_mainForm);
+            _project.FunctionConverter = new FunctionConverterScene(_mainForm);
+            _project.NewProject = new NewProjectScene(_mainForm);
+            _project.Profile = new ProfileScene(_mainForm);
+            _project.Profile.Name = "Profile 1";
+            _project.Sequence = new SequenceScene(_mainForm);
+            _project.Sequence.Name = "Sequence 1";
+            _project.ChooseMotor = new ChooseMotorScene(_mainForm);
+
+            _panels.Add(_project.Name, _project.NewProject.Component);
+            _panels.Add(_project.Profile.Name, _project.Profile.Component);
+            _panels.Add(_project.Sequence.Name, _project.Sequence.Component);
+
+            _motorPanels.Add(_project.Profile.Name, _project.ChooseMotor.Component);
 
             // Subscribe to update event
             project.Update += new Project.UpdateHandler(project_Update);
 
-            _projects.Add(project);
-            _mainForm = mainForm;
             _tree = new TreeView();
 
             Initialize();
             DoSetup();
-        }
-
-        public void Add(Project project)
-        {
-            _projects.Add(project);
-            DoSetup();
-        }
-
-        public void Add(string name)
-        {
-            Project project = new Project();
-            project.Name = name;
-            _projects.Add(project);
-            DoSetup();
-        }
-
-        public Project Get(string name)
-        {
-            for (int i = 0; i < _projects.Count; i++)
-            {
-                if (_projects[i].Name.Equals(name))
-                    return _projects[i];
-            }
-
-            return null;
         }
 
         public TreeView Component
@@ -105,52 +120,16 @@ namespace Program
         {
             _tree.Nodes.Clear();
 
-            foreach (Project p in _projects)
-            {
-                TreeNode root = new TreeNode(p.Name);
+            TreeNode root = new TreeNode(_project.Name);
 
-                TreeNode motor = new TreeNode("Motor");
-                root.Nodes.Add(motor);
-                if (p.Motor != null)
-                {
-                    motor.Nodes.Add(p.Motor.Name.ToString());
-                    motor.Nodes.Add(p.Motor.Inductance.ToString());
-                    motor.Nodes.Add(p.Motor.KT.ToString());
-                    motor.Nodes.Add(p.Motor.Mass.ToString());
-                    motor.Nodes.Add(p.Motor.MaxTemp.ToString());
-                    motor.Nodes.Add(p.Motor.MomentOfInertia.ToString());
-                    motor.Nodes.Add(p.Motor.Resistance.ToString());
-                    motor.Nodes.Add(p.Motor.ThermalResistance.ToString());
-                }
+            TreeNode profileNode = new TreeNode(_project.Profile.Name);
+            TreeNode sequenceNode = new TreeNode(_project.Sequence.Name);
+            sequenceNode.Nodes.Add(profileNode);
+            root.Nodes.Add(sequenceNode);
 
-                TreeNode input = new TreeNode("Input");
-                root.Nodes.Add(input);
-                if (p.Converter != null)
-                {
-                    IConverter converter = p.Converter;
-                    if (converter.HasPosition)
-                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Position.Length));
-                    if (converter.HasVelocity)
-                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Velocity.Length));
-                    if (converter.HasAcceleration)
-                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Acceleration.Length));
-
-                    input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Time.Length));
-
-                }
-
-                TreeNode output = new TreeNode("Output");
-                root.Nodes.Add(output);
-
-                TreeNode profileNode = new TreeNode("Profile X");
-                TreeNode sequenceNode = new TreeNode("Sequence X");
-                sequenceNode.Nodes.Add(profileNode);
-                root.Nodes.Add(sequenceNode);
-
-                _tree.AfterSelect += new TreeViewEventHandler(_tree_AfterSelect);
-                _tree.Nodes.Add(root);
-                root.ExpandAll();
-            }
+            _tree.AfterSelect += new TreeViewEventHandler(_tree_AfterSelect);
+            _tree.Nodes.Add(root);
+            root.ExpandAll();
         }
 
         void project_Update(object sender, EventArgs args)
@@ -162,11 +141,6 @@ namespace Program
         {
             if (_panels.Keys.Contains(e.Node.Text))
                 _mainForm.MainPanel.SetMiddle(_panels[e.Node.Text]);
-
-            if (_motorPanels.Keys.Contains(e.Node.Text))
-                _mainForm.MainPanel.SetRight(_motorPanels[e.Node.Text]);
-            else
-                _mainForm.MainPanel.SetRight(new TableLayoutPanel());
         }
     }
 }

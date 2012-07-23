@@ -13,10 +13,6 @@ namespace Program
     public class ProfileScene
     {
         private TableLayoutPanel _panel;
-        private ComboBox _box;
-        private Label _message;
-        private Button _ok;
-        private string _fileName;
         private MainForm _mainForm;
 
         private Dictionary<string, string[]> _unitLists;
@@ -46,6 +42,7 @@ namespace Program
         private Label _peakTraverseForceLabel;
         private Label _peaDecelerationForceLabel;
         private Label _peakDwellForceLabel;
+        private Label _peakForceLabel;
         private Label _totalRMSForceLabel;
         private Label _peakCurrentLabel;
         private Label _continuousCurrentLabel;
@@ -76,6 +73,7 @@ namespace Program
         private TextBox _peakTraverseForce;
         private TextBox _peaDecelerationForce;
         private TextBox _peakDwellForce;
+        private TextBox _peakForce;
         private TextBox _totalRMSForce;
         private TextBox _peakCurrent;
         private TextBox _continuousCurrent;
@@ -108,6 +106,7 @@ namespace Program
         private ComboBox _peakTraverseForceUnits;
         private ComboBox _peaDecelerationForceUnits;
         private ComboBox _peakDwellForceUnits;
+        private ComboBox _peakForceUnits;
         private ComboBox _totalRMSForceUnits;
 
         private Label _peakCurrentUnits;
@@ -121,6 +120,9 @@ namespace Program
 
         private double _RMSforce;
         private double _loadMass;
+
+        private Project _project;
+        private ISolver _solver;
 
         public double RMSForce
         {
@@ -142,6 +144,8 @@ namespace Program
         {
             _mainForm = mainForm;
             _panel = new TableLayoutPanel();
+            _project = mainForm.Project;
+            _solver = new MotorSolver.Solver();
 
             Initialize();
         }
@@ -225,105 +229,65 @@ namespace Program
             _peakTraverseForceLabel = addLabel("Peak Trav. Force");
             _peaDecelerationForceLabel = addLabel("Peak Decel. Force");
             _peakDwellForceLabel = addLabel("Peak Dwell Force");
-            _totalRMSForceLabel = addLabel("Total RMS Force");
+            _peakForceLabel = addLabel("Peak Force");
+            _totalRMSForceLabel = addLabel("RMS Force");
             _peakCurrentLabel = addLabel("Peak Current");
-            _continuousCurrentLabel = addLabel("Continuous Current");
+            _continuousCurrentLabel = addLabel("RMS Current");
             _minBusVoltageLabel = addLabel("Min Bus Voltage");
             _finalCoilTemperatureLabel = addLabel("Final Coil Temp.");
             _totalRMSForceForEntireSequenceLabel = addLabel("Total RMS Force for Entire Sequence");
             _commentsLabel = addLabel("Comments");
 
-            _profileName = new TextBox();
-            _lengthOfTravel = new TextBox();
-            _massOfLoad = new TextBox();
-            _accelerationTime = new TextBox();
-            _traverseTime = new TextBox();
-            _decelerationTime = new TextBox();
-            _dwellTime = new TextBox();
-            _inclineAngle = new TextBox();
-            _thrustForce = new TextBox();
-            _maxStaticFriction = new TextBox();
-            _dynamicFriction = new TextBox();
-            _ambientTemperature = new TextBox();
-            _mechanicalEfficiency = new TextBox();
-            _cooling = new TextBox();
-            _totalMoveTime = new TextBox();
-            _dutyCycle = new TextBox();
-            _maxLinearSpeed = new TextBox();
-            _peakAcceleration = new TextBox();
-            _peakAccelerationForce = new TextBox();
-            _peakTraverseForce = new TextBox();
-            _peaDecelerationForce = new TextBox();
-            _peakDwellForce = new TextBox();
-            _totalRMSForce = new TextBox();
-            _peakCurrent = new TextBox();
-            _continuousCurrent = new TextBox();
-            _minBusVoltage = new TextBox();
-            _finalCoilTemperature = new TextBox();
-            _totalRMSForceForEntireSequence = new TextBox();
-            _comments = new TextBox();
+            _profileName = addTextBox(false);
+            _lengthOfTravel = addTextBox(true);
+            _massOfLoad = addTextBox(false);
+            _accelerationTime = addTextBox(true);
+            _traverseTime = addTextBox(true);
+            _decelerationTime = addTextBox(true);
+            _dwellTime = addTextBox(true);
+            _inclineAngle = addTextBox(false);
+            _thrustForce = addTextBox(false);
+            _maxStaticFriction = addTextBox(true);
+            _dynamicFriction = addTextBox(true);
+            _ambientTemperature = addTextBox(true);
+            _mechanicalEfficiency = addTextBox(true);
+            _cooling = addTextBox(true);
+            _totalMoveTime = addTextBox(true);
+            //_dutyCycle = addTextBox(false);
+            _dutyCycle = addTextBox(true);
+            _maxLinearSpeed = addTextBox(true);
+            _peakAcceleration = addTextBox(true);
+            _peakAccelerationForce = addTextBox(true);
+            _peakTraverseForce = addTextBox(true);
+            _peaDecelerationForce = addTextBox(true);
+            _peakDwellForce = addTextBox(true);
+            _peakForce = addTextBox(true);
+            _totalRMSForce = addTextBox(true);
+            _peakCurrent = addTextBox(true);
+            _continuousCurrent = addTextBox(true);
+            _minBusVoltage = addTextBox(true);
+            _finalCoilTemperature = addTextBox(true);
+            _totalRMSForceForEntireSequence = addTextBox(true);
+            _comments = addTextBox(false);
             _comments.Multiline = true;
 
-            _profileName.Dock = DockStyle.Fill;
             _profileName.Text = "Profile 1";
-            _lengthOfTravel.Dock = DockStyle.Fill;
-            _massOfLoad.Dock = DockStyle.Fill;
-            _accelerationTime.Dock = DockStyle.Fill;
-            _traverseTime.Dock = DockStyle.Fill;
-            _decelerationTime.Dock = DockStyle.Fill;
-            _dwellTime.Dock = DockStyle.Fill;
-            _inclineAngle.Dock = DockStyle.Fill;
-            _thrustForce.Dock = DockStyle.Fill;
-            _maxStaticFriction.Dock = DockStyle.Fill;
-            _dynamicFriction.Dock = DockStyle.Fill;
-            _ambientTemperature.Dock = DockStyle.Fill;
-            _mechanicalEfficiency.Dock = DockStyle.Fill;
-            _cooling.Dock = DockStyle.Fill;
-            _totalMoveTime.Dock = DockStyle.Fill;
-            _dutyCycle.Dock = DockStyle.Fill;
-            _maxLinearSpeed.Dock = DockStyle.Fill;
-            _peakAcceleration.Dock = DockStyle.Fill;
-            _peakAccelerationForce.Dock = DockStyle.Fill;
-            _peakTraverseForce.Dock = DockStyle.Fill;
-            _peaDecelerationForce.Dock = DockStyle.Fill;
-            _peakDwellForce.Dock = DockStyle.Fill;
-            _totalRMSForce.Dock = DockStyle.Fill;
-            _peakCurrent.Dock = DockStyle.Fill;
-            _continuousCurrent.Dock = DockStyle.Fill;
-            _minBusVoltage.Dock = DockStyle.Fill;
-            _finalCoilTemperature.Dock = DockStyle.Fill;
-            _totalRMSForceForEntireSequence.Dock = DockStyle.Fill;
-            _comments.Dock = DockStyle.Fill;
+            _profileName.TextAlign = HorizontalAlignment.Left;
 
-            _profileName.Enabled = false;
-            _lengthOfTravel.Enabled = false;
-            //_massOfLoad.Enabled = false;
-            _accelerationTime.Enabled = false;
-            _traverseTime.Enabled = false;
-            _decelerationTime.Enabled = false;
-            _dwellTime.Enabled = false;
-            _inclineAngle.Enabled = false;
-            _thrustForce.Enabled = false;
+            _project.Load = new Load(0.25, 0);
 
-            _maxStaticFriction.Enabled = false;
-            _dynamicFriction.Enabled = false;
-            _ambientTemperature.Enabled = false;
-            _mechanicalEfficiency.Enabled = false;
-            _cooling.Enabled = false;
-            _totalMoveTime.Enabled = false;
-            _dutyCycle.Enabled = false;
-            _maxLinearSpeed.Enabled = false;
-            _peakAcceleration.Enabled = false;
-            _peakAccelerationForce.Enabled = false;
-            _peakTraverseForce.Enabled = false;
-            _peaDecelerationForce.Enabled = false;
-            _peakDwellForce.Enabled = false;
-            _totalRMSForce.Enabled = false;
-            _peakCurrent.Enabled = false;
-            _continuousCurrent.Enabled = false;
-            _minBusVoltage.Enabled = false;
-            _finalCoilTemperature.Enabled = false;
-            _totalRMSForceForEntireSequence.Enabled = false;
+            _massOfLoad.Name = "_massOfLoad";
+            _inclineAngle.Name = "_inclineAngle";
+            _thrustForce.Name = "_thrustForce";
+
+            _massOfLoad.Text = "0.25";
+            _inclineAngle.Text = "0";
+            _thrustForce.Text = "0";
+            _maxStaticFriction.Text = _project.Environment.StaticFriction.ToString();
+            _dynamicFriction.Text = _project.Environment.DynamicFriction.ToString();
+            _ambientTemperature.Text = _project.Environment.AmbientTemp.ToString();
+            _mechanicalEfficiency.Text = _project.Environment.MechEfficiency.ToString();
+            _cooling.Text = _project.Environment.Cooling;
 
             _accelerationType = new ComboBox();
             _accelerationType.Items.Add(string.Format("Constant"));
@@ -357,6 +321,7 @@ namespace Program
             _peakTraverseForceUnits = fillComboBox("force", 0);
             _peaDecelerationForceUnits = fillComboBox("force", 0);
             _peakDwellForceUnits = fillComboBox("force", 0);
+            _peakForceUnits = fillComboBox("force", 0);
             _totalRMSForceUnits = fillComboBox("force", 0);
 
             _peakCurrentUnits = addLabel("A");
@@ -366,13 +331,6 @@ namespace Program
             _finalCoilTemperatureUnits = fillComboBox("temperature", 0);
             _totalRMSForceForEntireSequenceUnits = fillComboBox("force", 0);
 
-            /*
-            Button button = new Button();
-            button.Text = "Open..";
-            button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button.Click += new EventHandler(button_Click);
-             * _ok.Enabled = false;
-            */
             _solve = new Button();
             _solve.Text = "Solve";
             _solve.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -392,115 +350,213 @@ namespace Program
             _panel.Controls.Add(_inputs, 0, 3);
             _panel.Controls.Add(_lengthOfTravelLabel, 0, 4);
             _panel.Controls.Add(_massOfLoadLabel, 0, 5);
-            _panel.Controls.Add(_accelerationTimeLabel, 0, 6);
-            _panel.Controls.Add(_traverseTimeLabel, 0, 7);
-            _panel.Controls.Add(_decelerationTimeLabel, 0, 8);
-            _panel.Controls.Add(_dwellTimeLabel, 0, 9);
-            _panel.Controls.Add(_inclineAngleLabel, 0, 10);
-            _panel.Controls.Add(_thrustForceLabel, 0, 11);
-            _panel.Controls.Add(_maxStaticFrictionLabel, 0, 12);
-            _panel.Controls.Add(_dynamicFrictionLabel, 0, 13);
-            _panel.Controls.Add(_ambientTemperatureLabel, 0, 14);
-            _panel.Controls.Add(_mechanicalEfficiencyLabel, 0, 15);
-            _panel.Controls.Add(_coolingLabel, 0, 16);
-            _panel.Controls.Add(_commentsLabel, 0, 18);
+
+            //_panel.Controls.Add(_accelerationTimeLabel, 0, 6);
+            //_panel.Controls.Add(_traverseTimeLabel, 0, 7);
+            //_panel.Controls.Add(_decelerationTimeLabel, 0, 8);
+            //_panel.Controls.Add(_dwellTimeLabel, 0, 9);
+
+            _panel.Controls.Add(_inclineAngleLabel, 0, 6);
+            _panel.Controls.Add(_thrustForceLabel, 0, 7);
+            _panel.Controls.Add(_maxStaticFrictionLabel, 0, 8);
+            _panel.Controls.Add(_dynamicFrictionLabel, 0, 9);
+            _panel.Controls.Add(_ambientTemperatureLabel, 0, 10);
+            _panel.Controls.Add(_mechanicalEfficiencyLabel, 0, 11);
+            _panel.Controls.Add(_coolingLabel, 0, 12);
+            _panel.Controls.Add(_commentsLabel, 0, 14);
 
             _panel.Controls.Add(_outputs, 3, 3);
             _panel.Controls.Add(_totalMoveTimeLabel, 3, 4);
             _panel.Controls.Add(_dutyCycleLabel, 3, 5);
             _panel.Controls.Add(_maxLinearSpeedLabel, 3, 6);
             _panel.Controls.Add(_peakAccelerationLabel, 3, 7);
-            _panel.Controls.Add(_peakAccelerationForceLabel, 3, 8);
-            _panel.Controls.Add(_peakTraverseForceLabel, 3, 9);
-            _panel.Controls.Add(_peaDecelerationForceLabel, 3, 10);
-            _panel.Controls.Add(_peakDwellForceLabel, 3, 11);
-            _panel.Controls.Add(_totalRMSForceLabel, 3, 12);
-            _panel.Controls.Add(_peakCurrentLabel, 3, 13);
-            _panel.Controls.Add(_continuousCurrentLabel, 3, 14);
-            _panel.Controls.Add(_minBusVoltageLabel, 3, 15);
-            _panel.Controls.Add(_finalCoilTemperatureLabel, 3, 16);
-            _panel.Controls.Add(_totalRMSForceForEntireSequenceLabel, 2, 17);
+
+            //_panel.Controls.Add(_peakAccelerationForceLabel, 3, 8);
+            //_panel.Controls.Add(_peakTraverseForceLabel, 3, 9);
+            //_panel.Controls.Add(_peaDecelerationForceLabel, 3, 10);
+            //_panel.Controls.Add(_peakDwellForceLabel, 3, 11);
+
+            _panel.Controls.Add(_peakForceLabel, 3, 8);
+            _panel.Controls.Add(_totalRMSForceLabel, 3, 9);
+            _panel.Controls.Add(_peakCurrentLabel, 3, 10);
+            _panel.Controls.Add(_continuousCurrentLabel, 3, 11);
+            //_panel.Controls.Add(_minBusVoltageLabel, 3, 11);
+            _panel.Controls.Add(_finalCoilTemperatureLabel, 3, 12);
+            _panel.Controls.Add(_totalRMSForceForEntireSequenceLabel, 2, 13);
             _panel.SetColumnSpan(_totalRMSForceForEntireSequenceLabel, 2);
 
             _panel.Controls.Add(_profileName, 2, 0);
             _panel.SetColumnSpan(_profileName, 4);
             _panel.Controls.Add(_lengthOfTravel, 1, 4);
             _panel.Controls.Add(_massOfLoad, 1, 5);
-            _panel.Controls.Add(_accelerationTime, 1, 6);
-            _panel.Controls.Add(_traverseTime, 1, 7);
-            _panel.Controls.Add(_decelerationTime, 1, 8);
-            _panel.Controls.Add(_dwellTime, 1, 9);
-            _panel.Controls.Add(_inclineAngle, 1, 10);
-            _panel.Controls.Add(_thrustForce, 1, 11);
-            _panel.Controls.Add(_maxStaticFriction, 1, 12);
-            _panel.Controls.Add(_dynamicFriction, 1, 13);
-            _panel.Controls.Add(_ambientTemperature, 1, 14);
-            _panel.Controls.Add(_mechanicalEfficiency, 1, 15);
-            _panel.Controls.Add(_cooling, 1, 16);
-            _panel.Controls.Add(_comments, 1, 18);
-            _panel.SetRowSpan(_comments, 2);
+
+            //_panel.Controls.Add(_accelerationTime, 1, 6);
+            //_panel.Controls.Add(_traverseTime, 1, 7);
+            //_panel.Controls.Add(_decelerationTime, 1, 8);
+            //_panel.Controls.Add(_dwellTime, 1, 9);
+
+            _panel.Controls.Add(_inclineAngle, 1, 6);
+            _panel.Controls.Add(_thrustForce, 1, 7);
+            _panel.Controls.Add(_maxStaticFriction, 1, 8);
+            _panel.Controls.Add(_dynamicFriction, 1, 9);
+            _panel.Controls.Add(_ambientTemperature, 1, 10);
+            _panel.Controls.Add(_mechanicalEfficiency, 1, 11);
+            _panel.Controls.Add(_cooling, 1, 12);
+            _panel.Controls.Add(_comments, 1, 14);
+            _panel.SetRowSpan(_comments, 6);
             _panel.SetColumnSpan(_comments, 5);
 
             _panel.Controls.Add(_totalMoveTime, 4, 4);
             _panel.Controls.Add(_dutyCycle, 4, 5);
             _panel.Controls.Add(_maxLinearSpeed, 4, 6);
             _panel.Controls.Add(_peakAcceleration, 4, 7);
-            _panel.Controls.Add(_peakAccelerationForce, 4, 8);
-            _panel.Controls.Add(_peakTraverseForce, 4, 9);
-            _panel.Controls.Add(_peaDecelerationForce, 4, 10);
-            _panel.Controls.Add(_peakDwellForce, 4, 11);
-            _panel.Controls.Add(_totalRMSForce, 4, 12);
-            _panel.Controls.Add(_peakCurrent, 4, 13);
-            _panel.Controls.Add(_continuousCurrent, 4, 14);
-            _panel.Controls.Add(_minBusVoltage, 4, 15);
-            _panel.Controls.Add(_finalCoilTemperature, 4, 16);
-            _panel.Controls.Add(_totalRMSForceForEntireSequence, 4, 17);
+
+            //_panel.Controls.Add(_peakAccelerationForce, 4, 8);
+            //_panel.Controls.Add(_peakTraverseForce, 4, 9);
+            //_panel.Controls.Add(_peaDecelerationForce, 4, 10);
+            //_panel.Controls.Add(_peakDwellForce, 4, 11);
+
+            _panel.Controls.Add(_peakForce, 4, 8);
+            _panel.Controls.Add(_totalRMSForce, 4, 9);
+            _panel.Controls.Add(_peakCurrent, 4, 10);
+            _panel.Controls.Add(_continuousCurrent, 4, 11);
+            //_panel.Controls.Add(_minBusVoltage, 4, 11);
+            _panel.Controls.Add(_finalCoilTemperature, 4, 12);
+            _panel.Controls.Add(_totalRMSForceForEntireSequence, 4, 13);
 
             _panel.Controls.Add(_accelerationType, 1, 1);
             _panel.SetColumnSpan(_accelerationType, 1);
 
             _panel.Controls.Add(_lengthOfTravelUnits, 2, 4);
             _panel.Controls.Add(_massOfLoadUnits, 2, 5);
-            _panel.Controls.Add(_accelerationTimeUnits, 2, 6);
-            _panel.Controls.Add(_traverseTimeUnits, 2, 7);
-            _panel.Controls.Add(_decelerationTimeUnits, 2, 8);
-            _panel.Controls.Add(_dwellTimeUnits, 2, 9);
-            _panel.Controls.Add(_inclineAngleUnits, 2, 10);
-            _panel.Controls.Add(_thrustForceUnits, 2, 11);
-            _panel.Controls.Add(_maxStaticFrictionUnits, 2, 12);
-            _panel.Controls.Add(_dynamicFrictionUnits, 2, 13);
-            _panel.Controls.Add(_ambientTemperatureUnits, 2, 14);
-            _panel.Controls.Add(_mechanicalEfficiencyUnits, 2, 15);
+
+            //_panel.Controls.Add(_accelerationTimeUnits, 2, 6);
+            //_panel.Controls.Add(_traverseTimeUnits, 2, 7);
+            //_panel.Controls.Add(_decelerationTimeUnits, 2, 8);
+            //_panel.Controls.Add(_dwellTimeUnits, 2, 9);
+
+            _panel.Controls.Add(_inclineAngleUnits, 2, 6);
+            _panel.Controls.Add(_thrustForceUnits, 2, 7);
+            _panel.Controls.Add(_maxStaticFrictionUnits, 2, 8);
+            _panel.Controls.Add(_dynamicFrictionUnits, 2, 9);
+            _panel.Controls.Add(_ambientTemperatureUnits, 2, 10);
+            _panel.Controls.Add(_mechanicalEfficiencyUnits, 2, 11);
             _panel.Controls.Add(_totalMoveTimeUnits, 5, 4);
             _panel.Controls.Add(_dutyCycleUnits, 5, 5);
             _panel.Controls.Add(_maxLinearSpeedUnits, 5, 6);
             _panel.Controls.Add(_peakAccelerationUnits, 5, 7);
-            _panel.Controls.Add(_peakAccelerationForceUnits, 5, 8);
-            _panel.Controls.Add(_peakTraverseForceUnits, 5, 9);
-            _panel.Controls.Add(_peaDecelerationForceUnits, 5, 10);
-            _panel.Controls.Add(_peakDwellForceUnits, 5, 11);
-            _panel.Controls.Add(_totalRMSForceUnits, 5, 12);
-            _panel.Controls.Add(_peakCurrentUnits, 5, 13);
-            _panel.Controls.Add(_continuousCurrentUnits, 5, 14);
-            _panel.Controls.Add(_minBusVoltageUnits, 5, 15);
-            _panel.Controls.Add(_finalCoilTemperatureUnits, 5, 16);
-            _panel.Controls.Add(_totalRMSForceForEntireSequenceUnits, 5, 17);
+
+            //_panel.Controls.Add(_peakAccelerationForceUnits, 5, 8);
+            //_panel.Controls.Add(_peakTraverseForceUnits, 5, 9);
+            //_panel.Controls.Add(_peaDecelerationForceUnits, 5, 10);
+            //_panel.Controls.Add(_peakDwellForceUnits, 5, 11);
+
+            _panel.Controls.Add(_peakDwellForceUnits, 5, 8);
+            _panel.Controls.Add(_totalRMSForceUnits, 5, 9);
+            _panel.Controls.Add(_peakCurrentUnits, 5, 10);
+            _panel.Controls.Add(_continuousCurrentUnits, 5, 11);
+            //_panel.Controls.Add(_minBusVoltageUnits, 5, 11);
+            _panel.Controls.Add(_finalCoilTemperatureUnits, 5, 12);
+            _panel.Controls.Add(_totalRMSForceForEntireSequenceUnits, 5, 13);
+        }
+
+        public void UpdateEnvironment()
+        {
+            _maxStaticFriction.Text = _project.Environment.StaticFriction.ToString();
+            _dynamicFriction.Text = _project.Environment.DynamicFriction.ToString();
+            _ambientTemperature.Text = _project.Environment.AmbientTemp.ToString();
+            _mechanicalEfficiency.Text = _project.Environment.MechEfficiency.ToString();
+            _cooling.Text = _project.Environment.Cooling;
+        }
+
+        public void Solve()
+        {
+            if (_project.Axis1 != null && _project.Motor != null && _project.Load != null)
+            {
+                _solver.Start(_project.Axis1.Record, _project.Motor, _project.Load, _project.Axis1.Path);
+
+                _dutyCycle.Text = "100";
+
+                _totalMoveTime.Text = _project.Axis1.Record.Time.Max().ToString("0.####");
+                _lengthOfTravel.Text = _project.Axis1.Record.Position.Max().ToString("0.####");
+                _maxLinearSpeed.Text = _project.Axis1.Record.Velocity.Max().ToString("0.####");
+                _peakAcceleration.Text = _project.Axis1.Record.Acceleration.Max().ToString("0.####");
+
+                _peakForce.Text = _project.Axis1.Record.MAXforce.ToString("0.####");
+                _totalRMSForce.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
+                _peakCurrent.Text = _project.Axis1.Record.MAXcurrent.ToString("0.####");
+                _continuousCurrent.Text = _project.Axis1.Record.RMScurrent.ToString("0.####");
+                _finalCoilTemperature.Text = (_project.Environment.AmbientTemp + _project.Axis1.Record.TemperatureRise).ToString("0.####");
+
+                _totalRMSForceForEntireSequence.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
+
+                _project.Sequence.UpdateSolution();
+            }
+        }
+
+        void _TextChanged(object sender, EventArgs e)
+        {
+            string name = (sender as TextBox).Name;
+            string text = (sender as TextBox).Text;
+            double value;
+            if (Double.TryParse(text, out value))
+            {
+                if (name.Equals("_massOfLoad"))
+                    _project.Load.Mass = value;
+                else if (name.Equals("_inclineAngle") && _project.Axis1 != null)
+                    _project.Axis1.AngleOfInclination = value;
+                else if (name.Equals("_thrustForce") && _project.Environment != null)
+                    _project.Environment.ThrustForce = value;
+
+                Solve();
+            }
+            else
+            {
+                if (name.Equals("_massOfLoad"))
+                    (sender as TextBox).Text = _project.Load.Mass.ToString();
+                else if (name.Equals("_inclineAngle") && _project.Axis1 != null)
+                    (sender as TextBox).Text = _project.Axis1.AngleOfInclination.ToString();
+                else if (name.Equals("_thrustForce") && _project.Environment != null)
+                    (sender as TextBox).Text = _project.Environment.ThrustForce.ToString();
+            }
         }
 
         void _solve_Click(object sender, EventArgs e)
         {
-            if (Double.TryParse(_massOfLoad.Text, out _loadMass))
+            List<Motor> myMotors = _project.ChooseMotor.Motors;
+
+            //myMotors.Sort(delegate(Motor t1, Motor t2) { return (t1.PeakForce.CompareTo(t2.PeakForce)); });
+            myMotors.Sort(delegate(Motor t1, Motor t2) { return (t1.ContinuousForce_0psi.CompareTo(t2.ContinuousForce_0psi)); });
+
+            int i;
+            for (i = 0; i < myMotors.Count; i++ )
             {
-                Project P = new Project();
-                P.Motor = new Motor(1000, 200, 0, 0, 0, 1000, 1000);
+                _solver.Start(_project.Axis1.Record, myMotors[i], _project.Load, _project.Axis1.Path);
 
-                IPath Q = new Path();//converter);
-                P.Axis1 = new Axis(Q);
+                //if (_project.Axis1.Record.MAXforce < myMotors[i].PeakForce && _project.Axis1.Record.MAXcurrent < myMotors[i].PeakCurrent && _project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce_0psi && _project.Axis1.Record.RMScurrent < myMotors[i].ContinuousCurrent_0psi)
+                if (_project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce_0psi)
+                {
+                    _dutyCycle.Text = "100";
 
-                P.Load = new Load(_loadMass, 0);
+                    _totalMoveTime.Text = _project.Axis1.Record.Time.Max().ToString("0.####");
+                    _lengthOfTravel.Text = _project.Axis1.Record.Position.Max().ToString("0.####");
+                    _maxLinearSpeed.Text = _project.Axis1.Record.Velocity.Max().ToString("0.####");
+                    _peakAcceleration.Text = _project.Axis1.Record.Acceleration.Max().ToString("0.####");
 
-                ISolver mySolver = new MotorSolver.Solver();
-                mySolver.Start(P.Axis1.Record, P.Motor, P.Load, P.Axis1.Path);
+                    _peakForce.Text = _project.Axis1.Record.MAXforce.ToString("0.####");
+                    _totalRMSForce.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
+                    _peakCurrent.Text = _project.Axis1.Record.MAXcurrent.ToString("0.####");
+                    _continuousCurrent.Text = _project.Axis1.Record.RMScurrent.ToString("0.####");
+                    _finalCoilTemperature.Text = (_project.Environment.AmbientTemp + _project.Axis1.Record.TemperatureRise).ToString("0.####");
+
+                    _totalRMSForceForEntireSequence.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
+
+                    _project.Sequence.UpdateSolution();
+
+                    _project.ChooseMotor.Motor = myMotors[i];
+
+                    break;
+                }
             }
         }
 
@@ -531,6 +587,17 @@ namespace Program
             myLabel.Margin = new Padding(0, 0, 0, 0);
 
             return myLabel;
+        }
+
+        private TextBox addTextBox(bool readOnly)
+        {
+            TextBox box = new TextBox();
+            box.Dock = DockStyle.Fill;
+            box.ReadOnly = readOnly;
+            box.TextAlign = HorizontalAlignment.Right;
+            box.Leave += new EventHandler(_TextChanged);
+
+            return box;
         }
     }
 }
