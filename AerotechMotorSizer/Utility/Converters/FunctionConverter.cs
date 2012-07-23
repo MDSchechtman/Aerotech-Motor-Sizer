@@ -9,12 +9,7 @@ namespace Utility
 {
     public class FunctionConverter : IConverter
     {
-        enum FileType
-        {
-            Position,
-            Acceleration,
-            Velocity
-        }
+        #region IConverter Implementation
 
         private bool _hasPosition;
         private bool _hasVelocity;
@@ -58,6 +53,17 @@ namespace Utility
             get { return _time.ToArray(); }
         }
 
+        #endregion // IConverter Implementation
+
+        #region Internal Implementation
+
+        enum FunctioNType
+        {
+            Position,
+            Acceleration,
+            Velocity
+        }
+
         public FunctionConverter(String function, double length, double interval, int type)
         {
             int size = Convert.ToInt32(length / interval);
@@ -77,30 +83,33 @@ namespace Utility
                 {
                     Console.WriteLine("Error catched: " + a.Message);
                 }
-                SetProperties((FileType)type);
+
+                SetProperties((FunctioNType)type);
             }
         }
 
-        private void SetProperties(FileType type)
+        private void SetProperties(FunctioNType type)
         {
             switch (type)
             {
-                case FileType.Acceleration:
+                case FunctioNType.Acceleration:
                     _hasPosition = false;
                     _hasVelocity = false;
                     _hasAcceleration = true;
                     break;
-                case FileType.Position:
+                case FunctioNType.Position:
                     _hasPosition = true;
                     _hasVelocity = false;
                     _hasAcceleration = false;
                     break;
-                case FileType.Velocity:
+                case FunctioNType.Velocity:
                     _hasPosition = false;
                     _hasVelocity = true;
                     _hasAcceleration = false;
                     break;
             }
         }
+
+        #endregion // Internal Implementation
     }
 }

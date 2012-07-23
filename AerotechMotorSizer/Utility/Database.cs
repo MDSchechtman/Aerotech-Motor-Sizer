@@ -6,14 +6,14 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 
-
 namespace Utility
 {
     public class Database
     {
         private List<Motor> Motors;
         private List<Motor> SearchedMotors;
-        private string dbfilename = @"C:\Users\John\Documents\Aerotech-Motor-Sizer\AerotechMotorSizer\motordb";
+        private string dbfilename = @"motordb";
+
         public Database()
         {
             string MotorName;
@@ -41,6 +41,7 @@ namespace Utility
             double MotorThermalResistance_Catalog_20psi;
             double MotorThermalResistance_PercentDifference_0psi;
             double MotorThermalResistance_PercentDifference_20psi;
+
             Motor temp;
             SearchedMotors = new List<Motor>();
             Motors = new List<Motor>();

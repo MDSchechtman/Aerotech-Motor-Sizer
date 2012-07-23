@@ -10,12 +10,8 @@ namespace Utility.Converters
 {
     public class FileConverter : IConverter
     {
-        enum FileType
-        {
-            Position,
-            Acceleration,
-            Velocity
-        }
+
+        #region IConverter Implementation
 
         private bool _hasPosition;
         private bool _hasVelocity;
@@ -59,6 +55,17 @@ namespace Utility.Converters
             get { return _time.ToArray(); }
         }
 
+        #endregion // IConverter Implementation
+
+        #region Internal Implementation
+
+        enum FileType
+        {
+            Position,
+            Acceleration,
+            Velocity
+        }
+
         public FileConverter(string filename, int type)
         {
             _time = new List<double>();
@@ -67,6 +74,7 @@ namespace Utility.Converters
             SetProperties((FileType) type);
             ReadFromFile(filename);
         }
+
 
         private void ReadFromFile(string filename)
         {
@@ -113,5 +121,7 @@ namespace Utility.Converters
                     break;
             }
         }
+
+        #endregion // Internal Implementation
     }
 }
