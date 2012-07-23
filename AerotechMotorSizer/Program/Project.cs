@@ -17,7 +17,6 @@ namespace Program
         private IAxis _Axis2;
         private IAxis _Axis3;
         private Utility.SimulationEnv _Environment;
-        private IConverter _converter;
 
         public delegate void UpdateHandler(object sender, EventArgs args);
         public event UpdateHandler Update;
@@ -30,7 +29,6 @@ namespace Program
         private ProfileScene _ProfileScene;
         private SequenceScene _SequenceScene;
 
-        //get and set the 
         public ParameterInputScene ParameterInput
         {
             get
@@ -234,19 +232,6 @@ namespace Program
             set
             {
                 _Environment = value;
-                OnUpdate(this, new EventArgs());
-            }
-        }
-
-        public IConverter Converter
-        {
-            get
-            {
-                return _converter;
-            }
-            set
-            {
-                _converter = value;
                 OnUpdate(this, new EventArgs());
             }
         }

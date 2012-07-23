@@ -88,6 +88,7 @@ namespace Program
             _project.Profile.Name = "Profile 1";
             _project.Sequence = new SequenceScene(_mainForm);
             _project.Sequence.Name = "Sequence 1";
+            
             _project.ChooseMotor = new ChooseMotorScene(_mainForm);
 
             _panels.Add(_project.Name, _project.NewProject.Component);

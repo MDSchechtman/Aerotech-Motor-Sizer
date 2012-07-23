@@ -16,5 +16,7 @@ namespace Interfaces
         
         IPath Path { get; }
         IRecord Record { get; }
+
+        IConverter Converter { get; set; }
     }
 }

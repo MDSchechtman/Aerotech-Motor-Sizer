@@ -10,8 +10,12 @@ namespace Utility
     public class Axis : IAxis
     {
         private IPath _path;
+        private IConverter _converter;
         private IRecord _record;
         private double _angleOfInclination;
+
+
+        public Axis() { }
 
         /// <summary>
         /// An Axis contains the positions, accelerations, and velocities at descrete times
@@ -20,13 +24,25 @@ namespace Utility
         /// </summary>
         public Axis(IPath path)
         {
-            SetPath(path);
-            _record = new Record(path);
+            SetPath(path); 
         }
 
         public void SetPath(IPath path)
         {
             _path = path;
+            _record = new Record(path);
+        }
+
+        public IConverter Converter
+        {
+            get
+            {
+                return _converter;
+            }
+            set
+            {
+                _converter = value;
+            }
         }
 
         public double[] Position

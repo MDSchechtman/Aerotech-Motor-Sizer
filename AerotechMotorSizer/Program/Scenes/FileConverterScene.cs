@@ -41,6 +41,8 @@ namespace Program
             _panel.RowCount = 7;
             _panel.ColumnCount = 6;
 
+            _panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.125F));
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F));
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F / 3F));
@@ -143,7 +145,7 @@ namespace Program
                 else if (string.Compare(_box.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
                     type = 2;
 
-                _mainForm.Project.Converter = new Utility.Converters.FileConverter(_fileName, type);
+                //_mainForm.Project.Converter = new Utility.Converters.FileConverter(_fileName, type);
 
                 if (this.OnClose != null)
                     this.OnClose(this, EventArgs.Empty);

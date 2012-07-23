@@ -12,7 +12,6 @@ namespace Program
     public class NewProjectScene
     {
         private TableLayoutPanel _panel;
-        private MainPanel _mainPanel;
         private MainForm _mainForm;
         private Form _parent;
         private bool _modal;
@@ -143,9 +142,6 @@ namespace Program
             _panel.Controls.Add(text1, 2, 2);
             _panel.Controls.Add(text2, 2, 3);
             _panel.Controls.Add(text3, 2, 4);
-
-
-
         }
 
         void line1_Click(object sender, EventArgs e)

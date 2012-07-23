@@ -16,6 +16,7 @@ namespace Program
         private Dictionary<string, double> _dictionary;
         private TableLayoutPanel _panel;
         private ListView _view;
+        private ComboBox _box;
 
         private String _parameter1;
         private String _parameter2;
@@ -33,12 +34,9 @@ namespace Program
 
         public event EventHandler OnClose;
 
-        private Project _project;
-
         public ParameterInputScene(MainForm mainForm)
         {
             _mainForm = mainForm;
-            _project = mainForm.Project;
             _dictionary = new Dictionary<string, double>();
 
             Initialize();
@@ -48,12 +46,6 @@ namespace Program
         public TableLayoutPanel Component
         {
             get { return _panel; }
-        }
-
-        public Project Project
-        {
-            get { return _project; }
-            set { _project = value; }
         }
 
         private void Initialize()
@@ -77,8 +69,9 @@ namespace Program
 
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.125F));
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.25F));
-            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.25F));
-            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.25F));
+            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.5F / 3F));
+            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.5F / 3F));
+            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.5F / 3F));
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.125F));
 
             _label1 = new Label();
@@ -127,8 +120,26 @@ namespace Program
             _label3.Text = "Parameter 3";
             _label4.Text = "Time Step";
 
+            Label boxTitle = new Label();
+            boxTitle.Text = "Creating axis:";
+            boxTitle.Font = new Font("Tahoma", 10);
+            boxTitle.Size = new Size(boxTitle.PreferredWidth, boxTitle.PreferredHeight);
+            boxTitle.AutoSize = true;
+            boxTitle.TextAlign = ContentAlignment.BottomRight;
+            boxTitle.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            boxTitle.Dock = DockStyle.Fill;
+            boxTitle.Margin = new Padding(0, 0, 0, 25);
+
+            _box = new ComboBox();
+            _box.Items.Add(string.Format("Axis 1"));
+            _box.Items.Add(string.Format("Axis 2"));
+            _box.Items.Add(string.Format("Axis 3"));
+            _box.Width = 200;
+            _box.Dock = DockStyle.Right;
+            _box.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
             Label title = new Label();
-            title.Text = "Select an item from the list on the left, input the values for each parameter, and click OK to proceed.";
+            title.Text = "Select an item from the list on the left, input the values for each parameter, and click \"Create Axis\" to create that axis";
             title.Font = new Font("Tahoma", 10);
             title.Size = new Size(title.PreferredWidth, title.PreferredHeight);
             title.AutoSize = true;
@@ -138,9 +149,14 @@ namespace Program
             title.Margin = new Padding(0, 0, 0, 25);
 
             Button button = new Button();
-            button.Text = "OK";
+            button.Text = "Create Axis";
             button.Click += new EventHandler(button_Click);
             button.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+
+            Button finish = new Button();
+            finish.Text = "Finish Creating Axes";
+            finish.Click += new EventHandler(finish_Click);
+            finish.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 
             _panel.Controls.Add(_view, 1, 1);
             _panel.SetRowSpan(_view, 6);
@@ -155,10 +171,14 @@ namespace Program
             _panel.Controls.Add(_textBox3, 3, 4);
             _panel.Controls.Add(_textBox4, 3, 5);
 
+            _panel.Controls.Add(boxTitle, 4, 2);
+            _panel.Controls.Add(_box, 4, 3);
+
             _panel.Controls.Add(title, 2, 1);
             _panel.SetColumnSpan(title, 2);
 
             _panel.Controls.Add(button, 3, 6);
+            _panel.Controls.Add(finish, 4, 6);
         }
 
         private void DoSetup()
@@ -282,46 +302,66 @@ namespace Program
 
         private void button_Click(object sender, EventArgs e)
         {
-            double value1 = 0D;
-            double value2 = 0D;
-            double value3 = 0D;
-            double value4 = 0D;
-
-            try
+            if (_box.SelectedItem == null)
+                MessageBox.Show("No axis selected!");
+            else
             {
-                value1 = Double.Parse(_textBox1.Text);
-                value2 = Double.Parse(_textBox2.Text);
-                value3 = Double.Parse(_textBox3.Text);
-                value4 = Double.Parse(_textBox4.Text);
-            }
-            catch (System.FormatException exception)
-            {
-                MessageBox.Show(string.Format("Error: {0} Please correct the value and try again.", exception.Message));
-                return;
-            }
+                double value1 = 0D;
+                double value2 = 0D;
+                double value3 = 0D;
+                double value4 = 0D;
 
-            _dictionary = new Dictionary<string, double>();
-            _dictionary.Add(_parameter1, value1);
-            _dictionary.Add(_parameter2, value2);
-            _dictionary.Add(_parameter3, value3);
-            _dictionary.Add("timeStep", value4);
+                try
+                {
+                    value1 = Double.Parse(_textBox1.Text);
+                    value2 = Double.Parse(_textBox2.Text);
+                    value3 = Double.Parse(_textBox3.Text);
+                    value4 = Double.Parse(_textBox4.Text);
+                }
+                catch (System.FormatException exception)
+                {
+                    MessageBox.Show(string.Format("Error: {0} Please correct the value and try again.", exception.Message));
+                    return;
+                }
 
-            _mainForm.Project.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
+                _dictionary = new Dictionary<string, double>();
+                _dictionary.Add(_parameter1, value1);
+                _dictionary.Add(_parameter2, value2);
+                _dictionary.Add(_parameter3, value3);
+                _dictionary.Add("timeStep", value4);
 
-            IPath Q = new Path(new Utility.Converters.ParameterSetConverter(_dictionary));
-            _project.Axis1 = new Axis(Q);
-            _project.Axis1.AngleOfInclination = 0;
+                IPath Q = new Path(new Utility.Converters.ParameterSetConverter(_dictionary));
 
-            (sender as Button).Enabled = true;
+                if (string.Compare(_box.SelectedItem.ToString(), "Axis 1") == 0)
+                {
+                    _mainForm.Project.Axis1.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
+                    _mainForm.Project.Axis1 = new Axis(Q);
+                    _mainForm.Project.Axis1.AngleOfInclination = 0;
+                }
+                else if (string.Compare(_box.SelectedItem.ToString(), "Axis 2") == 0)
+                {
+                    _mainForm.Project.Axis2.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
+                    _mainForm.Project.Axis2 = new Axis(Q);
+                    _mainForm.Project.Axis2.AngleOfInclination = 0;
+                }
+                else if (string.Compare(_box.SelectedItem.ToString(), "Axis 3") == 0)
+                {
+                    _mainForm.Project.Axis3.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
+                    _mainForm.Project.Axis3 = new Axis(Q);
+                    _mainForm.Project.Axis3.AngleOfInclination = 0;
+                }
+            }       
+        }
+
+        private void finish_Click(object sender, EventArgs e)
+        {
+            _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
+            _mainForm.MainPanel.SetRight(_mainForm.Project.ChooseMotor.Component);
+
+            _mainForm.Project.Profile.Solve();
 
             if (this.OnClose != null)
                 this.OnClose(this, EventArgs.Empty);
-
-            _mainForm.MainPanel.SetMiddle(_project.Profile.Component);
-
-            _mainForm.MainPanel.SetRight(_project.ChooseMotor.Component);
-
-            _project.Profile.Solve();
         }
     }
 }
