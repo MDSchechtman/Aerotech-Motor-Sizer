@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,7 +52,7 @@ namespace Program
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.35F));
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.35F));
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.15F));
-            
+
             _panel.BorderStyle = BorderStyle.FixedSingle;
             _panel.Location = new Point(5, 25);
             _panel.Dock = DockStyle.Fill;
