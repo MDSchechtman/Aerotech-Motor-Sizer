@@ -122,7 +122,7 @@ namespace Program
         private double _loadMass;
 
         private Project _project;
-        private ISolver _solver;
+        private Solver _solver;
 
         public double RMSForce
         {
@@ -473,7 +473,7 @@ namespace Program
         {
             if (_project.Axis1 != null && _project.Motor != null && _project.Load != null)
             {
-                _solver.Start(_project.Axis1.Record, _project.Motor, _project.Load, _project.Axis1.Path);
+                _solver.Start(_project.Axis1.Record, _project.Motor, _project.Load, _project.Axis1.Path, _project.Environment);
 
                 _dutyCycle.Text = "100";
 
@@ -531,7 +531,7 @@ namespace Program
             int i;
             for (i = 0; i < myMotors.Count; i++ )
             {
-                _solver.Start(_project.Axis1.Record, myMotors[i], _project.Load, _project.Axis1.Path);
+                _solver.Start(_project.Axis1.Record, _project.Motor, _project.Load, _project.Axis1.Path, _project.Environment);
 
                 //if (_project.Axis1.Record.MAXforce < myMotors[i].PeakForce && _project.Axis1.Record.MAXcurrent < myMotors[i].PeakCurrent && _project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce_0psi && _project.Axis1.Record.RMScurrent < myMotors[i].ContinuousCurrent_0psi)
                 if (_project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce_0psi)
