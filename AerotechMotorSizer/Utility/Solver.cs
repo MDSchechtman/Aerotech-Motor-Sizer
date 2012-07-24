@@ -95,9 +95,9 @@ namespace Utility
 
             _record.RMSforce = Math.Sqrt(_record.RMSforce / count);
             _record.MAXforce = _load.Mass * _record.Acceleration.Max() + friction + env.ThrustForce;
-            _record.RMScurrent = _motor.ForceConstant * _record.RMSforce;
-            _record.MAXcurrent = _motor.ForceConstant * _record.MAXforce;
-            _record.TemperatureRise = Math.Pow(_record.RMSforce / _motor.ForceConstant, 2) * _motor.ThermalResistance;
+            _record.RMScurrent = _record.RMSforce / _motor.ForceConstant;
+            _record.MAXcurrent = _record.MAXforce / _motor.ForceConstant;
+            _record.TemperatureRise = Math.Pow(_record.RMSforce / _motor.MotorConstant, 2) * _motor.ThermalResistance;
 
             Write();
 

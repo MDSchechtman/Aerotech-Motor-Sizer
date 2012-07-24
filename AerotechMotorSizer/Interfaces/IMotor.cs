@@ -47,5 +47,7 @@ namespace Interfaces
         double ThermalResistance { get; }
 
         bool SetCooling(string cooling);
+
+        string ToString();
     }
 }

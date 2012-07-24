@@ -380,5 +380,10 @@ namespace Utility
 
             return false;
         }
+
+        public string ToString()
+        {
+            return this.Name;
+        }
     }
 }
