@@ -10,7 +10,7 @@ using Utility;
 
 namespace Program
 {
-    public class FunctionConverterScene
+    public class EditMotorsStages
     {
         private TableLayoutPanel _panel;
         private TextBox _box1;
@@ -30,7 +30,7 @@ namespace Program
         private MainForm _mainForm;
         public event EventHandler OnClose;
 
-        public FunctionConverterScene(MainForm mainForm)
+        public EditMotorsStages(MainForm mainForm)
         {
             _mainForm = mainForm;
             _panel = new TableLayoutPanel();
@@ -66,7 +66,7 @@ namespace Program
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.125F));
 
             _box = new ComboBox();
-            _box.Items.Add(string.Format("Position vs. Time"));
+            _box.Items.Add(string.Format("Position2 vs. Time"));
             _box.Items.Add(string.Format("Velocity vs. Time"));
             _box.Items.Add(string.Format("Acceleration vs. Time"));
             _box.Width = 200;

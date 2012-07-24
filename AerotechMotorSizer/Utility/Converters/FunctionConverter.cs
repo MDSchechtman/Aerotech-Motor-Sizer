@@ -5,7 +5,7 @@ using System.Text;
 using NCalc;
 using Interfaces;
 
-namespace Utility
+namespace Utility.Converters
 {
     public class FunctionConverter : IConverter
     {

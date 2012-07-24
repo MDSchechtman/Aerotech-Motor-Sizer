@@ -27,6 +27,8 @@ namespace Program.Test
 
             // Test the FunctionConverter
             {
+
+                Utility.Converters.FunctionConverter set = new Utility.Converters.FunctionConverter("Sin(x)", 10, 3.14, 1);
             }
 
             // Test the FileConverter

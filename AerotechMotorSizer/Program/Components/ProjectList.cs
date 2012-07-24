@@ -114,28 +114,28 @@ namespace Program
                 if (p.Motor != null)
                 {
                     motor.Nodes.Add(p.Motor.Name.ToString());
-                    motor.Nodes.Add(p.Motor.Inductance.ToString());
-                    motor.Nodes.Add(p.Motor.KT.ToString());
-                    motor.Nodes.Add(p.Motor.Mass.ToString());
-                    motor.Nodes.Add(p.Motor.MaxTemp.ToString());
-                    motor.Nodes.Add(p.Motor.MomentOfInertia.ToString());
+                    //motor.Nodes.Add(p.Motor.Inductance.ToString());
+                    motor.Nodes.Add(p.Motor.MotorConstant.ToString());
+                    //motor.Nodes.Add(p.Motor.Mass.ToString());
+                    //motor.Nodes.Add(p.Motor.MaxTemp.ToString());
+                    //motor.Nodes.Add(p.Motor.MomentOfInertia.ToString());
                     motor.Nodes.Add(p.Motor.Resistance.ToString());
-                    motor.Nodes.Add(p.Motor.ThermalResistance.ToString());
+                    motor.Nodes.Add(p.Motor.ThermalResistance_Catalog_20psi.ToString());
                 }
 
                 TreeNode input = new TreeNode("Input");
                 root.Nodes.Add(input);
-                if (p.Converter != null)
+                if (p.Converter1 != null)
                 {
-                    IConverter converter = p.Converter;
+                    IConverter converter = p.Converter1;
                     if (converter.HasPosition)
-                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Position.Length));
+                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter1.Position.Length));
                     if (converter.HasVelocity)
-                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Velocity.Length));
+                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter1.Velocity.Length));
                     if (converter.HasAcceleration)
-                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Acceleration.Length));
+                        input.Nodes.Add(string.Format("Array: [{0}]", p.Converter1.Acceleration.Length));
 
-                    input.Nodes.Add(string.Format("Array: [{0}]", p.Converter.Time.Length));
+                    input.Nodes.Add(string.Format("Array: [{0}]", p.Converter1.Time.Length));
 
                 }
 

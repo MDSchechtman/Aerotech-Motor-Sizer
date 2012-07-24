@@ -16,7 +16,9 @@ namespace Program
         private IAxis _Axis2;
         private IAxis _Axis3;
         private Utility.SimulationEnv _Environment;
-        private IConverter _converter;
+        private IConverter _converter1;
+        private IConverter _converter2;
+        private IConverter _converter3;
 
         public delegate void UpdateHandler(object sender, EventArgs args);
         public event UpdateHandler Update;
@@ -237,15 +239,41 @@ namespace Program
             }
         }
 
-        public IConverter Converter
+        public IConverter Converter1
         {
             get
             {
-                return _converter;
+                return _converter1;
             }
             set
             {
-                _converter = value;
+                _converter1 = value;
+                OnUpdate(this, new EventArgs());
+            }
+        }
+
+        public IConverter Converter2
+        {
+            get
+            {
+                return _converter2;
+            }
+            set
+            {
+                _converter2 = value;
+                OnUpdate(this, new EventArgs());
+            }
+        }
+
+        public IConverter Converter3
+        {
+            get
+            {
+                return _converter3;
+            }
+            set
+            {
+                _converter3 = value;
                 OnUpdate(this, new EventArgs());
             }
         }

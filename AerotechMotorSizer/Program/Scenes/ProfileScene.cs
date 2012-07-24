@@ -492,7 +492,7 @@ namespace Program
             if (Double.TryParse(_massOfLoad.Text, out _loadMass))
             {
                 Project P = new Project();
-                P.Motor = new Motor(1000, 200, 0, 0, 0, 1000, 1000);
+                //P.Motor = new Motor(1000, 200, 0, 0, 0, 1000, 1000);
 
                 IPath Q = new Path();//converter);
                 P.Axis1 = new Axis(Q);

@@ -290,7 +290,7 @@ namespace Program
             _dictionary.Add(_parameter3, value3);
             _dictionary.Add("timeStep", value4);
 
-            _mainForm.Project.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
+            _mainForm.Project.Converter1 = new Utility.Converters.ParameterSetConverter(_dictionary);
 
             if (this.OnClose != null)
                 this.OnClose(this, EventArgs.Empty);
