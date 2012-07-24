@@ -72,7 +72,7 @@ namespace Program
             _project = mainForm.Project;
             _panel = new TableLayoutPanel();
 
-            /* Disabled pending review */ //Initialize();
+            Initialize();
         }
 
         public string Name

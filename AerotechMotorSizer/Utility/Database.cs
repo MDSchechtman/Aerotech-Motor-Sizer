@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Utility
 {
@@ -16,6 +17,13 @@ namespace Utility
 
         public Database()
         {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "Please select a motor database:";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                _dbfilename = dialog.FileName;
+            }
+
             string MotorName;
             double MotorForceConstant;
             double MotorMotorConstant;
@@ -45,7 +53,7 @@ namespace Utility
             Motor temp;
             _searchedMotors = new List<Motor>();
             _motors = new List<Motor>();
-            const string sql = "select * from _motors;";
+            const string sql = "select * from Motors;";
             var conn = new SQLiteConnection("Data Source=" + _dbfilename + ";Version=3;");
                 conn.Open();
                 DataSet ds = new DataSet();
