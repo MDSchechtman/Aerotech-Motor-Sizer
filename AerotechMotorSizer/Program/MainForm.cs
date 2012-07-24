@@ -61,7 +61,7 @@ namespace Program
         private void InitializeComponents()
         {
             Project = new Project();
-            _projectList = new ProjectList(this, Project);
+            //_projectList = new ProjectList(this, Project);
 
             MainMenu menu = new MainMenu(this);
             MainPanel panel = new MainPanel(this);

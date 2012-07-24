@@ -334,20 +334,20 @@ namespace Program
 
                 if (string.Compare(_box.SelectedItem.ToString(), "Axis 1") == 0)
                 {
-                    _mainForm.Project.Axis1.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
                     _mainForm.Project.Axis1 = new Axis(Q);
+                    _mainForm.Project.Axis1.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
                     _mainForm.Project.Axis1.AngleOfInclination = 0;
                 }
                 else if (string.Compare(_box.SelectedItem.ToString(), "Axis 2") == 0)
                 {
-                    _mainForm.Project.Axis2.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
                     _mainForm.Project.Axis2 = new Axis(Q);
+                    _mainForm.Project.Axis2.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
                     _mainForm.Project.Axis2.AngleOfInclination = 0;
                 }
                 else if (string.Compare(_box.SelectedItem.ToString(), "Axis 3") == 0)
                 {
-                    _mainForm.Project.Axis3.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
                     _mainForm.Project.Axis3 = new Axis(Q);
+                    _mainForm.Project.Axis3.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
                     _mainForm.Project.Axis3.AngleOfInclination = 0;
                 }
             }       

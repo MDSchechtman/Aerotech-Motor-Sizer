@@ -467,6 +467,8 @@ namespace Program
             _ambientTemperature.Text = _project.Environment.AmbientTemp.ToString();
             _mechanicalEfficiency.Text = _project.Environment.MechEfficiency.ToString();
             _cooling.Text = _project.Environment.Cooling;
+
+            Solve();
         }
 
         public void Solve()
@@ -526,15 +528,15 @@ namespace Program
             List<Motor> myMotors = _project.ChooseMotor.Motors;
 
             //myMotors.Sort(delegate(Motor t1, Motor t2) { return (t1.PeakForce.CompareTo(t2.PeakForce)); });
-            myMotors.Sort(delegate(Motor t1, Motor t2) { return (t1.ContinuousForce_0psi.CompareTo(t2.ContinuousForce_0psi)); });
+            myMotors.Sort(delegate(Motor t1, Motor t2) { return (t1.ContinuousForce.CompareTo(t2.ContinuousForce)); });
 
             int i;
             for (i = 0; i < myMotors.Count; i++ )
             {
                 _solver.Start(_project.Axis1.Record, myMotors[i], _project.Load, _project.Axis1.Path);
 
-                //if (_project.Axis1.Record.MAXforce < myMotors[i].PeakForce && _project.Axis1.Record.MAXcurrent < myMotors[i].PeakCurrent && _project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce_0psi && _project.Axis1.Record.RMScurrent < myMotors[i].ContinuousCurrent_0psi)
-                if (_project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce_0psi)
+                //if (_project.Axis1.Record.MAXforce < myMotors[i].PeakForce && _project.Axis1.Record.MAXcurrent < myMotors[i].PeakCurrent && _project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce && _project.Axis1.Record.RMScurrent < myMotors[i].ContinuousCurrent)
+                if (_project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce)
                 {
                     _dutyCycle.Text = "100";
 

@@ -12,7 +12,7 @@ namespace Interfaces
         double MomentOfInertia { get; set; }
         //double Resistance { get; set; }
         double Inductance { get; set; }
-        double ThermalResistance { get; set; }
+        //double ThermalResistance { get; set; }
         double KT { get; set; }
 
         string Name { get; set; }
@@ -41,5 +41,11 @@ namespace Interfaces
         double ThermalResistance_Catalog_20psi { get; set; }
         double ThermalResistance_PercentDifference_0psi { get; set; }
         double ThermalResistance_PercentDifference_20psi { get; set; }
+
+        double ContinuousForce { get; }
+        double ContinuousCurrent { get; }
+        double ThermalResistance { get; }
+
+        bool SetCooling(string cooling);
     }
 }

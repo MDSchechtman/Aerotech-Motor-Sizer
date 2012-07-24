@@ -71,9 +71,9 @@ namespace MotorSolver
 
             myRecord.RMSforce = Math.Sqrt(myRecord.RMSforce / count);
             myRecord.MAXforce = myLoad.Mass * myRecord.Acceleration.Max();
-            myRecord.RMScurrent = myMotor.MotorConstant * myRecord.RMSforce;
-            myRecord.MAXcurrent = myMotor.MotorConstant * myRecord.MAXforce;
-            myRecord.TemperatureRise = Math.Pow(myRecord.RMSforce / myMotor.MotorConstant, 2) * myMotor.ThermalResistance_100CTEMP_0psi;
+            myRecord.RMScurrent = myMotor.ForceConstant * myRecord.RMSforce;
+            myRecord.MAXcurrent = myMotor.ForceConstant * myRecord.MAXforce;
+            myRecord.TemperatureRise = Math.Pow(myRecord.RMSforce / myMotor.ForceConstant, 2) * myMotor.ThermalResistance;
 
             Write();
 

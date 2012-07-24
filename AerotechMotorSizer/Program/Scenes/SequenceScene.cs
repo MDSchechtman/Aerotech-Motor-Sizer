@@ -230,6 +230,8 @@ namespace Program
 
             _finalCoilTemperatureUnits = fillComboBox("temperature", 0);
 
+            _cooling.SelectedIndexChanged += new EventHandler(_cooling_SelectedIndexChanged);
+
             _panel.Controls.Add(_sequenceNameLabel, 0, 0);
             _panel.SetColumnSpan(_sequenceNameLabel, 2);
             _panel.Controls.Add(_inputs, 0, 2);
@@ -295,6 +297,14 @@ namespace Program
             _panel.Controls.Add(_continuousCurrentUnits, 5, 9);
             //_panel.Controls.Add(_minBusVoltageUnits, 5, 9);
             _panel.Controls.Add(_finalCoilTemperatureUnits, 5, 10);
+        }
+
+        void _cooling_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _project.Environment.Cooling = (string) _cooling.SelectedItem;
+            _project.Motor.SetCooling((string) _cooling.SelectedItem);
+
+            _project.Profile.UpdateEnvironment();
         }
 
         public void UpdateSolution()
