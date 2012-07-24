@@ -28,6 +28,7 @@ namespace Program
         private NewProjectScene _NewProjectScene;
         private ProfileScene _ProfileScene;
         private SequenceScene _SequenceScene;
+        private OutputScene _WarningScene;
 
         public ParameterInputScene ParameterInput
         {
@@ -126,6 +127,20 @@ namespace Program
             }
         }
 
+        //get and set the 
+        public OutputScene Warn
+        {
+            get
+            {
+                return _WarningScene;
+            }
+            set
+            {
+                _WarningScene = value;
+                //OnUpdate(this, new EventArgs());
+            }
+        }
+        
         protected void OnUpdate(object sender, EventArgs args)
         {
             if (Update != null)

@@ -493,6 +493,21 @@ namespace Program
                 _totalRMSForceForEntireSequence.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
 
                 _project.Sequence.UpdateSolution();
+
+                _project.Warn.Warnings = "";
+
+                string warnings = "";
+
+                if (_project.Axis1.Record.MAXforce > _project.Motor.PeakForce)
+                    warnings += "Peak force exceeds motor rating\r\n";
+                if(_project.Axis1.Record.MAXcurrent > _project.Motor.PeakCurrent)
+                    warnings += "Peak current exceeds motor rating\r\n";
+                if(_project.Axis1.Record.RMSforce > _project.Motor.ContinuousForce)
+                    warnings += "Continuous force exceeds motor rating\r\n";
+                if(_project.Axis1.Record.RMScurrent > _project.Motor.ContinuousCurrent)
+                    warnings += "Continuous current exceeds motor rating\r\n";
+
+                _project.Warn.Warnings = warnings;
             }
         }
 
