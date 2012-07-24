@@ -44,7 +44,6 @@
     <Compile Include="IDatabase.cs" />
     <Compile Include="ILoad.cs" />
     <Compile Include="IMotor.cs" />
-    <Compile Include="IFunction.cs" />
     <Compile Include="IAxis.cs" />
     <Compile Include="IPath.cs" />
     <Compile Include="ISolver.cs" />

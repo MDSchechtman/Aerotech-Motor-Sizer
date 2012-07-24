@@ -7,6 +7,7 @@ namespace Interfaces
 {
     public interface ITesting
     {
+        // DO NOT EDIT
         bool DoTest();
     }
 }

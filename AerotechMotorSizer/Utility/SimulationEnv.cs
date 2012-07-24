@@ -9,119 +9,144 @@ namespace Utility
 {
     public class SimulationEnv
     {
-        private double EnvironmentStaticFriction;
-        private double EnvironmentDynamicFriction;
-        private double EnvironmentPreLoadForce;
-        private double EnvironmentThrustForce;
-        private double EnvironmentAmbientTemp;
-        private double EnvironmentMechEfficiency;
-        private string EnvironmentCooling;
+        private double _environmentStaticFriction;
+        private double _environmentDynamicFriction;
+        private double _environmentPreLoadForce;
+        private double _environmentThrustForce;
+        private double _environmentAmbientTemp;
+        private double _environmentMechEfficiency;
+        private string _environmentCooling;
 
-        //constructor
-        public SimulationEnv(double StaticFriction, double DynamicFriction, double PreLoadForce, double ThrustForce, double AmbientTemp, double MechEfficiency, string Cooling)
-        {
-            EnvironmentStaticFriction = StaticFriction;
-            EnvironmentDynamicFriction = DynamicFriction;
-            EnvironmentPreLoadForce = PreLoadForce;
-            EnvironmentThrustForce = ThrustForce;
-            EnvironmentAmbientTemp = AmbientTemp;
-            EnvironmentMechEfficiency = MechEfficiency;
-            EnvironmentCooling = Cooling;
-        }
-
-        //another constructor
+        /// <summary>
+        /// Creates an instance of the Simulation Environment
+        /// </summary>
         public SimulationEnv()
         {
         }
 
-        //get and set the environment static friction
+        /// <summary>
+        /// Creates an instance of the Simulation Environment
+        /// </summary>
+        /// <param name="StaticFriction"></param>
+        /// <param name="DynamicFriction"></param>
+        /// <param name="PreLoadForce"></param>
+        /// <param name="ThrustForce"></param>
+        /// <param name="AmbientTemp"></param>
+        /// <param name="MechEfficiency"></param>
+        /// <param name="Cooling"></param>
+        public SimulationEnv(double StaticFriction, double DynamicFriction, double PreLoadForce, double ThrustForce, double AmbientTemp, double MechEfficiency, string Cooling)
+        {
+            _environmentStaticFriction = StaticFriction;
+            _environmentDynamicFriction = DynamicFriction;
+            _environmentPreLoadForce = PreLoadForce;
+            _environmentThrustForce = ThrustForce;
+            _environmentAmbientTemp = AmbientTemp;
+            _environmentMechEfficiency = MechEfficiency;
+            _environmentCooling = Cooling;
+        }
+
+        /// <summary>
+        /// Gets or sets the Static Friction
+        /// </summary>
         public double StaticFriction
         {
             get
             {
-                return EnvironmentStaticFriction;
+                return _environmentStaticFriction;
             }
             set
             {
-                EnvironmentStaticFriction = value;
+                _environmentStaticFriction = value;
             }
         }
 
-        //get and set the environment dynamic friction
+        /// <summary>
+        /// Gets or sets the Dynamic Friction
+        /// </summary>
         public double DynamicFriction
         {
             get
             {
-                return EnvironmentDynamicFriction;
+                return _environmentDynamicFriction;
             }
             set
             {
-                EnvironmentDynamicFriction = value;
+                _environmentDynamicFriction = value;
             }
         }
 
-        //get and set the environment pre load force
+        /// <summary>
+        /// Gets or sets the Pre Load Force
+        /// </summary>
         public double PreLoadForce
         {
             get
             {
-                return EnvironmentPreLoadForce;
+                return _environmentPreLoadForce;
             }
             set
             {
-                EnvironmentPreLoadForce = value;
+                _environmentPreLoadForce = value;
             }
         }
 
-        //get and set the environment thrust force
+        /// <summary>
+        /// Gets or sets the Thrust Force
+        /// </summary>
         public double ThrustForce
         {
             get
             {
-                return EnvironmentThrustForce;
+                return _environmentThrustForce;
             }
             set
             {
-                EnvironmentThrustForce = value;
+                _environmentThrustForce = value;
             }
         }
 
-        //get and set the environment ambient temperature
+        /// <summary>
+        /// Gets or sets the Ambient Temperature
+        /// </summary>
         public double AmbientTemp
         {
             get
             {
-                return EnvironmentAmbientTemp;
+                return _environmentAmbientTemp;
             }
             set
             {
-                EnvironmentAmbientTemp = value;
+                _environmentAmbientTemp = value;
             }
         }
 
-        //get and set the environment mechanical efficiency
+        /// <summary>
+        /// Gets or sets the Mechanical Efficiency
+        /// </summary>
         public double MechEfficiency
         {
             get
             {
-                return EnvironmentMechEfficiency;
+                return _environmentMechEfficiency;
             }
             set
             {
-                EnvironmentMechEfficiency = value;
+                _environmentMechEfficiency = value;
             }
         }
 
-        //get and set the environment cooling
+        /// <summary>
+        /// Gets or sets the environment Cooling
+        /// </summary>
         public string Cooling
         {
             get
             {
-                return EnvironmentCooling;
+                return _environmentCooling;
             }
             set
             {
-                EnvironmentCooling = value;
+                _environmentCooling = value;
             }
         }
 

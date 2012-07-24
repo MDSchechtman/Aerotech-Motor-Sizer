@@ -14,14 +14,15 @@ namespace Utility
         private IRecord _record;
         private double _angleOfInclination;
 
-
+        /// <summary>
+        /// Creates a new instance of the axis class
+        /// </summary>
         public Axis() { }
 
         /// <summary>
-        /// An Axis contains the positions, accelerations, and velocities at descrete times
-        /// which are used for solving.
-        /// The axis is responsible for garunteeing consistency between its Path and Record times.
+        /// Creates a new instance of the axis class
         /// </summary>
+        /// <param name="path"></param>
         public Axis(IPath path)
         {
             SetPath(path); 

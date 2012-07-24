@@ -9,18 +9,26 @@ namespace Utility
 {
     public class Load : ILoad
     {
-        private double _Mass;
-        private double _MomentOfInertia;
-        private double _MaxTemperature;
+        private double _mass;
+        private double _momentOfInertia;
+        private double _maxTemperature;
 
-        //constructor
-        public Load(double Mass, double MomentOfInertia)
+        /// <summary>
+        /// Construct an instance of the Load Class
+        /// </summary>
+        /// <param name="Mass">The mass of the load</param>
+        /// <param name="MomentOfInertia">The load's moment of inertia</param>
+        public Load(double mass, double momentOfInertia)
         {
-            _Mass = Mass;
-            _MomentOfInertia = MomentOfInertia;
+            _mass = mass;
+            _momentOfInertia = momentOfInertia;
         }
 
-        //another constructor
+        /// <summary>
+        /// Construct an instance of the Load Class
+        /// </summary>
+        /// <param name="Mass"></param>
+        /// <param name="MomentOfInertia"></param>
         public Load()
         {
         }
@@ -30,11 +38,11 @@ namespace Utility
         {
             get
             {
-                return _Mass;
+                return _mass;
             }
             set
             {
-                _Mass = value;
+                _mass = value;
             }
         }
 
@@ -43,11 +51,11 @@ namespace Utility
         {
             get
             {
-                return _MomentOfInertia;
+                return _momentOfInertia;
             }
             set
             {
-                _MomentOfInertia = value;
+                _momentOfInertia = value;
             }
         }
 
@@ -56,11 +64,11 @@ namespace Utility
         {
             get
             {
-                return _MaxTemperature;
+                return _maxTemperature;
             }
             set
             {
-                _MaxTemperature = value;
+                _maxTemperature = value;
             }
         }
     }

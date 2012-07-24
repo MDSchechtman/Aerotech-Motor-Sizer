@@ -10,9 +10,9 @@ namespace Utility
 {
     public class Database
     {
-        private List<Motor> Motors;
-        private List<Motor> SearchedMotors;
-        private string dbfilename = @"motordb";
+        private List<Motor> _motors;
+        private List<Motor> _searchedMotors;
+        private string _dbfilename = @"motordb";
 
         public Database()
         {
@@ -43,10 +43,10 @@ namespace Utility
             double MotorThermalResistance_PercentDifference_20psi;
 
             Motor temp;
-            SearchedMotors = new List<Motor>();
-            Motors = new List<Motor>();
-            const string sql = "select * from Motors;";
-            var conn = new SQLiteConnection("Data Source=" + dbfilename + ";Version=3;");
+            _searchedMotors = new List<Motor>();
+            _motors = new List<Motor>();
+            const string sql = "select * from _motors;";
+            var conn = new SQLiteConnection("Data Source=" + _dbfilename + ";Version=3;");
                 conn.Open();
                 DataSet ds = new DataSet();
                 var da = new SQLiteDataAdapter(sql, conn);
@@ -79,8 +79,8 @@ namespace Utility
                     MotorThermalResistance_PercentDifference_0psi = Convert.ToDouble(ds.Tables[0].Rows[i]["ThermalResistance_PercentDifference_0psi"].ToString());
                     MotorThermalResistance_PercentDifference_20psi = Convert.ToDouble(ds.Tables[0].Rows[i]["ThermalResistance_PercentDifference_20psi"].ToString());
                     temp = new Motor(MotorName, MotorForceConstant, MotorMotorConstant, MotorBackEMFConstant, MotorResistance, MotorPeakForce, MotorPeakCurrent, MotorContinuousForce_0psi, MotorContinuousForce_10psi, MotorContinuousForce_20psi, MotorContinuousForce_40psi, MotorContinuousCurrent_0psi, MotorContinuousCurrent_10psi, MotorContinuousCurrent_20psi, MotorContinuousCurrent_40psi, MotorCoilMass, MotorCoilLength, MotorThermalResistance_100CTEMP_0psi, MotorThermalResistance_100CTEMP_10psi, MotorThermalResistance_100CTEMP_20psi, MotorThermalResistance_100CTEMP_40psi, MotorThermalResistance_Catalog_0psi, MotorThermalResistance_Catalog_20psi, MotorThermalResistance_PercentDifference_0psi, MotorThermalResistance_PercentDifference_20psi);
-                    SearchedMotors.Add(temp);
-                    Motors.Add(temp);
+                    _searchedMotors.Add(temp);
+                    _motors.Add(temp);
                 }
         }
         public List<Motor> Get(String[,] MotorProperties)
@@ -111,7 +111,7 @@ namespace Utility
             double MotorThermalResistance_PercentDifference_0psi;
             double MotorThermalResistance_PercentDifference_20psi;
             Motor temp;
-            Motors = new List<Motor>();
+            _motors = new List<Motor>();
             String WhereSQL="";
             for (int i = 0; i <= MotorProperties.GetUpperBound(0); i++)
             {
@@ -125,9 +125,9 @@ namespace Utility
                 }
             }
             
-            string sql = "select * from Motors"+WhereSQL+";";
+            string sql = "select * from _motors"+WhereSQL+";";
             Console.WriteLine(sql);
-            var conn = new SQLiteConnection("Data Source=" + dbfilename + ";Version=3;");
+            var conn = new SQLiteConnection("Data Source=" + _dbfilename + ";Version=3;");
             conn.Open();
             DataSet ds = new DataSet();
             var da = new SQLiteDataAdapter(sql, conn);
@@ -160,15 +160,17 @@ namespace Utility
                 MotorThermalResistance_PercentDifference_0psi = Convert.ToDouble(ds.Tables[0].Rows[i]["ThermalResistance_PercentDifference_0psi"].ToString());
                 MotorThermalResistance_PercentDifference_20psi = Convert.ToDouble(ds.Tables[0].Rows[i]["ThermalResistance_PercentDifference_20psi"].ToString());
                 temp = new Motor(MotorName, MotorForceConstant, MotorMotorConstant, MotorBackEMFConstant, MotorResistance, MotorPeakForce, MotorPeakCurrent, MotorContinuousForce_0psi, MotorContinuousForce_10psi, MotorContinuousForce_20psi, MotorContinuousForce_40psi, MotorContinuousCurrent_0psi, MotorContinuousCurrent_10psi, MotorContinuousCurrent_20psi, MotorContinuousCurrent_40psi, MotorCoilMass, MotorCoilLength, MotorThermalResistance_100CTEMP_0psi, MotorThermalResistance_100CTEMP_10psi, MotorThermalResistance_100CTEMP_20psi, MotorThermalResistance_100CTEMP_40psi, MotorThermalResistance_Catalog_0psi, MotorThermalResistance_Catalog_20psi, MotorThermalResistance_PercentDifference_0psi, MotorThermalResistance_PercentDifference_20psi);
-                Motors.Add(temp);
+                _motors.Add(temp);
             }
-            return Motors;
+            return _motors;
         }
+
         public List<Motor> motors
         {
-            get { return Motors; }
-            set { Motors = motors; }
+            get { return _motors; }
+            set { _motors = motors; }
         }
+
         public Boolean Import(String filename)
         {
             List<string[]> parsedData = new List<string[]>();
@@ -194,9 +196,9 @@ namespace Utility
             
             for (int i = 0; i < parsedData.Count; i++)
             {
-                string sql = "insert into Motors (Motor, ForceConstant, MotorConstant, BackEMFConstant, Resistance, PeakForce, PeakCurrent, ContinuousForce_0psi, ContinuousForce_10psi, ContinuousForce_20psi, ContinuousForce_40psi, ContinuousCurrent_0psi, ContinuousCurrent_10psi, ContinuousCurrent_20psi, ContinuousCurrent_40psi, CoilMass, CoilLength, ThermalResistance_100CTEMP_0psi, ThermalResistance_100CTEMP_10psi, ThermalResistance_100CTEMP_20psi, ThermalResistance_100CTEMP_40psi, ThermalResistance_Catalog_0psi, ThermalResistance_Catalog_20psi, ThermalResistance_PercentDifference_0psi, ThermalResistance_PercentDifference_20psi) values (";
+                string sql = "insert into _motors (Motor, ForceConstant, MotorConstant, BackEMFConstant, Resistance, PeakForce, PeakCurrent, ContinuousForce_0psi, ContinuousForce_10psi, ContinuousForce_20psi, ContinuousForce_40psi, ContinuousCurrent_0psi, ContinuousCurrent_10psi, ContinuousCurrent_20psi, ContinuousCurrent_40psi, CoilMass, CoilLength, ThermalResistance_100CTEMP_0psi, ThermalResistance_100CTEMP_10psi, ThermalResistance_100CTEMP_20psi, ThermalResistance_100CTEMP_40psi, ThermalResistance_Catalog_0psi, ThermalResistance_Catalog_20psi, ThermalResistance_PercentDifference_0psi, ThermalResistance_PercentDifference_20psi) values (";
                 sql += "'" + parsedData[i][0] + "'" + ", " + parsedData[i][1] + ", " + parsedData[i][2] + ", " + parsedData[i][3] + ", " + parsedData[i][4] + ", " + parsedData[i][5] + ", " + parsedData[i][6] + ", " + parsedData[i][7] + ", " + parsedData[i][8] + ", " + parsedData[i][9] + ", " + parsedData[i][10] + ", " + parsedData[i][11] + ", " + parsedData[i][12] + ", " + parsedData[i][13] + ", " + parsedData[i][14] + ", " + parsedData[i][15] + ", " + parsedData[i][16] + ", " + parsedData[i][17] + ", " + parsedData[i][18] + ", " + parsedData[i][19] + ", " + parsedData[i][20] + ", " + parsedData[i][21] + ", " + parsedData[i][22] + ", " + parsedData[i][23] + ", " + parsedData[i][24]+");";
-                var conn = new SQLiteConnection("Data Source=" + dbfilename + ";Version=3;");
+                var conn = new SQLiteConnection("Data Source=" + _dbfilename + ";Version=3;");
                 conn.Open();
                 SQLiteCommand sql_cmd = conn.CreateCommand();
                 sql_cmd.CommandText = sql;
@@ -206,37 +208,38 @@ namespace Utility
             }
             return true;
         }
+
         public Boolean Export(string filename)
         {
             TextWriter file = new StreamWriter(filename, false);
             {
-                for (int i = 0; i < Motors.Count; i++) // Loop through List with for
+                for (int i = 0; i < _motors.Count; i++) // Loop through List with for
                 {
-                    file.Write(Motors[i].Name);
-                    file.Write(", "+Motors[i].ForceConstant);
-                    file.Write(", "+Motors[i].MotorConstant);
-                    file.Write(", "+Motors[i].BackEMFConstant);
-                    file.Write(", "+Motors[i].Resistance);
-                    file.Write(", " + Motors[i].PeakForce);
-                    file.Write(", " + Motors[i].PeakCurrent);
-                    file.Write(", " + Motors[i].ContinuousForce_0psi);
-                    file.Write(", " + Motors[i].ContinuousForce_10psi);
-                    file.Write(", " + Motors[i].ContinuousForce_20psi);
-                    file.Write(", " + Motors[i].ContinuousForce_40psi);
-                    file.Write(", " + Motors[i].ContinuousCurrent_0psi);
-                    file.Write(", " + Motors[i].ContinuousCurrent_10psi);
-                    file.Write(", " + Motors[i].ContinuousCurrent_20psi);
-                    file.Write(", " + Motors[i].ContinuousCurrent_40psi);
-                    file.Write(", " + Motors[i].CoilMass);
-                    file.Write(", " + Motors[i].CoilLength);
-                    file.Write(", " + Motors[i].ThermalResistance_100CTEMP_0psi);
-                    file.Write(", " + Motors[i].ThermalResistance_100CTEMP_10psi);
-                    file.Write(", " + Motors[i].ThermalResistance_100CTEMP_20psi);
-                    file.Write(", " + Motors[i].ThermalResistance_100CTEMP_40psi);
-                    file.Write(", " + Motors[i].ThermalResistance_Catalog_0psi);
-                    file.Write(", " + Motors[i].ThermalResistance_Catalog_20psi);
-                    file.Write(", " + Motors[i].ThermalResistance_PercentDifference_0psi);
-                    file.WriteLine(", " + Motors[i].ThermalResistance_PercentDifference_20psi);
+                    file.Write(_motors[i].Name);
+                    file.Write(", "+_motors[i].ForceConstant);
+                    file.Write(", "+_motors[i].MotorConstant);
+                    file.Write(", "+_motors[i].BackEMFConstant);
+                    file.Write(", "+_motors[i].Resistance);
+                    file.Write(", " + _motors[i].PeakForce);
+                    file.Write(", " + _motors[i].PeakCurrent);
+                    file.Write(", " + _motors[i].ContinuousForce_0psi);
+                    file.Write(", " + _motors[i].ContinuousForce_10psi);
+                    file.Write(", " + _motors[i].ContinuousForce_20psi);
+                    file.Write(", " + _motors[i].ContinuousForce_40psi);
+                    file.Write(", " + _motors[i].ContinuousCurrent_0psi);
+                    file.Write(", " + _motors[i].ContinuousCurrent_10psi);
+                    file.Write(", " + _motors[i].ContinuousCurrent_20psi);
+                    file.Write(", " + _motors[i].ContinuousCurrent_40psi);
+                    file.Write(", " + _motors[i].CoilMass);
+                    file.Write(", " + _motors[i].CoilLength);
+                    file.Write(", " + _motors[i].ThermalResistance_100CTEMP_0psi);
+                    file.Write(", " + _motors[i].ThermalResistance_100CTEMP_10psi);
+                    file.Write(", " + _motors[i].ThermalResistance_100CTEMP_20psi);
+                    file.Write(", " + _motors[i].ThermalResistance_100CTEMP_40psi);
+                    file.Write(", " + _motors[i].ThermalResistance_Catalog_0psi);
+                    file.Write(", " + _motors[i].ThermalResistance_Catalog_20psi);
+                    file.Write(", " + _motors[i].ThermalResistance_PercentDifference_0psi);
+                    file.WriteLine(", " + _motors[i].ThermalResistance_PercentDifference_20psi);
                 }
                 file.Close();
             }

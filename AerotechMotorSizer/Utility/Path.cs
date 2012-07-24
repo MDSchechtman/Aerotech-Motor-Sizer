@@ -15,15 +15,19 @@ namespace Utility
         private double[] _time;
         private bool _angleOfInclination;
 
-        public Path()
-        {
-        }
-
+        /// <summary>
+        /// Creates a new instance of Path
+        /// </summary>
+        /// <param name="converter">The converter to use to construct the path</param>
         public Path(IConverter converter)
         {
             FromConverter(converter);
         }
 
+        /// <summary>
+        /// Creates a path from the given converter
+        /// </summary>
+        /// <param name="converter"></param>
         public void FromConverter(IConverter converter)
         {
             _acceleration = converter.Acceleration;

@@ -10,7 +10,6 @@ namespace Utility.Converters
 {
     public class FileConverter : IConverter
     {
-
         #region IConverter Implementation
 
         private bool _hasPosition;
@@ -66,6 +65,11 @@ namespace Utility.Converters
             Velocity
         }
 
+        /// <summary>
+        /// Constucts a new instance of the FileConverter class. This assumes CSV formate delimeted by { , | ; space }
+        /// </summary>
+        /// <param name="filename">The file to read</param>
+        /// <param name="type">The type of data in the file</param>
         public FileConverter(string filename, int type)
         {
             _time = new List<double>();

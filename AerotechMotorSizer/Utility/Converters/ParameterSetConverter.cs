@@ -54,8 +54,20 @@ namespace Utility.Converters
         #endregion // IConverter Implementation
 
         #region Internal Implementation
+
+        private double[] _acceleration;
+        private double[] _velocity;
+        private double[] _position;
+        private double[] _time;
+        private double _distanceOfTravel;
+        private double _accelerationTime;
+        private double _traverseTime;
+        private double _decelerationTime;
+        private double _dwellTime;
+        private double _timeStep;
+
         /// <summary>
-        /// Create a new ParameterSet
+        /// Creates a new instance of the ParameterSetConverter class
         /// </summary>
         /// <param name="parameters">The dictionary of parameters to convert</param>
         public ParameterSetConverter(Dictionary<string, double> parameters) 
@@ -67,7 +79,7 @@ namespace Utility.Converters
         }
 
         // Get the string name and double value from each key in the dictionary
-        private bool getKey(Dictionary<string, double> p, int i, out string s, out double v)
+        private bool GetKey(Dictionary<string, double> p, int i, out string s, out double v)
         {
             int index = 0;
             foreach (KeyValuePair<string, double> k in p)
@@ -98,10 +110,10 @@ namespace Utility.Converters
             double timeStep = 0;
 
             // Get the parameters, checking for errors
-            bool zeroValid = getKey(parameters, 0, out param0, out value0);
-            bool oneValid = getKey(parameters, 1, out param1, out value1);
-            bool twoValid = getKey(parameters, 2, out param2, out value2);
-            bool timeValid = getKey(parameters, 3, out timeStepStr, out timeStep);
+            bool zeroValid = GetKey(parameters, 0, out param0, out value0);
+            bool oneValid = GetKey(parameters, 1, out param1, out value1);
+            bool twoValid = GetKey(parameters, 2, out param2, out value2);
+            bool timeValid = GetKey(parameters, 3, out timeStepStr, out timeStep);
 
             if (!(zeroValid && oneValid && twoValid && timeValid))
                 throw new Exception("Parameters could not be determined!");
@@ -114,21 +126,10 @@ namespace Utility.Converters
             double[] values = new double[] { value0, value1, value2 };
             info.Invoke(this, new object[] { values });
 
-            fillArrays();
+            FillArrays();
         }
 
-        private double[] _acceleration;
-        private double[] _velocity;
-        private double[] _position;
-        private double[] _time;
-        private double _distanceOfTravel;
-        private double _accelerationTime;
-        private double _traverseTime;
-        private double _decelerationTime;
-        private double _dwellTime;
-        private double _timeStep;
-
-        private void fillArrays()
+        private void FillArrays()
         {
             _dwellTime = 0; // for now
 
@@ -172,6 +173,10 @@ namespace Utility.Converters
             }
         }
 
+        // DO NOT EDIT FUNCTION NAMES BELOW //
+        // DO NOT EDIT FUNCTION NAMES BELOW //
+        // DO NOT EDIT FUNCTION NAMES BELOW //
+        
         private void distanceOfTravel_accelerationTime_traverseTime_converter(double[] values)
         {
             if (values.Length != 3)
@@ -374,6 +379,7 @@ namespace Utility.Converters
             _decelerationTime = _accelerationTime;
             _distanceOfTravel = scanDistance + maxVelocity * _accelerationTime;
         }
+
         #endregion // Internal Implemenetation
     }
 }

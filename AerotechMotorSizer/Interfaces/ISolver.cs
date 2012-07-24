@@ -15,8 +15,11 @@ namespace Interfaces
         /// <param name="load">The load</param>
         /// <param name="path">The path</param>
         bool Start(IRecord initial, IMotor motor, ILoad load, IPath path);
-        bool Stop();
 
+        /// <summary>
+        /// Writes information pertaining to the solver to file
+        /// </summary>
+        /// <returns></returns>
         bool Write();
     }
 }

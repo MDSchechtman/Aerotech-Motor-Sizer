@@ -74,6 +74,10 @@ namespace Utility
         public double MAXforce { get; set; }
         public double TemperatureRise { get; set; }
 
+        /// <summary>
+        /// Write the record to a file
+        /// </summary>
+        /// <param name="filename">The filename to write to</param>
         public void Write(string filename)
         {
             TextWriter file = new StreamWriter(filename, false);

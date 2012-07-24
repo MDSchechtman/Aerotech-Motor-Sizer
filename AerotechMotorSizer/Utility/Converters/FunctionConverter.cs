@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using NCalc;
 using Interfaces;
 
@@ -64,11 +65,20 @@ namespace Utility
             Velocity
         }
 
+        /// <summary>
+        /// Creates a new instance of the FunctionConverterClass
+        /// </summary>
+        /// <param name="function">The function as a string</param>
+        /// <param name="length"></param>
+        /// <param name="interval"></param>
+        /// <param name="type">The type of data the function represents</param>
         public FunctionConverter(String function, double length, double interval, int type)
         {
             int size = Convert.ToInt32(length / interval);
+
             _time = new List<double>();
             _value = new List<double>();
+
             for (int i = 0; i < size; i++)
             {
                 _time.Add(i * interval);
@@ -81,7 +91,7 @@ namespace Utility
                 }
                 catch(EvaluationException a)
                 {
-                    Console.WriteLine("Error catched: " + a.Message);
+                    Console.WriteLine("Error caught: " + a.Message);
                 }
 
                 SetProperties((FunctioNType)type);

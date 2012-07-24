@@ -10,11 +10,11 @@ namespace MotorSolver
 {
     public class Solver : ISolver
     {
-        private IRecord myRecord;
-        private IMotor myMotor;
-        private ILoad myLoad;
-        private IPath myPath;
-        private string projectDirectory;
+        private IRecord _record;
+        private IMotor _motor;
+        private ILoad _load;
+        private IPath _path;
+        private string _projectDirectory;
 
         /// <summary>
         /// Start a simulation
@@ -25,87 +25,80 @@ namespace MotorSolver
         /// <param name="path">The path</param>
         public bool Start(IRecord initial, IMotor motor, ILoad load, IPath path)
         {
-            myRecord = initial;
-            myMotor = motor;
-            myLoad = load;
-            myPath = path;
+            _record = initial;
+            _motor = motor;
+            _load = load;
+            _path = path;
 
-            int count = myRecord.Time.Length;
+            int count = _record.Time.Length;
 
-            if (myRecord.Time == null || (myRecord.Position == null && myRecord.Velocity == null && myRecord.Acceleration == null))
+            if (_record.Time == null || (_record.Position == null && _record.Velocity == null && _record.Acceleration == null))
                 return false;
 
-            if (myRecord.Acceleration == null)
-                myRecord.Acceleration = new double[count];
+            if (_record.Acceleration == null)
+                _record.Acceleration = new double[count];
 
-            if (myRecord.Velocity == null)
-                myRecord.Velocity = new double[count];
+            if (_record.Velocity == null)
+                _record.Velocity = new double[count];
 
-            if (myRecord.Position == null)
-                myRecord.Position = new double[count];
+            if (_record.Position == null)
+                _record.Position = new double[count];
 
-            myRecord.RMSforce = Math.Pow(myLoad.Mass * myRecord.Acceleration[0], 2);
+            _record.RMSforce = Math.Pow(_load.Mass * _record.Acceleration[0], 2);
 
-            if (myRecord.Acceleration != null)
+            if (_record.Acceleration != null)
             {
                 for (int i = 1; i < count; i++)
-                   myRecord.RMSforce += Math.Pow(myLoad.Mass * myRecord.Acceleration[i], 2);
+                   _record.RMSforce += Math.Pow(_load.Mass * _record.Acceleration[i], 2);
             }
-            else if (myRecord.Velocity != null)
+            else if (_record.Velocity != null)
             {
                 for (int i = 1; i < count; i++)
                 {
-                    myRecord.Acceleration[i] = (myRecord.Velocity[i] - myRecord.Velocity[i - 1]) / (myRecord.Time[i] - myRecord.Time[i - 1]);
-                    myRecord.RMSforce += Math.Pow(myLoad.Mass * myRecord.Acceleration[i], 2);
+                    _record.Acceleration[i] = (_record.Velocity[i] - _record.Velocity[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
+                    _record.RMSforce += Math.Pow(_load.Mass * _record.Acceleration[i], 2);
                 }
             }
             else
             {
                 for (int i = 1; i < count; i++)
                 {
-                    myRecord.Velocity[i] = (myRecord.Position[i] - myRecord.Position[i - 1]) / (myRecord.Time[i] - myRecord.Time[i - 1]);
-                    myRecord.Acceleration[i] = (myRecord.Velocity[i] - myRecord.Velocity[i - 1]) / (myRecord.Time[i] - myRecord.Time[i - 1]);
-                    myRecord.RMSforce += Math.Pow(myLoad.Mass * myRecord.Acceleration[i], 2);
+                    _record.Velocity[i] = (_record.Position[i] - _record.Position[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
+                    _record.Acceleration[i] = (_record.Velocity[i] - _record.Velocity[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
+                    _record.RMSforce += Math.Pow(_load.Mass * _record.Acceleration[i], 2);
                 }
             }
 
-            myRecord.RMSforce = Math.Sqrt(myRecord.RMSforce / count);
-            myRecord.MAXforce = myLoad.Mass * myRecord.Acceleration.Max();
-            myRecord.RMScurrent = myMotor.MotorConstant * myRecord.RMSforce;
-            myRecord.MAXcurrent = myMotor.MotorConstant * myRecord.MAXforce;
-            myRecord.TemperatureRise = Math.Pow(myRecord.RMSforce / myMotor.MotorConstant, 2) * myMotor.ThermalResistance_100CTEMP_0psi;
+            _record.RMSforce = Math.Sqrt(_record.RMSforce / count);
+            _record.MAXforce = _load.Mass * _record.Acceleration.Max();
+            _record.RMScurrent = _motor.MotorConstant * _record.RMSforce;
+            _record.MAXcurrent = _motor.MotorConstant * _record.MAXforce;
+            _record.TemperatureRise = Math.Pow(_record.RMSforce / _motor.MotorConstant, 2) * _motor.ThermalResistance_100CTEMP_0psi;
 
             Write();
 
             return true;
         }
 
-        public bool Stop()
-        {
-            return false;
-        }
-
         public bool Write()
         {
-            if (myRecord == null)
+            if (_record == null)
                 return false;
 
-            projectDirectory = "C:\\Users\\John\\Desktop";
-            StreamWriter outfile = new StreamWriter(projectDirectory + "\\output.txt");
+            _projectDirectory = Directory.GetCurrentDirectory();
+            StreamWriter outfile = new StreamWriter(_projectDirectory + @"\output.txt");
 
             outfile.WriteLine("Project Name");
             outfile.WriteLine("Motor Name");
             outfile.WriteLine("Load");
-            outfile.WriteLine("Mass:               " + myLoad.Mass);
-            outfile.WriteLine("Moment of Intertia: " + myLoad.MomentOfInertia);
-            outfile.WriteLine("Max Temperature: " + myLoad.MaxTemperature);
+            outfile.WriteLine("Mass:               " + _load.Mass);
+            outfile.WriteLine("Moment of Intertia: " + _load.MomentOfInertia);
+            outfile.WriteLine("Max Temperature:    " + _load.MaxTemperature);
             outfile.WriteLine("\nAxis Name");
             outfile.WriteLine("t\tx\tv\ta");
 
-            for (int i = 0; i < myRecord.Time.Length; i++)
-            {
-                outfile.WriteLine(myRecord.Time[i] + "\t" + myRecord.Position[i] + "\t" + myRecord.Velocity[i] + "\t" + myRecord.Acceleration[i]);
-            }
+            for (int i = 0; i < _record.Time.Length; i++)
+                outfile.WriteLine(_record.Time[i] + "\t" + _record.Position[i] + "\t" + _record.Velocity[i] + "\t" + _record.Acceleration[i]);
 
             outfile.Close();
 
