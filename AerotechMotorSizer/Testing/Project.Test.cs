@@ -13,19 +13,11 @@ namespace Testing
     {
         public bool DoTest()
         {
-            Project p = new Project();
-            p.Update += new Project.UpdateHandler(p_Update);
-            p.Name = "New Name";
-
-            while (string.Compare(p.Name, "Success") != 0) { }
+            Project project = new Project();
+            project.Axis1 = new Axis(new Utility.Converters.FunctionConverter("Sin(x)", 100, 1, 0));
 
             return true;
         }
 
-        void p_Update(object sender, EventArgs args)
-        {
-            (sender as Project).Update -= p_Update;
-            (sender as Project).Name = "Success";
-        }
     }
 }

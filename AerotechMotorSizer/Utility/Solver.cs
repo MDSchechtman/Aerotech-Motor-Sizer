@@ -6,7 +6,7 @@ using System.IO;
 
 using Interfaces;
 
-namespace MotorSolver
+namespace Utility
 {
     public class Solver : ISolver
     {

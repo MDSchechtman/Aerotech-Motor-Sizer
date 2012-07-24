@@ -145,7 +145,7 @@ namespace Program
             _mainForm = mainForm;
             _panel = new TableLayoutPanel();
             _project = mainForm.Project;
-            _solver = new MotorSolver.Solver();
+            _solver = new Solver();
 
             Initialize();
         }

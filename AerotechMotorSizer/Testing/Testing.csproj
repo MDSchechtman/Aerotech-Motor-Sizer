@@ -37,12 +37,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Converters.Test.cs" />
     <Compile Include="Project.Test.cs" />
     <Compile Include="Sanity.cs" />
-    <Compile Include="SimulationEnv.Test.cs" />
-    <Compile Include="Load.Test.cs" />
-    <Compile Include="Motor.Test.cs" />
     <Compile Include="Record.Test.cs" />
     <Compile Include="Solver.Test.cs" />
     <Compile Include="Testing.cs" />

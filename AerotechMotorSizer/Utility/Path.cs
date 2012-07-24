@@ -30,9 +30,13 @@ namespace Utility
         /// <param name="converter"></param>
         public void FromConverter(IConverter converter)
         {
-            _acceleration = converter.Acceleration;
-            _velocity = converter.Velocity;
-            _position = converter.Position;
+            if (converter.HasAcceleration)
+                _acceleration = converter.Acceleration;
+            else if (converter.HasVelocity)
+                _velocity = converter.Velocity;
+            else if (converter.HasPosition)
+                _position = converter.Position;
+
             _time = converter.Time;
         }
 

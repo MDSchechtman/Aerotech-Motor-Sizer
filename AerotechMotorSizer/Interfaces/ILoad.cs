@@ -8,9 +8,7 @@ namespace Interfaces
     public interface ILoad
     {
         double Mass { get; set; }
-
         double MaxTemperature { get; set; }
-
         double MomentOfInertia { get; set; }
     }
 }

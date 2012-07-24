@@ -13,30 +13,32 @@ namespace Testing
     {
         public bool DoTest()
         {
-            Dictionary<string, double> myParams = new Dictionary<string, double>();
-            myParams.Add("distanceOfTravel", 1000);
-            myParams.Add("totalTime", 100);
-            myParams.Add("percentage", 0.5);
-            myParams.Add("timeStep", 0.1);
+            // Position type
+            IConverter converter = new Utility.Converters.FunctionConverter("Sin(x)", 100, 1, 0);
+            IPath path = new Path(converter);
+            IRecord record = new Record(path);
 
-            IConverter converter = new Utility.Converters.ParameterSetConverter(myParams);
-            IPath P = new Path(converter);
-            IRecord record = new Utility.Record(P);
-            Random r = new Random(66642);
-            
-            //for (int i = 1; i < 100; i++)
-            //{
-            //    double time = i;
-            //    double position = r.Next((int) record.Position[i - 1] - 5, (int) record.Position[i - 1] + 5);
-            //    double velocity = r.Next((int) record.Position[i - 1] - 5, (int) record.Position[i - 1] + 5);
-            //    double temperature = r.Next(0, 10);
-            //    double acceleration = r.Next(0, 10);
-            //    double current = r.Next(0, 10);
-            //    double torque = r.Next(0, 10);
-            //}
+            for (int i = 0; i < record.Time.Length; i++)
+            {
+                if ((int)record.Time[i] != i)
+                    return false;
+            }
 
-            //record.Write(string.Format(@"{0}/RecordTest.txt", System.IO.Directory.GetCurrentDirectory()));
-            return false;
+            // Check some random values
+            if (!Check(record.Position[10], -0.54402111088936977))
+                return false;
+            if (!Check(record.Position[50], -0.26237485370392877))
+                return false;
+            if (!Check(record.Position[90], 0.89399666360055785))
+                return false;
+
+            return true;
+        }
+
+        double tolerance = 0.0000000001;
+        private bool Check(double a, double b)
+        {
+            return a - b < tolerance;
         }
     }
 }
