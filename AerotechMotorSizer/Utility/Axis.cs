@@ -22,10 +22,38 @@ namespace Utility
         /// <summary>
         /// Creates a new instance of the axis class
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">That path to use</param>
         public Axis(IPath path)
         {
+            _path = path;
+
             SetPath(path); 
+        }
+
+        /// <summary>
+        /// Creates a new instance of the axis class
+        /// </summary>
+        /// <param name="converter">The converter to use</param>
+        public Axis(IConverter converter)
+        {
+            _path = new Path(converter);
+            _converter = converter;
+
+            SetPath(_path);
+        }
+
+        /// <summary>
+        /// Create a new instance of the axis class with the path being created from the converter
+        /// </summary>
+        /// <param name="path">This parameter is ignored</param>
+        /// <param name="converter">The converter to use</param>
+        public Axis(IPath path, IConverter converter)
+        {
+            _path = path;
+            _converter = converter;
+            _path = new Path(converter);
+
+            SetPath(new Path(converter));
         }
 
         public void SetPath(IPath path)

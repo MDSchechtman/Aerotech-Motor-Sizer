@@ -14,8 +14,8 @@ namespace Program
     {
         private TableLayoutPanel _panel;
         private ComboBox _box;
+        private ComboBox _box2;
         private Label _message;
-        private Button _ok;
         private string _fileName;
         private MainForm _mainForm;
 
@@ -41,8 +41,6 @@ namespace Program
             _panel.RowCount = 7;
             _panel.ColumnCount = 6;
 
-            _panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.125F));
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F));
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.25F / 3F));
@@ -52,10 +50,10 @@ namespace Program
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.125F));
 
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.125F));
-            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.1875F));
-            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.1875F));
-            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.1875F));
-            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.1875F));
+            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.75F / 5F));
+            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.75F / 5F));
+            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.75F / 5F));
+            _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.75F / 5F));
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.125F));
 
             _box = new ComboBox();
@@ -67,13 +65,30 @@ namespace Program
             _box.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 
             Label boxTitle = new Label();
-            boxTitle.Text = "Select type of data in the file:";
+            boxTitle.Text = "Select the type of data in the file:";
             boxTitle.Font = new Font("Tahoma", 10);
             boxTitle.Size = new Size(boxTitle.PreferredWidth, boxTitle.PreferredHeight);
             boxTitle.AutoSize = true;
             boxTitle.TextAlign = ContentAlignment.BottomRight;
             boxTitle.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             boxTitle.Margin = new Padding(0, 0, 0, 25);
+
+            _box2 = new ComboBox();
+            _box2.Items.Add(string.Format("Axis 1"));
+            _box2.Items.Add(string.Format("Axis 2"));
+            _box2.Items.Add(string.Format("Axis 3"));
+            _box2.Width = 200;
+            _box2.Dock = DockStyle.Right;
+            _box2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+            Label box2Title = new Label();
+            box2Title.Text = "Creating Axis:";
+            box2Title.Font = new Font("Tahoma", 10);
+            box2Title.Size = new Size(boxTitle.PreferredWidth, boxTitle.PreferredHeight);
+            box2Title.AutoSize = true;
+            box2Title.TextAlign = ContentAlignment.BottomRight;
+            box2Title.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            box2Title.Margin = new Padding(0, 0, 0, 25);
 
             Button button = new Button();
             button.Text = "Open..";
@@ -89,11 +104,15 @@ namespace Program
             buttonTitle.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonTitle.Margin = new Padding(0, 0, 0, 25);
 
-            _ok = new Button();
-            _ok.Text = "OK";
-            _ok.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _ok.Enabled = false;
-            _ok.Click += new EventHandler(_ok_Click);
+            Button finish = new Button();
+            finish.Text = "Finish Creating Axes";
+            finish.Click += new EventHandler(finish_Click);
+            finish.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+            Button ok = new Button();
+            ok.Text = "Create Axis";
+            ok.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ok.Click += new EventHandler(ok_Click);
 
             _message = new Label();
             _message.Text = "No file selected";
@@ -103,15 +122,19 @@ namespace Program
             _message.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _message.Margin = new Padding(0, 0, 0, 25);
 
-            _panel.Controls.Add(boxTitle, 1, 2);
-            _panel.Controls.Add(_box, 2, 2);
 
-            _panel.Controls.Add(buttonTitle, 1, 3);
-            _panel.Controls.Add(button, 2, 3);
+            _panel.Controls.Add(box2Title, 1, 2);
+            _panel.Controls.Add(_box2, 2, 2);
 
-            _panel.Controls.Add(_message, 3, 2);
-            _panel.Controls.Add(_ok, 4, 3);
-            _panel.SetColumnSpan(_message, 2);
+            _panel.Controls.Add(boxTitle, 1, 3);
+            _panel.Controls.Add(_box, 2, 3);
+
+            _panel.Controls.Add(buttonTitle, 1, 4);
+            _panel.Controls.Add(button, 2, 4);
+
+            //_panel.Controls.Add(_message, 3, 3);
+            _panel.Controls.Add(finish, 3, 4);
+            _panel.Controls.Add(ok, 3, 2);
 
         }
 
@@ -122,19 +145,19 @@ namespace Program
             {
                 _fileName = dialog.FileName;
 
-                _message.Text = string.Format("You have selected the file:\n{0}", _fileName);
-                _message.Size = new Size(_message.PreferredWidth, _message.PreferredHeight);
-
-                _ok.Enabled = true;
+                //_message.Text = string.Format("You have selected the file:\n{0}", _fileName);
+                //_message.Size = new Size(_message.PreferredWidth, _message.PreferredHeight);
             }
         }
 
-        private void _ok_Click(object sender, EventArgs e)
+        private void ok_Click(object sender, EventArgs e)
         {
             if (_fileName == null)
                 MessageBox.Show("No file selected!");
             else if (_box.SelectedItem == null)
                 MessageBox.Show("No data type selected!");
+            else if (_box2.SelectedItem == null)
+                MessageBox.Show("No axis selected!");
             else
             {
                 int type = 0;
@@ -145,11 +168,26 @@ namespace Program
                 else if (string.Compare(_box.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
                     type = 2;
 
-                //_mainForm.Project.Converter = new Utility.Converters.FileConverter(_fileName, type);
+                IConverter converter = new Utility.Converters.FileConverter(_fileName, type);
 
-                if (this.OnClose != null)
-                    this.OnClose(this, EventArgs.Empty);
+                if (string.Compare(_box2.SelectedItem.ToString(), "Axis 1") == 0)
+                    _mainForm.Project.Axis1 = new Axis(converter);
+                else if (string.Compare(_box2.SelectedItem.ToString(), "Axis 2") == 0)
+                    _mainForm.Project.Axis2 = new Axis(converter);
+                else if (string.Compare(_box2.SelectedItem.ToString(), "Axis 3") == 0)
+                    _mainForm.Project.Axis3 = new Axis(converter);
             }
+        }
+
+        private void finish_Click(object sender, EventArgs e)
+        {
+            _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
+            _mainForm.MainPanel.SetRight(_mainForm.Project.ChooseMotor.Component);
+
+            _mainForm.Project.Profile.Solve();
+
+            if (this.OnClose != null)
+                this.OnClose(this, EventArgs.Empty);
         }
     }
 }

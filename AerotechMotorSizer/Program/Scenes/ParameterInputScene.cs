@@ -330,26 +330,14 @@ namespace Program
                 _dictionary.Add(_parameter3, value3);
                 _dictionary.Add("timeStep", value4);
 
-                IPath Q = new Path(new Utility.Converters.ParameterSetConverter(_dictionary));
+                IConverter converter = new Utility.Converters.ParameterSetConverter(_dictionary);
 
                 if (string.Compare(_box.SelectedItem.ToString(), "Axis 1") == 0)
-                {
-                    _mainForm.Project.Axis1.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
-                    _mainForm.Project.Axis1 = new Axis(Q);
-                    _mainForm.Project.Axis1.AngleOfInclination = 0;
-                }
+                    _mainForm.Project.Axis1 = new Axis(converter);
                 else if (string.Compare(_box.SelectedItem.ToString(), "Axis 2") == 0)
-                {
-                    _mainForm.Project.Axis2.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
-                    _mainForm.Project.Axis2 = new Axis(Q);
-                    _mainForm.Project.Axis2.AngleOfInclination = 0;
-                }
+                    _mainForm.Project.Axis1 = new Axis(converter);
                 else if (string.Compare(_box.SelectedItem.ToString(), "Axis 3") == 0)
-                {
-                    _mainForm.Project.Axis3.Converter = new Utility.Converters.ParameterSetConverter(_dictionary);
-                    _mainForm.Project.Axis3 = new Axis(Q);
-                    _mainForm.Project.Axis3.AngleOfInclination = 0;
-                }
+                    _mainForm.Project.Axis1 = new Axis(converter);
             }       
         }
 
