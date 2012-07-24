@@ -58,7 +58,7 @@ namespace Utility.Converters
 
         #region Internal Implementation
 
-        enum FunctioNType
+        enum FunctionType
         {
             Position,
             Acceleration,
@@ -93,26 +93,26 @@ namespace Utility.Converters
                 {
                     Console.WriteLine("Error caught: " + a.Message);
                 }
-
-                SetProperties((FunctioNType)type);
             }
+
+            SetProperties((FunctionType)type);
         }
 
-        private void SetProperties(FunctioNType type)
+        private void SetProperties(FunctionType type)
         {
             switch (type)
             {
-                case FunctioNType.Acceleration:
+                case FunctionType.Acceleration:
                     _hasPosition = false;
                     _hasVelocity = false;
                     _hasAcceleration = true;
                     break;
-                case FunctioNType.Position:
+                case FunctionType.Position:
                     _hasPosition = true;
                     _hasVelocity = false;
                     _hasAcceleration = false;
                     break;
-                case FunctioNType.Velocity:
+                case FunctionType.Velocity:
                     _hasPosition = false;
                     _hasVelocity = true;
                     _hasAcceleration = false;
