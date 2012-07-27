@@ -17,13 +17,6 @@ namespace Utility
 
         public Database()
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Title = "Please select a motor database:";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                _dbfilename = dialog.FileName;
-            }
-
             string MotorName;
             double MotorForceConstant;
             double MotorMotorConstant;
