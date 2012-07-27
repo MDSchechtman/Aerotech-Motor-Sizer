@@ -30,6 +30,8 @@ namespace Utility
             _load = load;
             _path = path;
 
+            double mass = _load.Mass + _motor.CoilMass;
+
             int count = _record.Time.Length;
 
             if (_record.Time == null || (_record.Position == null && _record.Velocity == null && _record.Acceleration == null))
@@ -44,7 +46,7 @@ namespace Utility
             if (_record.Position == null)
                 _record.Position = new double[count];
 
-            _record.RMSforce = Math.Pow(_load.Mass * _record.Acceleration[0], 2);
+            _record.RMSforce = Math.Pow(mass * _record.Acceleration[0], 2);
 
             double friction;
 
@@ -57,7 +59,7 @@ namespace Utility
                     else
                         friction = env.DynamicFriction;
 
-                    _record.RMSforce += Math.Pow(_load.Mass * _record.Acceleration[i] + friction + env.ThrustForce, 2);
+                    _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + friction + env.ThrustForce, 2);
                 }
             }
             else if (_record.Velocity != null)
@@ -70,7 +72,7 @@ namespace Utility
                         friction = env.DynamicFriction;
 
                     _record.Acceleration[i] = (_record.Velocity[i] - _record.Velocity[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
-                    _record.RMSforce += Math.Pow(_load.Mass * _record.Acceleration[i] + friction + env.ThrustForce, 2);
+                    _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + friction + env.ThrustForce, 2);
                 }
             }
             else
@@ -84,17 +86,12 @@ namespace Utility
 
                     _record.Velocity[i] = (_record.Position[i] - _record.Position[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
                     _record.Acceleration[i] = (_record.Velocity[i] - _record.Velocity[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
-                    _record.RMSforce += Math.Pow(_load.Mass * _record.Acceleration[i] + friction + env.ThrustForce, 2);
+                    _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + friction + env.ThrustForce, 2);
                 }
             }
 
-            if (env.StaticFriction > env.DynamicFriction)
-                friction = env.StaticFriction;
-            else
-                friction = env.DynamicFriction;
-
             _record.RMSforce = Math.Sqrt(_record.RMSforce / count);
-            _record.MAXforce = _load.Mass * _record.Acceleration.Max() + friction + env.ThrustForce;
+            _record.MAXforce = mass * _record.Acceleration.Max() + env.StaticFriction + env.DynamicFriction * _record.Velocity.Max() + env.ThrustForce;
             _record.RMScurrent = _record.RMSforce / _motor.ForceConstant;
             _record.MAXcurrent = _record.MAXforce / _motor.ForceConstant;
             _record.TemperatureRise = Math.Pow(_record.RMSforce / _motor.MotorConstant, 2) * _motor.ThermalResistance;
@@ -113,7 +110,7 @@ namespace Utility
             StreamWriter outfile = new StreamWriter(_projectDirectory + @"\output.txt");
 
             outfile.WriteLine("Project Name");
-            outfile.WriteLine("Motor Name");
+            outfile.WriteLine("Motor Name:         " + _motor.Name);
             outfile.WriteLine("Load");
             outfile.WriteLine("Mass:               " + _load.Mass);
             outfile.WriteLine("Moment of Intertia: " + _load.MomentOfInertia);
