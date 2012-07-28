@@ -135,13 +135,13 @@ namespace Utility.Converters
 
             double totalTime = _accelerationTime + _traverseTime + _decelerationTime;
             double accelAndTraverseTime = _accelerationTime + _traverseTime;
-            double maxVelocity = _distanceOfTravel / accelAndTraverseTime;
-            double maxAcceleration = maxVelocity / _accelerationTime;
-            double maxDeceleration = -1 * maxAcceleration;
+
+            double maxAcceleration = 2 * _distanceOfTravel / (Math.Pow(_accelerationTime, 2) + 2 * _accelerationTime * _traverseTime + _accelerationTime * _decelerationTime);
+            double maxDeceleration = -2 * _distanceOfTravel / (_accelerationTime * _decelerationTime + 2 * _traverseTime * _decelerationTime + Math.Pow(_decelerationTime, 2));
 
             int timeSteps = (int) Math.Ceiling((totalTime + _dwellTime) / _timeStep) + 1;
-            int stopAccel = (int) Math.Round(_accelerationTime / _timeStep);
-            int startDecel = (int) Math.Round(accelAndTraverseTime / _timeStep);
+            int stopAccel = (int) Math.Round(_accelerationTime / _timeStep) + 1;
+            int startDecel = (int) Math.Round(accelAndTraverseTime / _timeStep) + 1;
 
             _time = new double[timeSteps];
             _position = new double[timeSteps];
