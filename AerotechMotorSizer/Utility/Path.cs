@@ -32,9 +32,9 @@ namespace Utility
         {
             if (converter.HasAcceleration)
                 _acceleration = converter.Acceleration;
-            else if (converter.HasVelocity)
+            if (converter.HasVelocity)
                 _velocity = converter.Velocity;
-            else if (converter.HasPosition)
+            if (converter.HasPosition)
                 _position = converter.Position;
 
             _time = converter.Time;

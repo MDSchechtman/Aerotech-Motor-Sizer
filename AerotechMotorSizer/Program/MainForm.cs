@@ -42,6 +42,11 @@ namespace Program
             }
         }
 
+        public ProjectList ProjectList
+        {
+            get { return _projectList; }
+        }
+
         public void LoadNewProjectScene(bool modal)
         {
             Popup p = new Popup(this);
@@ -61,7 +66,7 @@ namespace Program
         private void InitializeComponents()
         {
             Project = new Project();
-            _projectList = new ProjectList(this, Project);
+            //_projectList = new ProjectList(this, Project);
 
             MainMenu menu = new MainMenu(this);
             MainPanel panel = new MainPanel(this);
@@ -71,6 +76,7 @@ namespace Program
             // Setup Controls
             panel.SetLeft(_projectList.Component);
             panel.SetRight(Project.ChooseMotor.Component);
+            panel.SetRightBottom(Project.Warn.Component);
 
             // Add controls
             this.Controls.Add(panel.Component);

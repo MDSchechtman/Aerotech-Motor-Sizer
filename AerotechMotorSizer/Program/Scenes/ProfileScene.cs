@@ -122,7 +122,9 @@ namespace Program
         private double _loadMass;
 
         private Project _project;
-        private ISolver _solver;
+        private Solver _solver;
+
+        private string _profileNameString;
 
         public double RMSForce
         {
@@ -271,7 +273,9 @@ namespace Program
             _comments = addTextBox(false);
             _comments.Multiline = true;
 
+            _profileName.Name = "_profileName";
             _profileName.Text = "Profile 1";
+            _profileNameString = _profileName.Text;
             _profileName.TextAlign = HorizontalAlignment.Left;
 
             _project.Load = new Load(0.25, 0);
@@ -467,13 +471,15 @@ namespace Program
             _ambientTemperature.Text = _project.Environment.AmbientTemp.ToString();
             _mechanicalEfficiency.Text = _project.Environment.MechEfficiency.ToString();
             _cooling.Text = _project.Environment.Cooling;
+
+            Solve();
         }
 
         public void Solve()
         {
             if (_project.Axis1 != null && _project.Motor != null && _project.Load != null)
             {
-                _solver.Start(_project.Axis1.Record, _project.Motor, _project.Load, _project.Axis1.Path);
+                _solver.Start(_project.Axis1.Record, _project.Motor, _project.Load, _project.Axis1.Path, _project.Environment);
 
                 _dutyCycle.Text = "100";
 
@@ -491,6 +497,21 @@ namespace Program
                 _totalRMSForceForEntireSequence.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
 
                 _project.Sequence.UpdateSolution();
+
+                _project.Warn.Warnings = "";
+
+                string warnings = "";
+
+                if (_project.Axis1.Record.MAXforce > _project.Motor.PeakForce)
+                    warnings += "Peak force exceeds motor rating\r\n";
+                if(_project.Axis1.Record.MAXcurrent > _project.Motor.PeakCurrent)
+                    warnings += "Peak current exceeds motor rating\r\n";
+                if(_project.Axis1.Record.RMSforce > _project.Motor.ContinuousForce)
+                    warnings += "Continuous force exceeds motor rating\r\n";
+                if(_project.Axis1.Record.RMScurrent > _project.Motor.ContinuousCurrent)
+                    warnings += "Continuous current exceeds motor rating\r\n";
+
+                _project.Warn.Warnings = warnings;
             }
         }
 
@@ -518,6 +539,8 @@ namespace Program
                     (sender as TextBox).Text = _project.Axis1.AngleOfInclination.ToString();
                 else if (name.Equals("_thrustForce") && _project.Environment != null)
                     (sender as TextBox).Text = _project.Environment.ThrustForce.ToString();
+                else if (name.Equals("_profileName") && _project.Profile != null)
+                    _mainForm.ProjectList.RenameProfile(text);
             }
         }
 
@@ -526,15 +549,15 @@ namespace Program
             List<Motor> myMotors = _project.ChooseMotor.Motors;
 
             //myMotors.Sort(delegate(Motor t1, Motor t2) { return (t1.PeakForce.CompareTo(t2.PeakForce)); });
-            myMotors.Sort(delegate(Motor t1, Motor t2) { return (t1.ContinuousForce_0psi.CompareTo(t2.ContinuousForce_0psi)); });
+            myMotors.Sort(delegate(Motor t1, Motor t2) { return (t1.ContinuousForce.CompareTo(t2.ContinuousForce)); });
 
             int i;
             for (i = 0; i < myMotors.Count; i++ )
             {
-                _solver.Start(_project.Axis1.Record, myMotors[i], _project.Load, _project.Axis1.Path);
+                _solver.Start(_project.Axis1.Record, myMotors[i], _project.Load, _project.Axis1.Path, _project.Environment);
 
-                //if (_project.Axis1.Record.MAXforce < myMotors[i].PeakForce && _project.Axis1.Record.MAXcurrent < myMotors[i].PeakCurrent && _project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce_0psi && _project.Axis1.Record.RMScurrent < myMotors[i].ContinuousCurrent_0psi)
-                if (_project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce_0psi)
+                if (_project.Axis1.Record.MAXforce < myMotors[i].PeakForce && _project.Axis1.Record.MAXcurrent < myMotors[i].PeakCurrent && _project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce && _project.Axis1.Record.RMScurrent < myMotors[i].ContinuousCurrent)
+                //if (_project.Axis1.Record.RMSforce < myMotors[i].ContinuousForce)
                 {
                     _dutyCycle.Text = "100";
 

@@ -8,7 +8,7 @@ using Interfaces;
 
 namespace Utility
 {
-    public class Solver : ISolver
+    public class Solver
     {
         private IRecord _record;
         private IMotor _motor;
@@ -23,12 +23,14 @@ namespace Utility
         /// <param name="motor">The motor object</param>
         /// <param name="load">The load</param>
         /// <param name="path">The path</param>
-        public bool Start(IRecord initial, IMotor motor, ILoad load, IPath path)
+        public bool Start(IRecord initial, IMotor motor, ILoad load, IPath path, SimulationEnv env)
         {
             _record = initial;
             _motor = motor;
             _load = load;
             _path = path;
+
+            double mass = _load.Mass + _motor.CoilMass;
 
             int count = _record.Time.Length;
 
@@ -44,36 +46,55 @@ namespace Utility
             if (_record.Position == null)
                 _record.Position = new double[count];
 
-            _record.RMSforce = Math.Pow(_load.Mass * _record.Acceleration[0], 2);
+            _record.RMSforce = Math.Pow(mass * _record.Acceleration[0], 2);
+
+            double friction;
 
             if (_record.Acceleration != null)
             {
                 for (int i = 1; i < count; i++)
-                   _record.RMSforce += Math.Pow(_load.Mass * _record.Acceleration[i], 2);
+                {
+                    if (_record.Velocity[i] == 0)
+                        friction = env.StaticFriction;
+                    else
+                        friction = env.DynamicFriction;
+
+                    _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + friction + env.ThrustForce, 2);
+                }
             }
             else if (_record.Velocity != null)
             {
                 for (int i = 1; i < count; i++)
                 {
+                    if (_record.Velocity[i] == 0)
+                        friction = env.StaticFriction;
+                    else
+                        friction = env.DynamicFriction;
+
                     _record.Acceleration[i] = (_record.Velocity[i] - _record.Velocity[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
-                    _record.RMSforce += Math.Pow(_load.Mass * _record.Acceleration[i], 2);
+                    _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + friction + env.ThrustForce, 2);
                 }
             }
             else
             {
                 for (int i = 1; i < count; i++)
                 {
+                    if (_record.Velocity[i] == 0)
+                        friction = env.StaticFriction;
+                    else
+                        friction = env.DynamicFriction;
+
                     _record.Velocity[i] = (_record.Position[i] - _record.Position[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
                     _record.Acceleration[i] = (_record.Velocity[i] - _record.Velocity[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
-                    _record.RMSforce += Math.Pow(_load.Mass * _record.Acceleration[i], 2);
+                    _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + friction + env.ThrustForce, 2);
                 }
             }
 
             _record.RMSforce = Math.Sqrt(_record.RMSforce / count);
-            _record.MAXforce = _load.Mass * _record.Acceleration.Max();
-            _record.RMScurrent = _motor.MotorConstant * _record.RMSforce;
-            _record.MAXcurrent = _motor.MotorConstant * _record.MAXforce;
-            _record.TemperatureRise = Math.Pow(_record.RMSforce / _motor.MotorConstant, 2) * _motor.ThermalResistance_100CTEMP_0psi;
+            _record.MAXforce = mass * _record.Acceleration.Max() + env.StaticFriction + env.DynamicFriction * _record.Velocity.Max() + env.ThrustForce;
+            _record.RMScurrent = _record.RMSforce / _motor.ForceConstant;
+            _record.MAXcurrent = _record.MAXforce / _motor.ForceConstant;
+            _record.TemperatureRise = Math.Pow(_record.RMSforce / _motor.MotorConstant, 2) * _motor.ThermalResistance;
 
             Write();
 
@@ -89,7 +110,7 @@ namespace Utility
             StreamWriter outfile = new StreamWriter(_projectDirectory + @"\output.txt");
 
             outfile.WriteLine("Project Name");
-            outfile.WriteLine("Motor Name");
+            outfile.WriteLine("Motor Name:         " + _motor.Name);
             outfile.WriteLine("Load");
             outfile.WriteLine("Mass:               " + _load.Mass);
             outfile.WriteLine("Moment of Intertia: " + _load.MomentOfInertia);

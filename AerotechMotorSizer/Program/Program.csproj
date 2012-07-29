@@ -98,8 +98,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)NClac.dll $(OutDir)
-copy $(SolutionDir)motordb $(OutDir)</PostBuildEvent>
+    <PostBuildEvent>copy $(SolutionDir)NCalc.dll $(TargetDir)
+copy $(SolutionDir)motordb $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

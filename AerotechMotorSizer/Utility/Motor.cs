@@ -16,16 +16,19 @@ namespace Utility
         private double _motorResistance;
         private double _motorPeakForce;
         private double _motorPeakCurrent;
+        private double _motorContinuousForce;
         private double _motorContinuousForce_0psi;
         private double _motorContinuousForce_10psi;
         private double _motorContinuousForce_20psi;
         private double _motorContinuousForce_40psi;
+        private double _motorContinuousCurrent;
         private double _motorContinuousCurrent_0psi;
         private double _motorContinuousCurrent_10psi;
         private double _motorContinuousCurrent_20psi;
         private double _motorContinuousCurrent_40psi;
         private double _motorCoilMass;
         private double _motorCoilLength;
+        private double _motorThermalResistance;
         private double _motorThermalResistance_100CTEMP_0psi;
         private double _motorThermalResistance_100CTEMP_10psi;
         private double _motorThermalResistance_100CTEMP_20psi;
@@ -96,6 +99,10 @@ namespace Utility
             _motorThermalResistance_Catalog_20psi = ThermalResistance_Catalog_20psi;
             _motorThermalResistance_PercentDifference_0psi = ThermalResistance_PercentDifference_0psi;
             _motorThermalResistance_PercentDifference_20psi = ThermalResistance_PercentDifference_20psi;
+
+            _motorContinuousForce = ContinuousForce_0psi;
+            _motorContinuousCurrent = ContinuousCurrent_0psi;
+            _motorThermalResistance = ThermalResistance_100CTEMP_0psi;
         }
 
         /// <summary>
@@ -152,18 +159,6 @@ namespace Utility
         }
 
         public double Inductance
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public double ThermalResistance
         {
             get
             {
@@ -335,6 +330,60 @@ namespace Utility
         {
             get { return _motorThermalResistance_PercentDifference_20psi; }
             set { _motorThermalResistance_PercentDifference_20psi = value; }
+        }
+
+        public double ContinuousForce
+        {
+            get { return _motorContinuousForce; }
+        }
+
+        public double ContinuousCurrent
+        {
+            get { return _motorContinuousCurrent; }
+        }
+
+        public double ThermalResistance
+        {
+            get { return _motorThermalResistance; }
+        }
+
+        public bool SetCooling(string cooling)
+        {
+            if (cooling.Equals("No Cooling"))
+            {
+                _motorContinuousForce = _motorContinuousForce_0psi;
+                _motorContinuousCurrent = _motorContinuousCurrent_0psi;
+                _motorThermalResistance = _motorThermalResistance_100CTEMP_0psi;
+                return true;
+            }
+            else if (cooling.Equals("10 PSI"))
+            {
+                _motorContinuousForce = _motorContinuousForce_10psi;
+                _motorContinuousCurrent = _motorContinuousCurrent_10psi;
+                _motorThermalResistance = _motorThermalResistance_100CTEMP_10psi;
+                return true;
+            }
+            else if (cooling.Equals("20 PSI"))
+            {
+                _motorContinuousForce = _motorContinuousForce_20psi;
+                _motorContinuousCurrent = _motorContinuousCurrent_20psi;
+                _motorThermalResistance = _motorThermalResistance_100CTEMP_20psi;
+                return true;
+            }
+            else if (cooling.Equals("40 PSI"))
+            {
+                _motorContinuousForce = _motorContinuousForce_40psi;
+                _motorContinuousCurrent = _motorContinuousCurrent_40psi;
+                _motorThermalResistance = _motorThermalResistance_100CTEMP_40psi;
+                return true;
+            }
+
+            return false;
+        }
+
+        public string ToString()
+        {
+            return this.Name;
         }
     }
 }

@@ -158,7 +158,8 @@ namespace Program
             finish.Click += new EventHandler(finish_Click);
             finish.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 
-            _panel.Controls.Add(_view, 1, 1);
+            _panel.Controls.Add(_view, 0, 1);
+            _panel.SetColumnSpan(_view, 2);
             _panel.SetRowSpan(_view, 6);
 
             _panel.Controls.Add(_label1, 2, 2);
@@ -350,6 +351,8 @@ namespace Program
 
             if (this.OnClose != null)
                 this.OnClose(this, EventArgs.Empty);
+
+            _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
         }
     }
 }

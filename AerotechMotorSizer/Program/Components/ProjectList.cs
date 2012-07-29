@@ -16,19 +16,21 @@ namespace Program
 
         private Project _project;
         private Dictionary<string, TableLayoutPanel> _panels;
-        private Dictionary<string, TableLayoutPanel> _motorPanels;
 
         public ProjectList(MainForm mainForm)
         {
             _mainForm = mainForm;
-            //_project = mainForm.Project;
-
-            _panels = new Dictionary<string, TableLayoutPanel>();
-            _motorPanels = new Dictionary<string, TableLayoutPanel>();
-
             _project = new Project();
             _project.Name = "Project 1";
 
+            _project.Environment = new SimulationEnv();
+            _project.Environment.StaticFriction = 0;
+            _project.Environment.DynamicFriction = 0;
+            _project.Environment.AmbientTemp = 20;
+            _project.Environment.MechEfficiency = 95;
+            _project.Environment.ThrustForce = 0;
+            _project.Environment.Cooling = "No Cooling";
+            
             _mainForm.Project = _project;
 
             _project.ParameterInput = new ParameterInputScene(_mainForm);
@@ -40,12 +42,15 @@ namespace Program
             _project.Sequence = new SequenceScene(_mainForm);
             _project.Sequence.Name = "Sequence 1";
             _project.ChooseMotor = new ChooseMotorScene(_mainForm);
+            _project.Warn = new OutputScene(_mainForm);
 
+            _panels = new Dictionary<string, TableLayoutPanel>();
             _panels.Add(_project.Name, _project.NewProject.Component);
             _panels.Add(_project.Profile.Name, _project.Profile.Component);
             _panels.Add(_project.Sequence.Name, _project.Sequence.Component);
-
-            _motorPanels.Add(_project.Profile.Name, _project.ChooseMotor.Component);
+            
+            // Subscribe to update event
+            _project.Update += new Project.UpdateHandler(project_Update);
 
             _tree = new TreeView();
 
@@ -77,9 +82,6 @@ namespace Program
             _project.Environment.ThrustForce = 0;
             _project.Environment.Cooling = "No Cooling";
 
-            _panels = new Dictionary<string, TableLayoutPanel>();
-            _motorPanels = new Dictionary<string, TableLayoutPanel>();
-
             _project.ParameterInput = new ParameterInputScene(_mainForm);
             _project.FileConverter = new FileConverterScene(_mainForm);
             _project.FunctionConverter = new FunctionConverterScene(_mainForm);
@@ -90,12 +92,12 @@ namespace Program
             _project.Sequence.Name = "Sequence 1";
             
             _project.ChooseMotor = new ChooseMotorScene(_mainForm);
+            _project.Warn = new OutputScene(_mainForm);
 
+            _panels = new Dictionary<string, TableLayoutPanel>();
             _panels.Add(_project.Name, _project.NewProject.Component);
             _panels.Add(_project.Profile.Name, _project.Profile.Component);
             _panels.Add(_project.Sequence.Name, _project.Sequence.Component);
-
-            _motorPanels.Add(_project.Profile.Name, _project.ChooseMotor.Component);
 
             // Subscribe to update event
             project.Update += new Project.UpdateHandler(project_Update);
@@ -109,6 +111,12 @@ namespace Program
         public TreeView Component
         {
             get { return _tree; }
+        }
+
+        public void RenameProfile(string newName)
+        {
+            _project.Profile.Name = newName;
+            DoSetup();
         }
 
         private void Initialize()
