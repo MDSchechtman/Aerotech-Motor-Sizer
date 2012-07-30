@@ -257,19 +257,34 @@ namespace Program
 
         public static bool SaveProject(Project o, string filename)
         {
-            XmlSerializer writer = new XmlSerializer(typeof(Project));
-            StreamWriter file = new StreamWriter(filename);
-            writer.Serialize(file, o);
-            file.Close();
+            try
+            {
+                XmlSerializer writer = new XmlSerializer(typeof(Project));
+                StreamWriter file = new StreamWriter(filename);
+                writer.Serialize(file, o);
+                file.Close();
+            }
+            catch (System.Exception e)
+            {
+                return false;
+            }
             return true;
         }
 
         public static Project LoadProject(string filename)
         {
-            XmlSerializer reader = new XmlSerializer(typeof(Project));
-            StreamReader file = new StreamReader(filename);
             Project o = new Project();
-            o = (Project) reader.Deserialize(file);
+
+            try
+            {
+                XmlSerializer reader = new XmlSerializer(typeof(Project));
+                StreamReader file = new StreamReader(filename);
+                o = (Project)reader.Deserialize(file);
+            }
+            catch (System.Exception e)
+            {
+                return null;
+            }
 
             return o;
         }

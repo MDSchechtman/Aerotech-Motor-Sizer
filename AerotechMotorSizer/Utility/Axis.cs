@@ -115,11 +115,13 @@ namespace Utility
             set { _angleOfInclination = value; }
         }
 
+        [XmlIgnoreAttribute]
         public IPath Path
         {
             get { return _path; }
         }
 
+        [XmlIgnoreAttribute]
         public IRecord Record
         {
             get { return _record; }
@@ -133,6 +135,18 @@ namespace Utility
                     return false;
             }
             return true;
+        }
+
+        public Path XmlSerializablePath
+        {
+            get { return (Path)_path; }
+            set { _path = value; }
+        }
+
+        public Record XmlSerializableRecord
+        {
+            get { return (Record) _record; }
+            set { _record = value; }
         }
     }
 }

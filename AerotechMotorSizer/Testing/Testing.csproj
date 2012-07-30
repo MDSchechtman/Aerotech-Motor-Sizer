@@ -37,6 +37,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="LoadSave.Text.cs" />
     <Compile Include="Project.Test.cs" />
     <Compile Include="Sanity.cs" />
     <Compile Include="Record.Test.cs" />
