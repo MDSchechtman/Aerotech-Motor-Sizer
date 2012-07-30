@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using System.Runtime.Serialization;
+using System.IO;
 
 using Interfaces;
 using Utility;
@@ -30,6 +34,7 @@ namespace Program
         private SequenceScene _SequenceScene;
         private OutputScene _WarningScene;
 
+        [IgnoreDataMemberAttribute]
         public ParameterInputScene ParameterInput
         {
             get
@@ -43,7 +48,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [IgnoreDataMemberAttribute]
         public FileConverterScene FileConverter
         {
             get
@@ -57,7 +62,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [IgnoreDataMemberAttribute]
         public FunctionConverterScene FunctionConverter
         {
             get
@@ -71,7 +76,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [IgnoreDataMemberAttribute]
         public ChooseMotorScene ChooseMotor
         {
             get
@@ -85,7 +90,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [IgnoreDataMemberAttribute]
         public NewProjectScene NewProject
         {
             get
@@ -99,7 +104,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [IgnoreDataMemberAttribute]
         public ProfileScene Profile
         {
             get
@@ -113,7 +118,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [IgnoreDataMemberAttribute]
         public SequenceScene Sequence
         {
             get
@@ -127,7 +132,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [IgnoreDataMemberAttribute]
         public OutputScene Warn
         {
             get
@@ -140,7 +145,7 @@ namespace Program
                 //OnUpdate(this, new EventArgs());
             }
         }
-        
+
         protected void OnUpdate(object sender, EventArgs args)
         {
             if (Update != null)
@@ -203,7 +208,7 @@ namespace Program
         {
             get
             {
-                return _Axis1;
+                return (_Axis1 == null) ? Axis.Invalid() : _Axis1;
             }
             set
             {
@@ -216,7 +221,7 @@ namespace Program
         {
             get
             {
-                return _Axis2;
+                return (_Axis2 == null) ? Axis.Invalid() : _Axis2;
             }
             set
             {
@@ -229,7 +234,7 @@ namespace Program
         {
             get
             {
-                return _Axis3;
+                return (_Axis3 == null) ? Axis.Invalid() : _Axis3;
             }
             set
             {
@@ -249,6 +254,26 @@ namespace Program
                 _Environment = value;
                 OnUpdate(this, new EventArgs());
             }
+        }
+
+        public static bool Save(Project o, string filename)
+        {
+
+            Type t = o.GetType();
+
+            Type[] extraTypes = t.GetProperties()
+                .Where(p => p.PropertyType.IsInterface)
+                .Select(p => p.GetValue(o, null).GetType())
+                .ToArray();
+
+            DataContractSerializer serializer = new DataContractSerializer(t, extraTypes);
+            StringWriter sw = new StringWriter();
+            XmlTextWriter xw = new XmlTextWriter(sw);
+            serializer.WriteObject(xw, o);
+            XElement e =  XElement.Parse(sw.ToString());
+
+
+            return true;
         }
     }
 }

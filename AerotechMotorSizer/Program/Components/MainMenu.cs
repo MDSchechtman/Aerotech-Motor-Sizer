@@ -94,19 +94,24 @@ namespace Program
             _mainForm.LoadNewProjectScene(true);
         }
 
+        // File -> Open
         void file2_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
 
+        // File -> Save
         void file3_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
 
+        // File -> Save As
         void file4_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SaveFileDialog dialog = new SaveFileDialog();
+            if (DialogResult.OK == dialog.ShowDialog())
+                Project.Save(_mainForm.Project, dialog.FileName);
         }
 
         // File -> Exit

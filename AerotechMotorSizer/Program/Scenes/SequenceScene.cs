@@ -310,8 +310,8 @@ namespace Program
         public void UpdateSolution()
         {
             _totalSeqTime.Text = _project.Axis1.Record.Time.Max().ToString("0.####");
-            _maxLinearSpeed.Text = _project.Axis1.Record.Velocity.Max().ToString("0.####");
-            _peakAcceleration.Text = _project.Axis1.Record.Acceleration.Max().ToString("0.####");
+            _maxLinearSpeed.Text = (_project.Axis1.Record.Velocity != null) ? _project.Axis1.Record.Velocity.Max().ToString("0.####") : "NaN";
+            _peakAcceleration.Text = (_project.Axis1.Record.Acceleration != null) ? _project.Axis1.Record.Acceleration.Max().ToString("0.####") : "NaN";
 
             _peakForce.Text = _project.Axis1.Record.MAXforce.ToString("0.####");
             _totalRMSForce.Text = _project.Axis1.Record.RMSforce.ToString("0.####");

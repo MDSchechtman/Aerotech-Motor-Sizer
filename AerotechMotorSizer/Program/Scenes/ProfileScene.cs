@@ -484,9 +484,9 @@ namespace Program
                 _dutyCycle.Text = "100";
 
                 _totalMoveTime.Text = _project.Axis1.Record.Time.Max().ToString("0.####");
-                _lengthOfTravel.Text = _project.Axis1.Record.Position.Max().ToString("0.####");
-                _maxLinearSpeed.Text = _project.Axis1.Record.Velocity.Max().ToString("0.####");
-                _peakAcceleration.Text = _project.Axis1.Record.Acceleration.Max().ToString("0.####");
+                _lengthOfTravel.Text = (_project.Axis1.Record.Position != null) ? _project.Axis1.Record.Position.Max().ToString("0.####") : "NaN";
+                _maxLinearSpeed.Text = (_project.Axis1.Record.Velocity != null) ? _project.Axis1.Record.Velocity.Max().ToString("0.####") : "NaN";
+                _peakAcceleration.Text = (_project.Axis1.Record.Acceleration != null) ? _project.Axis1.Record.Acceleration.Max().ToString("0.####") : "NaN";
 
                 _peakForce.Text = _project.Axis1.Record.MAXforce.ToString("0.####");
                 _totalRMSForce.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
@@ -498,7 +498,8 @@ namespace Program
 
                 _project.Sequence.UpdateSolution();
 
-                _project.Warn.Warnings = "";
+                if (_project.Warn != null)
+                    _project.Warn.Warnings = "";
 
                 string warnings = "";
 
@@ -511,7 +512,8 @@ namespace Program
                 if(_project.Axis1.Record.RMScurrent > _project.Motor.ContinuousCurrent)
                     warnings += "Continuous current exceeds motor rating\r\n";
 
-                _project.Warn.Warnings = warnings;
+                if (_project.Warn != null)
+                    _project.Warn.Warnings = warnings;
             }
         }
 

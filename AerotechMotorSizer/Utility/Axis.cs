@@ -31,6 +31,15 @@ namespace Utility
         }
 
         /// <summary>
+        /// Constructs an empty axis
+        /// </summary>
+        /// <returns></returns>
+        public static Axis Invalid()
+        {
+            return new Axis(new Path(new Utility.Converters.FunctionConverter("x", 1, 1, 1)));
+        }
+
+        /// <summary>
         /// Creates a new instance of the axis class
         /// </summary>
         /// <param name="converter">The converter to use</param>
