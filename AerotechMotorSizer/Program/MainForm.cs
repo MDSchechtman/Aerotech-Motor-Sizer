@@ -42,6 +42,12 @@ namespace Program
             }
         }
 
+        public ProjectList ProjectList
+        {
+            get { return _projectList; }
+        }
+
+
         public void LoadNewProjectScene(bool modal)
         {
             Popup p = new Popup(this);

@@ -145,5 +145,21 @@ namespace Program
             if (_panels.Keys.Contains(e.Node.Text))
                 _mainForm.MainPanel.SetMiddle(_panels[e.Node.Text]);
         }
+
+        public void RenameProfile(string newName)
+        {
+            string old = _project.Profile.Name;
+            _project.Profile.Name = newName;
+
+            TableLayoutPanel t;
+            if (_panels.TryGetValue(old, out t))
+            {
+                _panels.Remove(old);
+                _panels.Add(newName, t);
+            }
+
+            DoSetup();
+        }
+
     }
 }

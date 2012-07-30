@@ -124,6 +124,8 @@ namespace Program
         private Project _project;
         private Solver _solver;
 
+        private string _profileNameString;
+
         public double RMSForce
         {
             get { return _RMSforce; }
@@ -271,7 +273,9 @@ namespace Program
             _comments = addTextBox(false);
             _comments.Multiline = true;
 
+            _profileName.Name = "_profileName";
             _profileName.Text = "Profile 1";
+            _profileNameString = _profileName.Text;
             _profileName.TextAlign = HorizontalAlignment.Left;
 
             _project.Load = new Load(0.25, 0);
@@ -535,6 +539,8 @@ namespace Program
                     (sender as TextBox).Text = _project.Axis1.AngleOfInclination.ToString();
                 else if (name.Equals("_thrustForce") && _project.Environment != null)
                     (sender as TextBox).Text = _project.Environment.ThrustForce.ToString();
+                else if (name.Equals("_profileName") && _project.Profile != null)
+                    _mainForm.ProjectList.RenameProfile(text);
             }
         }
 
