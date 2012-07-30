@@ -16,6 +16,8 @@ namespace Program
         private Dictionary<string, double> _dictionary;
         private TableLayoutPanel _panel;
         private ListView _view;
+        private ComboBox _box;
+        private Label boxTitle;
 
         private String _parameter1;
         private String _parameter2;
@@ -72,6 +74,23 @@ namespace Program
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.25F));
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.125F));
 
+            _box = new ComboBox();
+            _box.Items.Add(string.Format("Linear"));
+            _box.Items.Add(string.Format("Triangular"));
+            _box.Items.Add(string.Format("Sinusoidal"));
+            _box.Width = 200;
+            _box.Dock = DockStyle.Right;
+            _box.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+            boxTitle = new Label();
+            boxTitle.Text = "Acceleration Type";
+            boxTitle.Font = new Font("Tahoma", 10);
+            boxTitle.Size = new Size(boxTitle.PreferredWidth, boxTitle.PreferredHeight);
+            boxTitle.AutoSize = true;
+            boxTitle.TextAlign = ContentAlignment.BottomRight;
+            boxTitle.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            boxTitle.Margin = new Padding(0, 0, 0, 25);
+
             _label1 = new Label();
             _label2 = new Label();
             _label3 = new Label();
@@ -81,6 +100,8 @@ namespace Program
             _label2.Enabled = false;
             _label3.Enabled = false;
             _label4.Enabled = false;
+            boxTitle.Enabled = false;
+            _box.Enabled = false; ;
 
             Padding p = new Padding(0, 5, 0, 0);
             _label1.Margin = p;
@@ -136,20 +157,23 @@ namespace Program
             _panel.Controls.Add(_view, 1, 1);
             _panel.SetRowSpan(_view, 6);
 
-            _panel.Controls.Add(_label1, 2, 2);
-            _panel.Controls.Add(_label2, 2, 3);
-            _panel.Controls.Add(_label3, 2, 4);
-            _panel.Controls.Add(_label4, 2, 5);
+            _panel.Controls.Add(boxTitle, 2, 2);
+            _panel.Controls.Add(_label1, 2, 3);
+            _panel.Controls.Add(_label2, 2, 4);
+            _panel.Controls.Add(_label3, 2, 5);
+            _panel.Controls.Add(_label4, 2, 6);
 
-            _panel.Controls.Add(_textBox1, 3, 2);
-            _panel.Controls.Add(_textBox2, 3, 3);
-            _panel.Controls.Add(_textBox3, 3, 4);
-            _panel.Controls.Add(_textBox4, 3, 5);
+
+            _panel.Controls.Add(_box, 3, 2);
+            _panel.Controls.Add(_textBox1, 3, 3);
+            _panel.Controls.Add(_textBox2, 3, 4);
+            _panel.Controls.Add(_textBox3, 3, 5);
+            _panel.Controls.Add(_textBox4, 3, 6);
 
             _panel.Controls.Add(title, 2, 1);
             _panel.SetColumnSpan(title, 2);
 
-            _panel.Controls.Add(button, 3, 6);
+            _panel.Controls.Add(button, 3, 7);
         }
 
         private void DoSetup()
@@ -180,6 +204,9 @@ namespace Program
             _label2.Enabled = true;
             _label3.Enabled = true;
             _label4.Enabled = true;
+            boxTitle.Enabled = true;
+            _box.Enabled = true;
+
 
             _textBox1.Enabled = true;
             _textBox2.Enabled = true;
@@ -272,6 +299,7 @@ namespace Program
             double value3 = 0D;
             double value4 = 0D;
 
+
             try
             {
                 value1 = Double.Parse(_textBox1.Text);
@@ -290,7 +318,7 @@ namespace Program
             _dictionary.Add(_parameter3, value3);
             _dictionary.Add("timeStep", value4);
 
-            _mainForm.Project.Converter1 = new Utility.Converters.ParameterSetConverter(_dictionary);
+            _mainForm.Project.Converter1 = new Utility.Converters.ParameterSetConverter(_dictionary,_box.Text);
 
             if (this.OnClose != null)
                 this.OnClose(this, EventArgs.Empty);

@@ -7,7 +7,7 @@ namespace Interfaces
 {
     public interface IDatabase
     {
-        void Add(IMotor motor);
+        //void Add(IMotor motor);
         bool Get(out IMotor motor, List<string> parameters);
 
         /// <summary>

@@ -36,6 +36,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\SQLite.NET\bin\x64\System.Data.SQLite.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +54,7 @@
     <Compile Include="Converters\FileConverter.cs" />
     <Compile Include="Converters\FunctionConverter.cs" />
     <Compile Include="Converters\ParameterSetConverter.cs" />
+    <Compile Include="Database.cs" />
     <Compile Include="Record.cs" />
     <Compile Include="SimulationEnv.cs" />
     <Compile Include="Load.cs" />

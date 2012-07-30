@@ -58,8 +58,9 @@ namespace Utility.Converters
         /// Create a new ParameterSet
         /// </summary>
         /// <param name="parameters">The dictionary of parameters to convert</param>
-        public ParameterSetConverter(Dictionary<string, double> parameters) 
+        public ParameterSetConverter(Dictionary<string, double> parameters, String accelerationType) 
         {
+            _accelerationType = accelerationType;
             if (parameters.Count == 0)
                 throw new Exception("Invalid paramter count!");
             else
@@ -114,7 +115,18 @@ namespace Utility.Converters
             double[] values = new double[] { value0, value1, value2 };
             info.Invoke(this, new object[] { values });
 
-            fillArrays();
+            if (_accelerationType == "Sinusoidal")
+            {
+                fillSinusoidalArrays();
+            }
+            else if (_accelerationType == "Triangular")
+            {
+                fillTriangularArrays();
+            }
+            else
+            {
+                fillArrays();
+            }
         }
 
         private double[] _acceleration;
@@ -127,6 +139,7 @@ namespace Utility.Converters
         private double _decelerationTime;
         private double _dwellTime;
         private double _timeStep;
+        private String _accelerationType;
 
         private void fillArrays()
         {
@@ -160,6 +173,101 @@ namespace Utility.Converters
             for (int i = startDecel; i < timeSteps; i++)
             {
                 _acceleration[i] = maxDeceleration;
+                _time[i] = i * _timeStep;
+            }
+        }
+
+        private void fillTriangularArrays()
+        {
+            _dwellTime = 0; // for now
+
+            double totalTime = _accelerationTime + _traverseTime + _decelerationTime;
+            double accelAndTraverseTime = _accelerationTime + _traverseTime;
+            double maxVelocity = _distanceOfTravel / accelAndTraverseTime;
+            double maxAcceleration = maxVelocity / _accelerationTime;
+            double maxDeceleration = -1 * maxAcceleration;
+
+
+            int timeSteps = (int)Math.Ceiling((totalTime + _dwellTime) / _timeStep);
+            int stopAccel = (int)Math.Round((_accelerationTime / _timeStep)/2);
+            int stopAccel2 = (int)Math.Round(_accelerationTime / _timeStep);
+            int startDecel = (int)Math.Round((accelAndTraverseTime / _timeStep)/2);
+            int startDecel2 = (int)Math.Round(accelAndTraverseTime / _timeStep);
+            double Apk = (4 * _distanceOfTravel) / (Math.Pow(_accelerationTime, 2) + (2 * accelAndTraverseTime) + (_accelerationTime * _decelerationTime));
+            double Dpk = (4 * _distanceOfTravel) / ((_accelerationTime * _decelerationTime) + (2 * (_traverseTime + _decelerationTime)) + Math.Pow(_decelerationTime, 2));
+            double position = 0;
+            _time = new double[timeSteps];
+            _acceleration = new double[timeSteps];
+
+            for (int i = 0; i < stopAccel; i++)
+            {
+                _acceleration[i] = Apk*i;
+                position = Apk * i;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = stopAccel; i < stopAccel2; i++)
+            {
+                _acceleration[i] = (-1 * Apk * i) + position;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = stopAccel2; i < startDecel; i++)
+            {
+                _acceleration[i] = 0;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = startDecel; i < startDecel2; i++)
+            {
+                _acceleration[i] = -1 * Dpk * i;
+                position = -1 * Dpk * i;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = startDecel2; i < timeSteps; i++)
+            {
+                _acceleration[i] = (-1 * Dpk * i) + position;
+                _time[i] = i * _timeStep;
+            }
+        }
+        
+        private void fillSinusoidalArrays()
+        {
+            _dwellTime = 0; // for now
+
+            double totalTime = _accelerationTime + _traverseTime + _decelerationTime;
+            double accelAndTraverseTime = _accelerationTime + _traverseTime;
+            double maxVelocity = _distanceOfTravel / accelAndTraverseTime;
+            double maxAcceleration = maxVelocity / _accelerationTime;
+            double maxDeceleration = -1 * maxAcceleration;
+            double pi = Math.PI;
+            
+
+            int timeSteps = (int)Math.Ceiling((totalTime + _dwellTime) / _timeStep);
+            int stopAccel = (int)Math.Round(_accelerationTime / _timeStep);
+            int startDecel = (int)Math.Round(accelAndTraverseTime / _timeStep);
+            double Apk = (pi * _distanceOfTravel) / (Math.Pow(_accelerationTime, 2) + (2 * accelAndTraverseTime) + (_accelerationTime * _decelerationTime));
+            double Dpk = (pi * _distanceOfTravel) / ((_accelerationTime * _decelerationTime) + (2 * (_traverseTime + _decelerationTime)) + Math.Pow(_decelerationTime, 2));
+
+            _time = new double[timeSteps];
+            _acceleration = new double[timeSteps];
+
+            for (int i = 0; i < stopAccel; i++)
+            {
+                _acceleration[i] = Apk * Math.Sin((pi * i) / _accelerationTime);
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = stopAccel; i < startDecel; i++)
+            {
+                _acceleration[i] = 0;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = startDecel; i < timeSteps; i++)
+            {
+                _acceleration[i] = Dpk * Math.Sin(-1*((pi * i) / _decelerationTime));
                 _time[i] = i * _timeStep;
             }
         }
@@ -351,6 +459,19 @@ namespace Utility.Converters
             _decelerationTime = _accelerationTime;
             _distanceOfTravel = scanDistance + maxVelocity * _accelerationTime;
         }
+
+        public String accelerationType
+        {
+            get
+            {
+                return _accelerationType;
+            }
+            set
+            {
+                _accelerationType = value;
+            }
+        }
+
         #endregion // Internal Implemenetation
     }
 }

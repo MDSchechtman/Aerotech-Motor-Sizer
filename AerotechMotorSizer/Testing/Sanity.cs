@@ -18,7 +18,7 @@ namespace Program.Test
             dictionary.Add("percentage", 0.80);
             dictionary.Add("timeStep", 0.50);
 
-            IConverter converter = new Utility.Converters.ParameterSetConverter(dictionary);
+            IConverter converter = new Utility.Converters.ParameterSetConverter(dictionary, "Linear");
             IPath path = new Path(converter);
             IAxis axis = new Axis(path);
 

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using NCalc;
 using Interfaces;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Utility.Converters
 {
@@ -19,6 +23,8 @@ namespace Utility.Converters
         private bool _hasPosition;
         private bool _hasVelocity;
         private bool _hasAcceleration;
+        private String _accelerationType;
+
 
         private List<double> _value;
         private List<double> _time;
@@ -75,6 +81,7 @@ namespace Utility.Converters
                 }
                 catch(EvaluationException a)
                 {
+
                     Console.WriteLine("Error catched: " + a.Message);
                 }
                 SetProperties((FileType)type);
@@ -100,6 +107,18 @@ namespace Utility.Converters
                     _hasVelocity = true;
                     _hasAcceleration = false;
                     break;
+            }
+        }
+
+        public String accelerationType
+        {
+            get
+            {
+                return _accelerationType;
+            }
+            set
+            {
+                _accelerationType = value;
             }
         }
     }

@@ -20,6 +20,7 @@ namespace Utility.Converters
         private bool _hasPosition;
         private bool _hasVelocity;
         private bool _hasAcceleration;
+        private String _accelerationType;
 
         private List<double> _value;
         private List<double> _time;
@@ -111,6 +112,18 @@ namespace Utility.Converters
                     _hasVelocity = true;
                     _hasAcceleration = false;
                     break;
+            }
+        }
+
+        public String accelerationType
+        {
+            get
+            {
+                return _accelerationType;
+            }
+            set
+            {
+                _accelerationType = value;
             }
         }
     }

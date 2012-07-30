@@ -19,7 +19,7 @@ namespace Testing
             myParams.Add("percentage", 0.5);
             myParams.Add("timeStep", 0.1);
 
-            IConverter converter = new Utility.Converters.ParameterSetConverter(myParams);
+            IConverter converter = new Utility.Converters.ParameterSetConverter(myParams, "Linear");
             IPath P = new Path(converter);
             IRecord record = new Utility.Record(P);
             Random r = new Random(66642);

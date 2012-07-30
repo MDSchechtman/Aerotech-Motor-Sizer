@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using NCalc;
 
 using Interfaces;
 using Utility;
@@ -223,6 +224,17 @@ namespace Program
             else if (string.Compare(_box.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
                 type = 2;
 
+            Expression ex = new Expression(_box1.Text.Replace("x", "1"));
+            try
+            {
+                ex.Evaluate();
+            }
+            catch (EvaluationException a)
+            {
+
+                Console.WriteLine("Error catched: " + a.Message);
+            }
+            
             _mainForm.Project.Converter1 = new Utility.Converters.FunctionConverter(_box1.Text.ToString(), Double.Parse(_box1length.Text), Double.Parse(_box1step.Text), type);
             _mainForm.Project.Converter2 = new Utility.Converters.FunctionConverter(_box2.Text.ToString(), Double.Parse(_box2length.Text), Double.Parse(_box2step.Text), type);
             _mainForm.Project.Converter3 = new Utility.Converters.FunctionConverter(_box3.Text.ToString(), Double.Parse(_box3length.Text), Double.Parse(_box3step.Text), type);

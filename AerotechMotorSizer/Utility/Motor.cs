@@ -129,7 +129,7 @@ namespace Utility
 
         public double ContinuousForce_20psi
         {
-            get { return MotorContinuousForce_0psi; }
+            get { return MotorContinuousForce_20psi; }
             set { MotorContinuousForce_20psi = ContinuousForce_20psi; }
         }
 

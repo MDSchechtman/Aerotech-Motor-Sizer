@@ -14,5 +14,6 @@ namespace Interfaces
         double[] Velocity { get; }
         double[] Acceleration { get; }
         double[] Time  {get; }
+        String accelerationType { get; set; }
     }
 }

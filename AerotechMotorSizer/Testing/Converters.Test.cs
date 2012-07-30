@@ -22,7 +22,7 @@ namespace Program.Test
                 p.Add("timeStep", 0.1);
 
                 // Set the parameters to the ParameterSet
-                Utility.Converters.ParameterSetConverter set = new Utility.Converters.ParameterSetConverter(p);
+                Utility.Converters.ParameterSetConverter set = new Utility.Converters.ParameterSetConverter(p, "Linear");
             }
 
             // Test the FunctionConverter
