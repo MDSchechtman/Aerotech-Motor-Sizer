@@ -299,7 +299,7 @@ namespace Program
             _accelerationType.DropDownStyle = ComboBoxStyle.DropDownList;
             _accelerationType.SelectedItem = _accelerationType.Items[0];
 
-            _lengthOfTravelUnits = fillComboBox("length", 1);
+            _lengthOfTravelUnits = fillComboBox("length", 0);
             _massOfLoadUnits = fillComboBox("mass", 0);
             _accelerationTimeUnits = fillComboBox("time", 1);
             _traverseTimeUnits = fillComboBox("time", 1);
@@ -313,7 +313,7 @@ namespace Program
             _ambientTemperatureUnits = addLabel("\x00B0C");
             _mechanicalEfficiencyUnits = addLabel("%");
 
-            _totalMoveTimeUnits = fillComboBox("time", 1);
+            _totalMoveTimeUnits = fillComboBox("time", 0);
             _dutyCycleUnits = fillComboBox("percent", 1);
             _maxLinearSpeedUnits = fillComboBox("velocity", 0);
             _peakAccelerationUnits = fillComboBox("acceleration", 0);
