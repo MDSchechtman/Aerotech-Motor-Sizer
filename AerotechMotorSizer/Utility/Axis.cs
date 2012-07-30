@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 using Interfaces;
 
@@ -13,11 +14,15 @@ namespace Utility
         private IConverter _converter;
         private IRecord _record;
         private double _angleOfInclination;
+        private bool _valid;
 
         /// <summary>
         /// Creates a new instance of the axis class
         /// </summary>
-        public Axis() { }
+        public Axis() 
+        {
+            _valid = false;
+        }
 
         /// <summary>
         /// Creates a new instance of the axis class
@@ -25,18 +30,10 @@ namespace Utility
         /// <param name="path">That path to use</param>
         public Axis(IPath path)
         {
+            _valid = true;
             _path = path;
 
             SetPath(path); 
-        }
-
-        /// <summary>
-        /// Constructs an empty axis
-        /// </summary>
-        /// <returns></returns>
-        public static Axis Invalid()
-        {
-            return new Axis(new Path(new Utility.Converters.FunctionConverter("x", 1, 1, 1)));
         }
 
         /// <summary>
@@ -45,6 +42,7 @@ namespace Utility
         /// <param name="converter">The converter to use</param>
         public Axis(IConverter converter)
         {
+            _valid = true;
             _path = new Path(converter);
             _converter = converter;
 
@@ -58,6 +56,7 @@ namespace Utility
         /// <param name="converter">The converter to use</param>
         public Axis(IPath path, IConverter converter)
         {
+            _valid = true;
             _path = path;
             _converter = converter;
             _path = new Path(converter);
@@ -71,6 +70,13 @@ namespace Utility
             _record = new Record(path);
         }
 
+        public bool Valid
+        {
+            get { return _valid; }
+            set { _valid = value; }
+        }
+
+        [XmlIgnoreAttribute]
         public IConverter Converter
         {
             get

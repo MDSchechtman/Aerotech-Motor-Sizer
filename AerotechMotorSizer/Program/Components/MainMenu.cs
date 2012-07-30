@@ -97,7 +97,10 @@ namespace Program
         // File -> Open
         void file2_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
+            if (DialogResult.OK == dialog.ShowDialog())
+                _mainForm.Project = Project.LoadProject(dialog.FileName);
         }
 
         // File -> Save
@@ -110,8 +113,9 @@ namespace Program
         void file4_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
             if (DialogResult.OK == dialog.ShowDialog())
-                Project.Save(_mainForm.Project, dialog.FileName);
+                Project.SaveProject(_mainForm.Project, dialog.FileName);
         }
 
         // File -> Exit

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
-using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using System.IO;
 
 using Interfaces;
@@ -15,11 +14,11 @@ namespace Program
     public class Project
     {
         private string _Name;
-        private IMotor _Motor;
-        private ILoad _Load;
-        private IAxis _Axis1;
-        private IAxis _Axis2;
-        private IAxis _Axis3;
+        private Motor _Motor;
+        private Load _Load;
+        private Axis _Axis1;
+        private Axis _Axis2;
+        private Axis _Axis3;
         private Utility.SimulationEnv _Environment;
 
         public delegate void UpdateHandler(object sender, EventArgs args);
@@ -34,7 +33,7 @@ namespace Program
         private SequenceScene _SequenceScene;
         private OutputScene _WarningScene;
 
-        [IgnoreDataMemberAttribute]
+        [XmlIgnoreAttribute]
         public ParameterInputScene ParameterInput
         {
             get
@@ -48,7 +47,7 @@ namespace Program
             }
         }
 
-        [IgnoreDataMemberAttribute]
+        [XmlIgnoreAttribute]
         public FileConverterScene FileConverter
         {
             get
@@ -62,7 +61,7 @@ namespace Program
             }
         }
 
-        [IgnoreDataMemberAttribute]
+        [XmlIgnoreAttribute]
         public FunctionConverterScene FunctionConverter
         {
             get
@@ -76,7 +75,7 @@ namespace Program
             }
         }
 
-        [IgnoreDataMemberAttribute]
+        [XmlIgnoreAttribute]
         public ChooseMotorScene ChooseMotor
         {
             get
@@ -90,7 +89,7 @@ namespace Program
             }
         }
 
-        [IgnoreDataMemberAttribute]
+        [XmlIgnoreAttribute]
         public NewProjectScene NewProject
         {
             get
@@ -104,7 +103,7 @@ namespace Program
             }
         }
 
-        [IgnoreDataMemberAttribute]
+        [XmlIgnoreAttribute]
         public ProfileScene Profile
         {
             get
@@ -118,7 +117,7 @@ namespace Program
             }
         }
 
-        [IgnoreDataMemberAttribute]
+        [XmlIgnoreAttribute]
         public SequenceScene Sequence
         {
             get
@@ -132,7 +131,7 @@ namespace Program
             }
         }
 
-        [IgnoreDataMemberAttribute]
+        [XmlIgnoreAttribute]
         public OutputScene Warn
         {
             get
@@ -160,7 +159,7 @@ namespace Program
         //constructor
         public Project(IMotor motor)
         {
-            _Motor = motor;
+            _Motor = (Motor) motor;
         }
 
         //get and set the project name
@@ -178,7 +177,7 @@ namespace Program
         }
 
         //get and set the project motor
-        public IMotor Motor
+        public Motor Motor
         {
             get
             {
@@ -191,7 +190,7 @@ namespace Program
             }
         }
 
-        public ILoad Load
+        public Load Load
         {
             get
             {
@@ -204,11 +203,11 @@ namespace Program
             }
         }
 
-        public IAxis Axis1
+        public Axis Axis1
         {
             get
             {
-                return (_Axis1 == null) ? Axis.Invalid() : _Axis1;
+                return (_Axis1 == null) ? new Axis() : _Axis1;
             }
             set
             {
@@ -217,11 +216,11 @@ namespace Program
             }
         }
 
-        public IAxis Axis2
+        public Axis Axis2
         {
             get
             {
-                return (_Axis2 == null) ? Axis.Invalid() : _Axis2;
+                return (_Axis2 == null) ? new Axis() : _Axis2;
             }
             set
             {
@@ -230,11 +229,11 @@ namespace Program
             }
         }
 
-        public IAxis Axis3
+        public Axis Axis3
         {
             get
             {
-                return (_Axis3 == null) ? Axis.Invalid() : _Axis3;
+                return (_Axis3 == null) ? new Axis() : _Axis3;
             }
             set
             {
@@ -256,24 +255,23 @@ namespace Program
             }
         }
 
-        public static bool Save(Project o, string filename)
+        public static bool SaveProject(Project o, string filename)
         {
-
-            Type t = o.GetType();
-
-            Type[] extraTypes = t.GetProperties()
-                .Where(p => p.PropertyType.IsInterface)
-                .Select(p => p.GetValue(o, null).GetType())
-                .ToArray();
-
-            DataContractSerializer serializer = new DataContractSerializer(t, extraTypes);
-            StringWriter sw = new StringWriter();
-            XmlTextWriter xw = new XmlTextWriter(sw);
-            serializer.WriteObject(xw, o);
-            XElement e =  XElement.Parse(sw.ToString());
-
-
+            XmlSerializer writer = new XmlSerializer(typeof(Project));
+            StreamWriter file = new StreamWriter(filename);
+            writer.Serialize(file, o);
+            file.Close();
             return true;
+        }
+
+        public static Project LoadProject(string filename)
+        {
+            XmlSerializer reader = new XmlSerializer(typeof(Project));
+            StreamReader file = new StreamReader(filename);
+            Project o = new Project();
+            o = (Project) reader.Deserialize(file);
+
+            return o;
         }
     }
 }

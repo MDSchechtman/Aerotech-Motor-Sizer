@@ -477,16 +477,16 @@ namespace Program
 
         public void Solve()
         {
-            if (_project.Axis1 != null && _project.Motor != null && _project.Load != null)
+            if (_project.Axis1.Valid && _project.Motor != null && _project.Load != null)
             {
                 _solver.Start(_project.Axis1.Record, _project.Motor, _project.Load, _project.Axis1.Path, _project.Environment);
 
                 _dutyCycle.Text = "100";
 
                 _totalMoveTime.Text = _project.Axis1.Record.Time.Max().ToString("0.####");
-                _lengthOfTravel.Text = (_project.Axis1.Record.Position != null) ? _project.Axis1.Record.Position.Max().ToString("0.####") : "NaN";
-                _maxLinearSpeed.Text = (_project.Axis1.Record.Velocity != null) ? _project.Axis1.Record.Velocity.Max().ToString("0.####") : "NaN";
-                _peakAcceleration.Text = (_project.Axis1.Record.Acceleration != null) ? _project.Axis1.Record.Acceleration.Max().ToString("0.####") : "NaN";
+                _lengthOfTravel.Text = _project.Axis1.Record.Position.Max().ToString("0.####");
+                _maxLinearSpeed.Text = _project.Axis1.Record.Velocity.Max().ToString("0.####");
+                _peakAcceleration.Text = _project.Axis1.Record.Acceleration.Max().ToString("0.####");
 
                 _peakForce.Text = _project.Axis1.Record.MAXforce.ToString("0.####");
                 _totalRMSForce.Text = _project.Axis1.Record.RMSforce.ToString("0.####");
