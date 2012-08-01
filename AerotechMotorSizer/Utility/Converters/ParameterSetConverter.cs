@@ -234,7 +234,7 @@ namespace Utility.Converters
             double percentage = values[2];
 
             _distanceOfTravel = distanceOfTravel;
-            _accelerationTime = percentage * distanceOfTravel / maxVelocity;
+            _accelerationTime = percentage * distanceOfTravel / (maxVelocity * (2 - percentage));
             _traverseTime = 2 * (1 - percentage) * _accelerationTime / percentage;
             _decelerationTime = _accelerationTime;
         }
