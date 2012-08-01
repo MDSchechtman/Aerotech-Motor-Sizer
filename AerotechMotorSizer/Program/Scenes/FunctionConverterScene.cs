@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using NCalc;
 
 using Interfaces;
 using Utility;
@@ -74,7 +75,7 @@ namespace Program
             _box.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 
             Label boxTitle = new Label();
-            boxTitle.Text = "Select type of data in the file:";
+            boxTitle.Text = "Select type of function:";
             boxTitle.Font = new Font("Tahoma", 10);
             boxTitle.Size = new Size(boxTitle.PreferredWidth, boxTitle.PreferredHeight);
             boxTitle.AutoSize = true;
@@ -215,19 +216,121 @@ namespace Program
 
         private void _ok_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(_box1.Text.ToString() + " " + Double.Parse(_box1step.Text) + " " + Double.Parse(_box1length.Text));
             int type = 0;
+            int skip = 0;
             if (string.Compare(_box.SelectedItem.ToString(), "Position vs. Time") == 0)
                 type = 0;
             else if (string.Compare(_box.SelectedItem.ToString(), "Velocity vs. Time") == 0)
                 type = 1;
             else if (string.Compare(_box.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
                 type = 2;
+            else
+            {
+                MessageBox.Show("Please Select a Function Type");
+                skip = 1;
+            }
 
+            Expression ex = new Expression(_box1.Text.Replace("x", "1"));
+            try
+            {
+                ex.Evaluate();
 
-            //_mainForm.DoSolver(new Utility.Converters.FunctionConverter(_box1.Text.ToString(), Double.Parse(_box1length.Text), Double.Parse(_box1step.Text), type));
-            //_mainForm.DoSolver(new Utility.Converters.FunctionConverter(_box2.Text.ToString(), Double.Parse(_box2length.Text), Double.Parse(_box2step.Text), type));
-            //_mainForm.DoSolver(new Utility.Converters.FunctionConverter(_box3.Text.ToString(), Double.Parse(_box3length.Text), Double.Parse(_box3step.Text), type));
+                double timeStep;
+                double totalTime;
+
+                if (Double.TryParse(_box1step.Text, out timeStep))
+                {
+                    if (Double.TryParse(_box1length.Text, out totalTime))
+                    {
+                        IConverter converter = new Utility.Converters.FunctionConverter(_box1.Text.ToString(), totalTime, timeStep, type);
+                        _mainForm.Project.Axis1 = new Axis(converter);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid time length");
+                        skip = 1;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid time step");
+                    skip = 1;
+                }
+            }
+            catch (Exception a)
+            {
+                MessageBox.Show("Error caught: " + a.Message);
+                Console.WriteLine("Error caught: " + a.Message);
+                skip = 1;
+            }
+            if (skip != 1)
+            {
+                Expression ex2 = new Expression(_box2.Text.Replace("x", "1"));
+                try
+                {
+                    ex2.Evaluate();
+
+                    double timeStep;
+                    double totalTime;
+
+                    if (Double.TryParse(_box2step.Text, out timeStep))
+                    {
+                        if (Double.TryParse(_box2length.Text, out totalTime))
+                        {
+                            IConverter converter = new Utility.Converters.FunctionConverter(_box2.Text.ToString(), totalTime, timeStep, type);
+                            _mainForm.Project.Axis1 = new Axis(converter);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid time length");
+                            skip = 1;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid time step");
+                        skip = 1;
+                    }
+                }
+                catch (Exception a)
+                {
+                    MessageBox.Show("Error caught: " + a.Message);
+                    Console.WriteLine("Error caught: " + a.Message);
+                    skip = 1;
+                }
+            }
+
+            if (skip != 1)
+            {
+                Expression ex3 = new Expression(_box3.Text.Replace("x", "1"));
+                try
+                {
+                    ex3.Evaluate();
+
+                    double timeStep;
+                    double totalTime;
+
+                    if (Double.TryParse(_box3step.Text, out timeStep))
+                    {
+                        if (Double.TryParse(_box3length.Text, out totalTime))
+                        {
+                            IConverter converter = new Utility.Converters.FunctionConverter(_box3.Text.ToString(), totalTime, timeStep, type);
+                            _mainForm.Project.Axis1 = new Axis(converter);
+                            if (this.OnClose != null)
+                                this.OnClose(this, EventArgs.Empty);
+                        }
+                        else
+                            MessageBox.Show("Invalid time length");
+                    }
+                    else
+                        MessageBox.Show("Invalid time step");
+                }
+                catch (Exception a)
+                {
+                    MessageBox.Show("Error caught: " + a.Message);
+                    Console.WriteLine("Error caught: " + a.Message);
+                }
+            }
         }
     }
 }
