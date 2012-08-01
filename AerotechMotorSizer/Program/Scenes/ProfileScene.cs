@@ -152,6 +152,11 @@ namespace Program
             Initialize();
         }
 
+        public void Redraw()
+        {
+            Initialize();
+        }
+
         public TableLayoutPanel Component
         {
             get { return _panel; }
@@ -274,7 +279,7 @@ namespace Program
             _comments.Multiline = true;
 
             _profileName.Name = "_profileName";
-            _profileName.Text = "Profile 1";
+            _profileName.Text = _project.ProfileName;
             _profileNameString = _profileName.Text;
             _profileName.TextAlign = HorizontalAlignment.Left;
 

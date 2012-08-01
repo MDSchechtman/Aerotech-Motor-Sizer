@@ -33,6 +33,10 @@ namespace Program
         private SequenceScene _SequenceScene;
         private OutputScene _WarningScene;
 
+        // Various names
+        private string _profile = "Profile 1";
+        private string _sequence = "Sequence 1";
+
         [XmlIgnoreAttribute]
         public ParameterInputScene ParameterInput
         {
@@ -253,6 +257,18 @@ namespace Program
                 _Environment = value;
                 OnUpdate(this, new EventArgs());
             }
+        }
+
+        public string ProfileName
+        {
+            get { return _profile; }
+            set { _profile = value; }
+        }
+
+        public string SequenceName
+        {
+            get { return _sequence; }
+            set { _sequence = value; }
         }
 
         public static bool SaveProject(Project o, string filename)

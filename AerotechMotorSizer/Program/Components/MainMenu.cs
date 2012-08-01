@@ -100,7 +100,13 @@ namespace Program
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
             if (DialogResult.OK == dialog.ShowDialog())
+            {
                 _mainForm.Project = Project.LoadProject(dialog.FileName);
+                _mainForm.MainPanel.SetLeft(_mainForm.ProjectList.Component);
+                _mainForm.LoadNewProjectScene(false);
+            }
+
+
         }
 
         // File -> Save
@@ -115,7 +121,10 @@ namespace Program
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
             if (DialogResult.OK == dialog.ShowDialog())
-                Project.SaveProject(_mainForm.Project, dialog.FileName);
+            {
+                _mainForm.Project.Name = System.IO.Path.GetFileName(dialog.FileName.Substring(0, dialog.FileName.IndexOf('.')));
+               Project.SaveProject(_mainForm.Project, dialog.FileName);
+            }
         }
 
         // File -> Exit
