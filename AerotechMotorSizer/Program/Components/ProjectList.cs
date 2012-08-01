@@ -39,7 +39,7 @@ namespace Program
             _project.Profile = new ProfileScene(_mainForm);
             _project.Profile.Name = _project.ProfileName;
             _project.Sequence = new SequenceScene(_mainForm);
-            _project.Sequence.Name = "Sequence 1";
+            _project.Sequence.Name = _project.SequenceName;
             _project.ChooseMotor = new ChooseMotorScene(_mainForm);
             _project.Warn = new OutputScene(_mainForm);
 
@@ -87,7 +87,7 @@ namespace Program
             _project.Profile = new ProfileScene(_mainForm);
             _project.Profile.Name = _project.ProfileName;
             _project.Sequence = new SequenceScene(_mainForm);
-            _project.Sequence.Name = "Sequence 1";
+            _project.Sequence.Name = _project.SequenceName;
             
             _project.ChooseMotor = new ChooseMotorScene(_mainForm);
             _project.Warn = new OutputScene(_mainForm);
@@ -117,6 +117,16 @@ namespace Program
             _project.Profile.Name = newName;
             // Update the stored name
             _project.ProfileName = newName;
+            // Redraw
+            DoSetup();
+        }
+
+        public void RenameSequence(string newName)
+        {
+            // Update the profile scene
+            _project.Sequence.Name = newName;
+            // Update the stored name
+            _project.SequenceName = newName;
             // Redraw
             DoSetup();
         }

@@ -176,8 +176,6 @@ namespace Program
             _finalCoilTemperatureLabel = addLabel("Final Coil Temp.");
             _commentsLabel = addLabel("Comments");
 
-
-
             _sequenceName = addTextBox(false);
             _maxStaticFriction = addTextBox(false);
             _dynamicFriction = addTextBox(false);
@@ -196,15 +194,17 @@ namespace Program
             _finalCoilTemperature = addTextBox(true);
             _comments = addTextBox(false);
             _comments.Multiline = true;
+            _comments.Text = _project.SequenceComments;
 
             _sequenceName.TextAlign = HorizontalAlignment.Left;
             _sequenceName.Name = "_sequenceName";
+            _comments.Name = "_comments";
             _maxStaticFriction.Name = "_maxStaticFriction";
             _dynamicFriction.Name = "_dynamicFriction";
             _ambientTemperature.Name = "_ambientTemperature";
             _mechanicalEfficiency.Name = "_mechanicalEfficiency";
 
-            _sequenceName.Text = "Sequence 1";
+            _sequenceName.Text = _project.SequenceName;
             _maxStaticFriction.Text = "0";
             _dynamicFriction.Text = "0";
             _ambientTemperature.Text = "20";
@@ -344,9 +344,7 @@ namespace Program
             }
             else
             {
-                if (name.Equals("_sequenceName")) { }
-
-                else if (name.Equals("_maxStaticFriction"))
+                if (name.Equals("_maxStaticFriction"))
                     (sender as TextBox).Text = _project.Environment.StaticFriction.ToString();
                 else if (name.Equals("_dynamicFriction"))
                     (sender as TextBox).Text = _project.Environment.DynamicFriction.ToString();
@@ -354,6 +352,10 @@ namespace Program
                     (sender as TextBox).Text = _project.Environment.AmbientTemp.ToString();
                 else if (name.Equals("_mechanicalEfficiency"))
                     (sender as TextBox).Text = _project.Environment.MechEfficiency.ToString();
+                else if (name.Equals("_sequenceName"))
+                    _mainForm.ProjectList.RenameSequence((sender as TextBox).Text);
+                else if (name.Equals("_comments"))
+                    _project.SequenceComments = (sender as TextBox).Text;
             }
         }
 

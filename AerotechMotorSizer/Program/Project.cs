@@ -36,6 +36,8 @@ namespace Program
         // Various names
         private string _profile = "Profile 1";
         private string _sequence = "Sequence 1";
+        private string _profileComments = string.Empty;
+        private string _sequenceComments = string.Empty;
 
         [XmlIgnoreAttribute]
         public ParameterInputScene ParameterInput
@@ -265,10 +267,22 @@ namespace Program
             set { _profile = value; }
         }
 
+        public string ProfileComments
+        {
+            get { return _profileComments; }
+            set { _profileComments = value; }
+        }
+
         public string SequenceName
         {
             get { return _sequence; }
             set { _sequence = value; }
+        }
+
+        public string SequenceComments
+        {
+            get { return _sequenceComments; }
+            set { _sequenceComments = value; }
         }
 
         public static bool SaveProject(Project o, string filename)

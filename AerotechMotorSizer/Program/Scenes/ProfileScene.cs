@@ -152,11 +152,6 @@ namespace Program
             Initialize();
         }
 
-        public void Redraw()
-        {
-            Initialize();
-        }
-
         public TableLayoutPanel Component
         {
             get { return _panel; }
@@ -276,7 +271,9 @@ namespace Program
             _finalCoilTemperature = addTextBox(true);
             _totalRMSForceForEntireSequence = addTextBox(true);
             _comments = addTextBox(false);
+            _comments.Name = "_comments";
             _comments.Multiline = true;
+            _comments.Text = _project.ProfileComments;
 
             _profileName.Name = "_profileName";
             _profileName.Text = _project.ProfileName;
@@ -548,6 +545,8 @@ namespace Program
                     (sender as TextBox).Text = _project.Environment.ThrustForce.ToString();
                 else if (name.Equals("_profileName") && _project.Profile != null)
                     _mainForm.ProjectList.RenameProfile(text);
+                else if (name.Equals("_comments") && _project.Profile != null)
+                    _project.ProfileComments = (sender as TextBox).Text;
             }
         }
 

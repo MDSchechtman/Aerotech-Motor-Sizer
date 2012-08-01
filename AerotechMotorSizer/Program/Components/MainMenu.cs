@@ -10,6 +10,7 @@ namespace Program
     {
         private MenuStrip _menuStrip;
         private MainForm _mainForm;
+        private string _file = string.Empty;
 
         public MainMenu(MainForm mainForm)
         {
@@ -88,6 +89,19 @@ namespace Program
             _menuStrip.PerformLayout();
         }
 
+        private void DoSave()
+        {
+
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
+            if (DialogResult.OK == dialog.ShowDialog())
+            {
+                _file = dialog.FileName;
+                _mainForm.Project.Name = System.IO.Path.GetFileName(_file.Substring(0, _file.IndexOf('.')));
+                Project.SaveProject(_mainForm.Project, _file);
+            }
+        }
+
         // File -> New
         void file1_Click(object sender, EventArgs e)
         {
@@ -105,26 +119,21 @@ namespace Program
                 _mainForm.MainPanel.SetLeft(_mainForm.ProjectList.Component);
                 _mainForm.LoadNewProjectScene(false);
             }
-
-
         }
 
         // File -> Save
         void file3_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (_file != string.Empty)
+                Project.SaveProject(_mainForm.Project, _file);
+            else
+                DoSave();
         }
 
         // File -> Save As
         void file4_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*";
-            if (DialogResult.OK == dialog.ShowDialog())
-            {
-                _mainForm.Project.Name = System.IO.Path.GetFileName(dialog.FileName.Substring(0, dialog.FileName.IndexOf('.')));
-               Project.SaveProject(_mainForm.Project, dialog.FileName);
-            }
+            DoSave();
         }
 
         // File -> Exit
