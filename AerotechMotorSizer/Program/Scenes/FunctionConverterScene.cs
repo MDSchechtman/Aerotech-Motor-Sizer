@@ -75,7 +75,7 @@ namespace Program
             _box.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 
             Label boxTitle = new Label();
-            boxTitle.Text = "Function Type:";
+            boxTitle.Text = "Select type of function:";
             boxTitle.Font = new Font("Tahoma", 10);
             boxTitle.Size = new Size(boxTitle.PreferredWidth, boxTitle.PreferredHeight);
             boxTitle.AutoSize = true;
@@ -217,10 +217,11 @@ namespace Program
         private void _ok_Click(object sender, EventArgs e)
         {
             int type = 0;
+            int skip = 0;
 
             if (_box.SelectedItem == null)
             {
-                MessageBox.Show("Please select a function type.");
+                MessageBox.Show("Please select a Function Type");
                 return;
             }
 
@@ -230,6 +231,11 @@ namespace Program
                 type = 1;
             else if (string.Compare(_box.SelectedItem.ToString(), "Acceleration vs. Time") == 0)
                 type = 2;
+            else
+            {
+                MessageBox.Show("Please Select a Function Type");
+                skip = 1;
+            }
 
             Expression ex = new Expression(_box1.Text.Replace("x", "1"));
             try
@@ -243,10 +249,7 @@ namespace Program
                 {
                     if (Double.TryParse(_box1length.Text, out totalTime))
                     {
-                        //_mainForm.Project.Converter1 = new Utility.Converters.FunctionConverter(_box1.Text.ToString(), totalTime, timeStep, type);
-
                         IConverter converter = new Utility.Converters.FunctionConverter(_box1.Text.ToString(), totalTime, timeStep, type);
-
                         _mainForm.Project.Axis1 = new Axis(converter);
 
                         _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
@@ -260,26 +263,109 @@ namespace Program
                         _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
                     }
                     else
+                    {
                         MessageBox.Show("Invalid time length");
+                        skip = 1;
+                    }
                 }
                 else
+                {
                     MessageBox.Show("Invalid time step");
+                    skip = 1;
+                }
             }
             catch (Exception a)
             {
-                /*
-                MessageBox dialog = new MessageBox(); //("Error caught: " + a.Message);
-                dialog. = ;
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    
-                }//*/
-
                 MessageBox.Show("Error caught: " + a.Message);
                 Console.WriteLine("Error caught: " + a.Message);
+                skip = 1;
+            }
+            if (skip != 1 && !_box2.Text.Equals(""))
+            {
+                Expression ex2 = new Expression(_box2.Text.Replace("x", "1"));
+                try
+                {
+                    ex2.Evaluate();
+
+                    double timeStep;
+                    double totalTime;
+
+                    if (Double.TryParse(_box2step.Text, out timeStep))
+                    {
+                        if (Double.TryParse(_box2length.Text, out totalTime))
+                        {
+                            IConverter converter = new Utility.Converters.FunctionConverter(_box2.Text.ToString(), totalTime, timeStep, type);
+                            _mainForm.Project.Axis2 = new Axis(converter);
+
+                            _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
+                            _mainForm.MainPanel.SetRight(_mainForm.Project.ChooseMotor.Component);
+
+                            _mainForm.Project.Profile.Solve();
+
+                            if (this.OnClose != null)
+                                this.OnClose(this, EventArgs.Empty);
+
+                            _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid time length");
+                            skip = 1;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid time step");
+                        skip = 1;
+                    }
+                }
+                catch (Exception a)
+                {
+                    MessageBox.Show("Error caught: " + a.Message);
+                    Console.WriteLine("Error caught: " + a.Message);
+                    skip = 1;
+                }
             }
 
+            if (skip != 1 && !_box3.Text.Equals(""))
+            {
+                Expression ex3 = new Expression(_box3.Text.Replace("x", "1"));
+                try
+                {
+                    ex3.Evaluate();
 
+                    double timeStep;
+                    double totalTime;
+
+                    if (Double.TryParse(_box3step.Text, out timeStep))
+                    {
+                        if (Double.TryParse(_box3length.Text, out totalTime))
+                        {
+                            IConverter converter = new Utility.Converters.FunctionConverter(_box3.Text.ToString(), totalTime, timeStep, type);
+                            _mainForm.Project.Axis3 = new Axis(converter);
+
+                            _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
+                            _mainForm.MainPanel.SetRight(_mainForm.Project.ChooseMotor.Component);
+
+                            _mainForm.Project.Profile.Solve();
+
+                            if (this.OnClose != null)
+                                this.OnClose(this, EventArgs.Empty);
+
+                            _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
+                        }
+                        else
+                            MessageBox.Show("Invalid time length");
+                    }
+                    else
+                        MessageBox.Show("Invalid time step");
+                }
+                catch (Exception a)
+                {
+                    MessageBox.Show("Error caught: " + a.Message);
+                    Console.WriteLine("Error caught: " + a.Message);
+                }
+            }
         }
     }
 }
