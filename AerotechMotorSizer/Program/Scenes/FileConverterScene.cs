@@ -188,6 +188,8 @@ namespace Program
 
             if (this.OnClose != null)
                 this.OnClose(this, EventArgs.Empty);
+
+            _mainForm.MainPanel.SetMiddle(_mainForm.Project.Profile.Component);
         }
     }
 }

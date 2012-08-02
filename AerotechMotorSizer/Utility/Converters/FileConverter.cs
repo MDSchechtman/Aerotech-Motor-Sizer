@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Windows.Forms;
 
 using Interfaces;
 
@@ -61,8 +62,8 @@ namespace Utility.Converters
         enum FileType
         {
             Position,
-            Acceleration,
-            Velocity
+            Velocity,
+            Acceleration
         }
 
         /// <summary>
@@ -82,25 +83,33 @@ namespace Utility.Converters
 
         private void ReadFromFile(string filename)
         {
-            StreamReader reader = new StreamReader(filename);
-
-            string line;
-            while ((line = reader.ReadLine()) != null)
+            try
             {
-                // We only take the first two elements
-                string[] row = line.Split(new char[] { ',', '|', ';', ' ' });
+                StreamReader reader = new StreamReader(filename);
 
-                // Ignore invalid entries
-                double time;
-                double value;
-                if (Double.TryParse(row[0], out time))
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    if (Double.TryParse(row[1], out value))
+                    // We only take the first two elements
+                    string[] row = line.Split(new char[] { ',', '|', ';', ' ' });
+
+                    // Ignore invalid entries
+                    double time;
+                    double value;
+                    if (Double.TryParse(row[0], out time))
                     {
-                        _time.Add(time);
-                        _value.Add(value);
+                        if (Double.TryParse(row[1], out value))
+                        {
+                            _time.Add(time);
+                            _value.Add(value);
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error: " + e.Message);
+                Console.WriteLine("Error: " + e.Message);
             }
         }
 

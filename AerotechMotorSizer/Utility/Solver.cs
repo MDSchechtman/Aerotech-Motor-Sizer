@@ -48,21 +48,51 @@ namespace Utility
 
             _record.RMSforce = Math.Pow(mass * _record.Acceleration[0], 2);
 
-            double friction;
-
-            if (_record.Acceleration != null)
+            if (_record.Acceleration != null && !isZero(_record.Acceleration))
             {
-                for (int i = 1; i < count; i++)
+                if (isZero(_record.Velocity))
                 {
-                    _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + env.StaticFriction + env.DynamicFriction * _record.Velocity[i] + env.ThrustForce, 2);
+                    for (int i = 1; i < count; i++)
+                    {
+                        _record.Velocity[i] = (_record.Time[i] - _record.Time[i - 1]) * _record.Acceleration[i] + _record.Velocity[i - 1];
+                        _record.Position[i] = (_record.Time[i] - _record.Time[i - 1]) * _record.Velocity[i] + _record.Position[i - 1];
+                        _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + env.StaticFriction + env.DynamicFriction * _record.Velocity[i] + env.ThrustForce, 2);
+                    }
+                }
+                else if (!isZero(_record.Velocity) && isZero(_record.Position))
+                {
+                    for (int i = 1; i < count; i++)
+                    {
+                        _record.Position[i] = (_record.Time[i] - _record.Time[i - 1]) * _record.Velocity[i] + _record.Position[i - 1];
+                        _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + env.StaticFriction + env.DynamicFriction * _record.Velocity[i] + env.ThrustForce, 2);
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i < count; i++)
+                    {
+                        _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + env.StaticFriction + env.DynamicFriction * _record.Velocity[i] + env.ThrustForce, 2);
+                    }
                 }
             }
-            else if (_record.Velocity != null)
+            else if (_record.Velocity != null && !isZero(_record.Velocity))
             {
-                for (int i = 1; i < count; i++)
+                if (isZero(_record.Position))
                 {
-                    _record.Acceleration[i] = (_record.Velocity[i] - _record.Velocity[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
-                    _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + env.StaticFriction + env.DynamicFriction * _record.Velocity[i] + env.ThrustForce, 2);
+                    for (int i = 1; i < count; i++)
+                    {
+                        _record.Position[i] = (_record.Time[i] - _record.Time[i - 1]) * _record.Velocity[i] + _record.Position[i - 1];
+                        _record.Acceleration[i] = (_record.Velocity[i] - _record.Velocity[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
+                        _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + env.StaticFriction + env.DynamicFriction * _record.Velocity[i] + env.ThrustForce, 2);
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i < count; i++)
+                    {
+                        _record.Acceleration[i] = (_record.Velocity[i] - _record.Velocity[i - 1]) / (_record.Time[i] - _record.Time[i - 1]);
+                        _record.RMSforce += Math.Pow(mass * _record.Acceleration[i] + env.StaticFriction + env.DynamicFriction * _record.Velocity[i] + env.ThrustForce, 2);
+                    }
                 }
             }
             else
@@ -84,6 +114,17 @@ namespace Utility
             _record.TemperatureRise = (Math.Pow(_record.RMSforce / _motor.MotorConstant, 2) * _motor.ThermalResistance);
 
             Write();
+
+            return true;
+        }
+
+        public bool isZero(double[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] != 0)
+                    return false;
+            }
 
             return true;
         }
