@@ -271,10 +271,14 @@ namespace Program
             _finalCoilTemperature = addTextBox(true);
             _totalRMSForceForEntireSequence = addTextBox(true);
             _comments = addTextBox(false);
+
+            _comments.Name = "_comments";
             _comments.Multiline = true;
+            _comments.Text = _project.ProfileComments;
 
             _profileName.Name = "_profileName";
-            _profileName.Text = "Profile 1";
+            _profileName.Text = _project.ProfileName;
+
             _profileNameString = _profileName.Text;
             _profileName.TextAlign = HorizontalAlignment.Left;
 
@@ -477,7 +481,7 @@ namespace Program
 
         public void Solve()
         {
-            if (_project.Axis1 != null && _project.Motor != null && _project.Load != null)
+            if (_project.Axis1.Valid && _project.Motor != null && _project.Load != null)
             {
                 _solver.Start(_project.Axis1.Record, _project.Motor, _project.Load, _project.Axis1.Path, _project.Environment);
 
@@ -498,20 +502,22 @@ namespace Program
 
                 _project.Sequence.UpdateSolution();
 
-                _project.Warn.Warnings = "";
+                if (_project.Warn != null)
+                    _project.Warn.Warnings = "";
 
                 string warnings = "";
 
                 if (_project.Axis1.Record.MAXforce > _project.Motor.PeakForce)
                     warnings += "Peak force exceeds motor rating\r\n";
-                if(_project.Axis1.Record.MAXcurrent > _project.Motor.PeakCurrent)
+                if (_project.Axis1.Record.MAXcurrent > _project.Motor.PeakCurrent)
                     warnings += "Peak current exceeds motor rating\r\n";
-                if(_project.Axis1.Record.RMSforce > _project.Motor.ContinuousForce)
+                if (_project.Axis1.Record.RMSforce > _project.Motor.ContinuousForce)
                     warnings += "Continuous force exceeds motor rating\r\n";
-                if(_project.Axis1.Record.RMScurrent > _project.Motor.ContinuousCurrent)
+                if (_project.Axis1.Record.RMScurrent > _project.Motor.ContinuousCurrent)
                     warnings += "Continuous current exceeds motor rating\r\n";
 
-                _project.Warn.Warnings = warnings;
+                if (_project.Warn != null)
+                    _project.Warn.Warnings = warnings;
             }
         }
 
@@ -541,6 +547,8 @@ namespace Program
                     (sender as TextBox).Text = _project.Environment.ThrustForce.ToString();
                 else if (name.Equals("_profileName") && _project.Profile != null)
                     _mainForm.ProjectList.RenameProfile(text);
+                else if (name.Equals("_comments") && _project.Profile != null)
+                    _project.ProfileComments = (sender as TextBox).Text;
             }
         }
 
@@ -552,7 +560,7 @@ namespace Program
             myMotors.Sort(delegate(Motor t1, Motor t2) { return (t1.ContinuousForce.CompareTo(t2.ContinuousForce)); });
 
             int i;
-            for (i = 0; i < myMotors.Count; i++ )
+            for (i = 0; i < myMotors.Count; i++)
             {
                 _solver.Start(_project.Axis1.Record, myMotors[i], _project.Load, _project.Axis1.Path, _project.Environment);
 

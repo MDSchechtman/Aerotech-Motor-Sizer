@@ -18,6 +18,12 @@ namespace Utility
         public double[] _current;
         public double[] _torque;
 
+
+        /// <summary>
+        /// Construct an instance of the record (for serialization)
+        /// </summary>
+        public Record() { }
+
         public Record(IPath path)
         {
             _time = path.Time;

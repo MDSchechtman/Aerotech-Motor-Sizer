@@ -16,6 +16,11 @@ namespace Utility
         private bool _angleOfInclination;
 
         /// <summary>
+        /// Construct an instance of path (for serialization)
+        /// </summary>
+        public Path() { }
+
+        /// <summary>
         /// Creates a new instance of Path
         /// </summary>
         /// <param name="converter">The converter to use to construct the path</param>

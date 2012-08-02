@@ -21,7 +21,6 @@ namespace Program
         {
             _mainForm = mainForm;
             _project = new Project();
-            _project.Name = "Project 1";
 
             _project.Environment = new SimulationEnv();
             _project.Environment.StaticFriction = 0;
@@ -30,7 +29,7 @@ namespace Program
             _project.Environment.MechEfficiency = 95;
             _project.Environment.ThrustForce = 0;
             _project.Environment.Cooling = "No Cooling";
-            
+
             _mainForm.Project = _project;
 
             _project.ParameterInput = new ParameterInputScene(_mainForm);
@@ -38,9 +37,9 @@ namespace Program
             _project.FunctionConverter = new FunctionConverterScene(_mainForm);
             _project.NewProject = new NewProjectScene(_mainForm);
             _project.Profile = new ProfileScene(_mainForm);
-            _project.Profile.Name = "Profile 1";
+            _project.Profile.Name = _project.ProfileName;
             _project.Sequence = new SequenceScene(_mainForm);
-            _project.Sequence.Name = "Sequence 1";
+            _project.Sequence.Name = _project.SequenceName;
             _project.ChooseMotor = new ChooseMotorScene(_mainForm);
             _project.Warn = new OutputScene(_mainForm);
 
@@ -48,7 +47,7 @@ namespace Program
             _panels.Add(_project.Name, _project.NewProject.Component);
             _panels.Add(_project.Profile.Name, _project.Profile.Component);
             _panels.Add(_project.Sequence.Name, _project.Sequence.Component);
-            
+
             // Subscribe to update event
             _project.Update += new Project.UpdateHandler(project_Update);
 
@@ -72,7 +71,6 @@ namespace Program
         {
             _mainForm = mainForm;
             _project = project;
-            _project.Name = "Project 1";
 
             _project.Environment = new SimulationEnv();
             _project.Environment.StaticFriction = 0;
@@ -87,10 +85,10 @@ namespace Program
             _project.FunctionConverter = new FunctionConverterScene(_mainForm);
             _project.NewProject = new NewProjectScene(_mainForm);
             _project.Profile = new ProfileScene(_mainForm);
-            _project.Profile.Name = "Profile 1";
+            _project.Profile.Name = _project.ProfileName;
             _project.Sequence = new SequenceScene(_mainForm);
-            _project.Sequence.Name = "Sequence 1";
-            
+            _project.Sequence.Name = _project.SequenceName;
+
             _project.ChooseMotor = new ChooseMotorScene(_mainForm);
             _project.Warn = new OutputScene(_mainForm);
 
@@ -111,6 +109,26 @@ namespace Program
         public TreeView Component
         {
             get { return _tree; }
+        }
+
+        public void RenameProfile(string newName)
+        {
+            // Update the profile scene
+            _project.Profile.Name = newName;
+            // Update the stored name
+            _project.ProfileName = newName;
+            // Redraw
+            DoSetup();
+        }
+
+        public void RenameSequence(string newName)
+        {
+            // Update the profile scene
+            _project.Sequence.Name = newName;
+            // Update the stored name
+            _project.SequenceName = newName;
+            // Redraw
+            DoSetup();
         }
 
         private void Initialize()
@@ -145,21 +163,5 @@ namespace Program
             if (_panels.Keys.Contains(e.Node.Text))
                 _mainForm.MainPanel.SetMiddle(_panels[e.Node.Text]);
         }
-
-        public void RenameProfile(string newName)
-        {
-            string old = _project.Profile.Name;
-            _project.Profile.Name = newName;
-
-            TableLayoutPanel t;
-            if (_panels.TryGetValue(old, out t))
-            {
-                _panels.Remove(old);
-                _panels.Add(newName, t);
-            }
-
-            DoSetup();
-        }
-
     }
 }

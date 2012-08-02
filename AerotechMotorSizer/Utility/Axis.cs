@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 using Interfaces;
 
@@ -13,11 +14,15 @@ namespace Utility
         private IConverter _converter;
         private IRecord _record;
         private double _angleOfInclination;
+        private bool _valid;
 
         /// <summary>
         /// Creates a new instance of the axis class
         /// </summary>
-        public Axis() { }
+        public Axis()
+        {
+            _valid = false;
+        }
 
         /// <summary>
         /// Creates a new instance of the axis class
@@ -25,9 +30,10 @@ namespace Utility
         /// <param name="path">That path to use</param>
         public Axis(IPath path)
         {
+            _valid = true;
             _path = path;
 
-            SetPath(path); 
+            SetPath(path);
         }
 
         /// <summary>
@@ -36,6 +42,7 @@ namespace Utility
         /// <param name="converter">The converter to use</param>
         public Axis(IConverter converter)
         {
+            _valid = true;
             _path = new Path(converter);
             _converter = converter;
 
@@ -49,6 +56,7 @@ namespace Utility
         /// <param name="converter">The converter to use</param>
         public Axis(IPath path, IConverter converter)
         {
+            _valid = true;
             _path = path;
             _converter = converter;
             _path = new Path(converter);
@@ -62,6 +70,13 @@ namespace Utility
             _record = new Record(path);
         }
 
+        public bool Valid
+        {
+            get { return _valid; }
+            set { _valid = value; }
+        }
+
+        [XmlIgnoreAttribute]
         public IConverter Converter
         {
             get
@@ -89,7 +104,7 @@ namespace Utility
             get { return _path.Acceleration; }
         }
 
-        public double[] Time 
+        public double[] Time
         {
             get { return _path.Time; }
         }
@@ -100,11 +115,13 @@ namespace Utility
             set { _angleOfInclination = value; }
         }
 
+        [XmlIgnoreAttribute]
         public IPath Path
         {
             get { return _path; }
         }
 
+        [XmlIgnoreAttribute]
         public IRecord Record
         {
             get { return _record; }
@@ -118,6 +135,18 @@ namespace Utility
                     return false;
             }
             return true;
+        }
+
+        public Path XmlSerializablePath
+        {
+            get { return (Path)_path; }
+            set { _path = value; }
+        }
+
+        public Record XmlSerializableRecord
+        {
+            get { return (Record)_record; }
+            set { _record = value; }
         }
     }
 }

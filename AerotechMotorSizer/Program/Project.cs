@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
 
 using Interfaces;
 using Utility;
@@ -11,11 +14,11 @@ namespace Program
     public class Project
     {
         private string _Name;
-        private IMotor _Motor;
-        private ILoad _Load;
-        private IAxis _Axis1;
-        private IAxis _Axis2;
-        private IAxis _Axis3;
+        private Motor _Motor;
+        private Load _Load;
+        private Axis _Axis1;
+        private Axis _Axis2;
+        private Axis _Axis3;
         private Utility.SimulationEnv _Environment;
 
         public delegate void UpdateHandler(object sender, EventArgs args);
@@ -29,8 +32,15 @@ namespace Program
         private ProfileScene _ProfileScene;
         private SequenceScene _SequenceScene;
         private OutputScene _WarningScene;
+
+        // Various names
+        private string _profile = "Profile 1";
+        private string _sequence = "Sequence 1";
+        private string _profileComments = string.Empty;
+        private string _sequenceComments = string.Empty;
         private Dictionary<String, String> _projectValues;
 
+        [XmlIgnoreAttribute]
         public ParameterInputScene ParameterInput
         {
             get
@@ -44,7 +54,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [XmlIgnoreAttribute]
         public FileConverterScene FileConverter
         {
             get
@@ -58,7 +68,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [XmlIgnoreAttribute]
         public FunctionConverterScene FunctionConverter
         {
             get
@@ -72,7 +82,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [XmlIgnoreAttribute]
         public ChooseMotorScene ChooseMotor
         {
             get
@@ -86,7 +96,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [XmlIgnoreAttribute]
         public NewProjectScene NewProject
         {
             get
@@ -100,7 +110,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [XmlIgnoreAttribute]
         public ProfileScene Profile
         {
             get
@@ -114,7 +124,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [XmlIgnoreAttribute]
         public SequenceScene Sequence
         {
             get
@@ -128,7 +138,7 @@ namespace Program
             }
         }
 
-        //get and set the 
+        [XmlIgnoreAttribute]
         public OutputScene Warn
         {
             get
@@ -153,7 +163,7 @@ namespace Program
                 _projectValues = value;
             }
         }
-        
+
         protected void OnUpdate(object sender, EventArgs args)
         {
             if (Update != null)
@@ -168,7 +178,7 @@ namespace Program
         //constructor
         public Project(IMotor motor)
         {
-            _Motor = motor;
+            _Motor = (Motor)motor;
         }
 
         //get and set the project name
@@ -186,7 +196,7 @@ namespace Program
         }
 
         //get and set the project motor
-        public IMotor Motor
+        public Motor Motor
         {
             get
             {
@@ -199,7 +209,7 @@ namespace Program
             }
         }
 
-        public ILoad Load
+        public Load Load
         {
             get
             {
@@ -212,11 +222,11 @@ namespace Program
             }
         }
 
-        public IAxis Axis1
+        public Axis Axis1
         {
             get
             {
-                return _Axis1;
+                return (_Axis1 == null) ? new Axis() : _Axis1;
             }
             set
             {
@@ -225,11 +235,11 @@ namespace Program
             }
         }
 
-        public IAxis Axis2
+        public Axis Axis2
         {
             get
             {
-                return _Axis2;
+                return (_Axis2 == null) ? new Axis() : _Axis2;
             }
             set
             {
@@ -238,11 +248,11 @@ namespace Program
             }
         }
 
-        public IAxis Axis3
+        public Axis Axis3
         {
             get
             {
-                return _Axis3;
+                return (_Axis3 == null) ? new Axis() : _Axis3;
             }
             set
             {
@@ -262,6 +272,64 @@ namespace Program
                 _Environment = value;
                 OnUpdate(this, new EventArgs());
             }
+        }
+
+        public string ProfileName
+        {
+            get { return _profile; }
+            set { _profile = value; }
+        }
+
+        public string ProfileComments
+        {
+            get { return _profileComments; }
+            set { _profileComments = value; }
+        }
+
+        public string SequenceName
+        {
+            get { return _sequence; }
+            set { _sequence = value; }
+        }
+
+        public string SequenceComments
+        {
+            get { return _sequenceComments; }
+            set { _sequenceComments = value; }
+        }
+
+        public static bool SaveProject(Project o, string filename)
+        {
+            try
+            {
+                XmlSerializer writer = new XmlSerializer(typeof(Project));
+                StreamWriter file = new StreamWriter(filename);
+                writer.Serialize(file, o);
+                file.Close();
+            }
+            catch (System.Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static Project LoadProject(string filename)
+        {
+            Project o = new Project();
+
+            try
+            {
+                XmlSerializer reader = new XmlSerializer(typeof(Project));
+                StreamReader file = new StreamReader(filename);
+                o = (Project)reader.Deserialize(file);
+            }
+            catch (System.Exception e)
+            {
+                return null;
+            }
+
+            return o;
         }
     }
 }

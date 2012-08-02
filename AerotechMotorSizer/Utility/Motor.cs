@@ -66,12 +66,12 @@ namespace Utility
         /// <param name="ThermalResistance_Catalog_20psi"></param>
         /// <param name="ThermalResistance_PercentDifference_0psi"></param>
         /// <param name="ThermalResistance_PercentDifference_20psi"></param>
-        public Motor(string Name, double ForceConstant, double _motorConstant, double BackEMFConstant, double Resistance, 
-                     double PeakForce, double PeakCurrent, double ContinuousForce_0psi, double ContinuousForce_10psi, 
-                     double ContinuousForce_20psi, double ContinuousForce_40psi, double ContinuousCurrent_0psi, 
-                     double ContinuousCurrent_10psi, double ContinuousCurrent_20psi, double ContinuousCurrent_40psi, 
-                     double CoilMass, double CoilLength, double ThermalResistance_100CTEMP_0psi, double ThermalResistance_100CTEMP_10psi, 
-                     double ThermalResistance_100CTEMP_20psi, double ThermalResistance_100CTEMP_40psi, double ThermalResistance_Catalog_0psi, 
+        public Motor(string Name, double ForceConstant, double _motorConstant, double BackEMFConstant, double Resistance,
+                     double PeakForce, double PeakCurrent, double ContinuousForce_0psi, double ContinuousForce_10psi,
+                     double ContinuousForce_20psi, double ContinuousForce_40psi, double ContinuousCurrent_0psi,
+                     double ContinuousCurrent_10psi, double ContinuousCurrent_20psi, double ContinuousCurrent_40psi,
+                     double CoilMass, double CoilLength, double ThermalResistance_100CTEMP_0psi, double ThermalResistance_100CTEMP_10psi,
+                     double ThermalResistance_100CTEMP_20psi, double ThermalResistance_100CTEMP_40psi, double ThermalResistance_Catalog_0psi,
                      double ThermalResistance_Catalog_20psi, double ThermalResistance_PercentDifference_0psi, double ThermalResistance_PercentDifference_20psi)
         {
             _motorName = Name;
@@ -122,65 +122,10 @@ namespace Utility
             //////////
         }
 
-        public double Mass
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public double MaxTemp
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public double MomentOfInertia
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public double Inductance
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public double KT
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        /// <summary>
+        /// Creates a new instance of the motor class
+        /// </summary>
+        public Motor() { }
 
         public string Name
         {
