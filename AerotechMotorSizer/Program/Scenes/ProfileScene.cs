@@ -275,6 +275,7 @@ namespace Program
             _comments.Name = "_comments";
             _comments.Multiline = true;
             _comments.Text = _project.ProfileComments;
+            _comments.TextAlign = HorizontalAlignment.Left;
 
             _profileName.Name = "_profileName";
             _profileName.Text = _project.ProfileName;

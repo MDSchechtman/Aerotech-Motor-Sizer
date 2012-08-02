@@ -195,6 +195,7 @@ namespace Program
             _comments = addTextBox(false);
             _comments.Multiline = true;
             _comments.Text = _project.SequenceComments;
+            _comments.TextAlign = HorizontalAlignment.Left;
 
             _sequenceName.TextAlign = HorizontalAlignment.Left;
             _sequenceName.Name = "_sequenceName";
