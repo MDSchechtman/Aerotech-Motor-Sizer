@@ -16,7 +16,9 @@ namespace Program
         private Dictionary<string, double> _dictionary;
         private TableLayoutPanel _panel;
         private ListView _view;
+        private ComboBox _boxAccel;
         private ComboBox _box;
+        private Label _boxTitle;
 
         private String _parameter1;
         private String _parameter2;
@@ -74,6 +76,23 @@ namespace Program
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.5F / 3F));
             _panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0.125F));
 
+            _boxAccel = new ComboBox();
+            _boxAccel.Items.Add(string.Format("Constant"));
+            _boxAccel.Items.Add(string.Format("Triangular"));
+            _boxAccel.Items.Add(string.Format("Sinusoidal"));
+            _boxAccel.Width = 200;
+            _boxAccel.Dock = DockStyle.Right;
+            _boxAccel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+
+            _boxTitle = new Label();
+            _boxTitle.Text = "Acceleration Type";
+            _boxTitle.Font = new Font("Tahoma", 10);
+            _boxTitle.Size = new Size(_boxTitle.PreferredWidth, _boxTitle.PreferredHeight);
+            _boxTitle.AutoSize = true;
+            _boxTitle.TextAlign = ContentAlignment.BottomRight;
+            _boxTitle.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            _boxTitle.Margin = new Padding(0, 0, 0, 25);
+
             _label1 = new Label();
             _label2 = new Label();
             _label3 = new Label();
@@ -109,6 +128,7 @@ namespace Program
             _textBox2.Enabled = false;
             _textBox3.Enabled = false;
             _textBox4.Enabled = false;
+
 
             _textBox1.Dock = DockStyle.Left;
             _textBox2.Dock = DockStyle.Left;
@@ -174,6 +194,9 @@ namespace Program
 
             _panel.Controls.Add(boxTitle, 4, 2);
             _panel.Controls.Add(_box, 4, 3);
+
+            _panel.Controls.Add(_boxTitle, 4, 4);
+            _panel.Controls.Add(_boxAccel, 4, 5);
 
             _panel.Controls.Add(title, 2, 1);
             _panel.SetColumnSpan(title, 2);
@@ -331,7 +354,7 @@ namespace Program
                 _dictionary.Add(_parameter3, value3);
                 _dictionary.Add("timeStep", value4);
 
-                IConverter converter = new Utility.Converters.ParameterSetConverter(_dictionary);
+                IConverter converter = new Utility.Converters.ParameterSetConverter(_dictionary, _boxAccel.Text);
 
                 if (string.Compare(_box.SelectedItem.ToString(), "Axis 1") == 0)
                     _mainForm.Project.Axis1 = new Axis(converter);
@@ -339,7 +362,7 @@ namespace Program
                     _mainForm.Project.Axis2 = new Axis(converter);
                 else if (string.Compare(_box.SelectedItem.ToString(), "Axis 3") == 0)
                     _mainForm.Project.Axis3 = new Axis(converter);
-            }       
+            }
         }
 
         private void finish_Click(object sender, EventArgs e)

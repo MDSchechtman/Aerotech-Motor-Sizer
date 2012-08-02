@@ -65,13 +65,15 @@ namespace Utility.Converters
         private double _decelerationTime;
         private double _dwellTime;
         private double _timeStep;
+        private String _accelerationType;
 
         /// <summary>
         /// Creates a new instance of the ParameterSetConverter class
         /// </summary>
         /// <param name="parameters">The dictionary of parameters to convert</param>
-        public ParameterSetConverter(Dictionary<string, double> parameters) 
+        public ParameterSetConverter(Dictionary<string, double> parameters, String accelerationType)
         {
+            _accelerationType = accelerationType;
             if (parameters.Count == 0)
                 throw new Exception("Invalid paramter count!");
             else
@@ -126,7 +128,18 @@ namespace Utility.Converters
             double[] values = new double[] { value0, value1, value2 };
             info.Invoke(this, new object[] { values });
 
-            FillArrays();
+            if (_accelerationType == "Sinusoidal")
+            {
+                FillSinusoidalArrays();
+            }
+            else if (_accelerationType == "Triangular")
+            {
+                FillTriangularArrays();
+            }
+            else
+            {
+                FillArrays();
+            }
         }
 
         private void FillArrays()
@@ -139,9 +152,9 @@ namespace Utility.Converters
             double maxAcceleration = 2 * _distanceOfTravel / (Math.Pow(_accelerationTime, 2) + 2 * _accelerationTime * _traverseTime + _accelerationTime * _decelerationTime);
             double maxDeceleration = -2 * _distanceOfTravel / (_accelerationTime * _decelerationTime + 2 * _traverseTime * _decelerationTime + Math.Pow(_decelerationTime, 2));
 
-            int timeSteps = (int) Math.Ceiling((totalTime + _dwellTime) / _timeStep) + 1;
-            int stopAccel = (int) Math.Round(_accelerationTime / _timeStep) + 1;
-            int startDecel = (int) Math.Round(accelAndTraverseTime / _timeStep) + 1;
+            int timeSteps = (int)Math.Ceiling((totalTime + _dwellTime) / _timeStep) + 1;
+            int stopAccel = (int)Math.Round(_accelerationTime / _timeStep) + 1;
+            int startDecel = (int)Math.Round(accelAndTraverseTime / _timeStep) + 1;
 
             _time = new double[timeSteps];
             _position = new double[timeSteps];
@@ -173,10 +186,142 @@ namespace Utility.Converters
             }
         }
 
+        private void FillSinusoidalArrays()
+        {
+            _dwellTime = 0; // for now
+
+            double pi = Math.PI;
+
+            double totalTime = _accelerationTime + _traverseTime + _decelerationTime;
+            double accelAndTraverseTime = _accelerationTime + _traverseTime;
+
+            double maxAcceleration = 2 * _distanceOfTravel / (Math.Pow(_accelerationTime, 2) + 2 * _accelerationTime * _traverseTime + _accelerationTime * _decelerationTime);
+            double maxDeceleration = -2 * _distanceOfTravel / (_accelerationTime * _decelerationTime + 2 * _traverseTime * _decelerationTime + Math.Pow(_decelerationTime, 2));
+
+            int timeSteps = (int)Math.Ceiling((totalTime + _dwellTime) / _timeStep) + 1;
+            int stopAccel = (int)Math.Round(_accelerationTime / _timeStep) + 1;
+            int startDecel = (int)Math.Round(accelAndTraverseTime / _timeStep) + 1;
+
+            //double Apk = (pi * _distanceOfTravel) / (Math.Pow(_accelerationTime, 2) + (2 * accelAndTraverseTime) + (_accelerationTime * _decelerationTime));
+            //double Dpk = (pi * _distanceOfTravel) / ((_accelerationTime * _decelerationTime) + (2 * (_traverseTime + _decelerationTime)) + Math.Pow(_decelerationTime, 2));
+
+            double Apk = pi * _distanceOfTravel / (Math.Pow(_accelerationTime, 2) + 2 * _accelerationTime * _traverseTime + _accelerationTime * _decelerationTime);
+            double Dpk = pi * _distanceOfTravel / (_accelerationTime * _decelerationTime + 2 * _traverseTime * _decelerationTime + Math.Pow(_decelerationTime, 2));
+
+            _time = new double[timeSteps];
+            _position = new double[timeSteps];
+            _velocity = new double[timeSteps];
+            _acceleration = new double[timeSteps];
+
+            for (int i = 0; i < stopAccel; i++)
+            {
+                _acceleration[i] = Apk * Math.Sin((pi * i) / (stopAccel - 1));
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = stopAccel; i < startDecel; i++)
+            {
+                _acceleration[i] = 0;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = startDecel; i < timeSteps; i++)
+            {
+                _acceleration[i] = Dpk * Math.Sin(-1 * ((pi * (i - startDecel)) / (timeSteps - startDecel - 1)));
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = 1; i < timeSteps; i++)
+            {
+                _velocity[i] = (_time[i] - _time[i - 1]) * _acceleration[i] + _velocity[i - 1];
+                _position[i] = (_time[i] - _time[i - 1]) * _velocity[i] + _position[i - 1];
+            }
+        }
+
+        private void FillTriangularArrays()
+        {
+            _dwellTime = 0; // for now
+
+            double totalTime = _accelerationTime + _traverseTime + _decelerationTime;
+            double accelAndTraverseTime = _accelerationTime + _traverseTime;
+
+            double maxAcceleration = 2 * _distanceOfTravel / (Math.Pow(_accelerationTime, 2) + 2 * _accelerationTime * _traverseTime + _accelerationTime * _decelerationTime);
+            double maxDeceleration = -2 * _distanceOfTravel / (_accelerationTime * _decelerationTime + 2 * _traverseTime * _decelerationTime + Math.Pow(_decelerationTime, 2));
+
+            int timeSteps = (int)Math.Ceiling((totalTime + _dwellTime) / _timeStep) + 1;
+            int stopAccel = (int)Math.Round(_accelerationTime / _timeStep) + 1;
+            int stopAccel_1 = stopAccel / 2;
+            int startDecel = (int)Math.Round(accelAndTraverseTime / _timeStep) + 1;
+            int startDecel2 = startDecel + (timeSteps - startDecel + 1) / 2;
+            //double Apk = (4 * _distanceOfTravel) / (Math.Pow(_accelerationTime, 2) + (2 * accelAndTraverseTime) + (_accelerationTime * _decelerationTime));
+            //double Dpk = (4 * _distanceOfTravel) / ((_accelerationTime * _decelerationTime) + (2 * (_traverseTime + _decelerationTime)) + Math.Pow(_decelerationTime, 2));
+
+            double Apk = 4 * _distanceOfTravel / (Math.Pow(_accelerationTime, 2) + 2 * _accelerationTime * _traverseTime + _accelerationTime * _decelerationTime);
+            double Dpk = 4 * _distanceOfTravel / (_accelerationTime * _decelerationTime + 2 * _traverseTime * _decelerationTime + Math.Pow(_decelerationTime, 2));
+
+            Apk = Apk / (stopAccel_1 - 1);
+            Dpk = Dpk / (startDecel2 - startDecel - 1);
+
+            double position = 0;
+
+            _time = new double[timeSteps];
+            _position = new double[timeSteps];
+            _velocity = new double[timeSteps];
+            _acceleration = new double[timeSteps];
+
+            for (int i = 0; i < stopAccel_1; i++)
+            {
+                _acceleration[i] = Apk * i;
+                position = Apk * i;
+                _time[i] = i * _timeStep;
+            }
+
+            int limit;
+            if (2 * stopAccel_1 - (stopAccel - 1) - 1 == 0)
+                limit = 2 * stopAccel_1 - 1;
+            else
+                limit = 2 * stopAccel_1;
+
+            for (int i = stopAccel_1; i < stopAccel; i++)
+            {
+                //_acceleration[i] = (-1 * Apk * i) + position;
+
+
+                _acceleration[i] = _acceleration[limit - i];
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = stopAccel; i < startDecel; i++)
+            {
+                _acceleration[i] = 0;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = startDecel; i < startDecel2; i++)
+            {
+                _acceleration[i] = -1 * Dpk * (i - startDecel);
+                position = -1 * Dpk * i;
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = startDecel2; i < timeSteps; i++)
+            {
+                //_acceleration[i] = (-1 * Dpk * i) + position;
+                _acceleration[i] = _acceleration[2 * startDecel2 - i - 2];
+                _time[i] = i * _timeStep;
+            }
+
+            for (int i = 1; i < timeSteps; i++)
+            {
+                _velocity[i] = (_time[i] - _time[i - 1]) * _acceleration[i] + _velocity[i - 1];
+                _position[i] = (_time[i] - _time[i - 1]) * _velocity[i] + _position[i - 1];
+            }
+        }
+
         // DO NOT EDIT FUNCTION NAMES BELOW //
         // DO NOT EDIT FUNCTION NAMES BELOW //
         // DO NOT EDIT FUNCTION NAMES BELOW //
-        
+
         private void distanceOfTravel_accelerationTime_traverseTime_converter(double[] values)
         {
             if (values.Length != 3)
@@ -192,7 +337,7 @@ namespace Utility.Converters
             _decelerationTime = _accelerationTime;
         }
 
-        private void distanceOfTravel_totalTime_percentage_converter(double[] values) 
+        private void distanceOfTravel_totalTime_percentage_converter(double[] values)
         {
             if (values.Length != 3)
                 throw new Exception("Invalid number of values. Three values required).");
