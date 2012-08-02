@@ -304,6 +304,7 @@ namespace Program
             _project.Environment.Cooling = (string)_cooling.SelectedItem;
             _project.Motor.SetCooling((string)_cooling.SelectedItem);
 
+            _project.ChooseMotor.ChangeCooling((string)_cooling.SelectedItem);
             _project.Profile.UpdateEnvironment();
         }
 

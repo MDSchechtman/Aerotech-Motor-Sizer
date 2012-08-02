@@ -292,7 +292,7 @@ namespace Program
             _ambientTemperature.Text = _project.Environment.AmbientTemp.ToString();
             _mechanicalEfficiency.Text = _project.Environment.MechEfficiency.ToString();
             _cooling.Text = _project.Environment.Cooling;
-
+            /*
             _accelerationType = new ComboBox();
             _accelerationType.Items.Add(string.Format("Constant"));
             _accelerationType.Items.Add(string.Format("Triangular"));
@@ -302,7 +302,7 @@ namespace Program
             _accelerationType.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _accelerationType.DropDownStyle = ComboBoxStyle.DropDownList;
             _accelerationType.SelectedItem = _accelerationType.Items[0];
-
+            */
             _lengthOfTravelUnits = fillComboBox("length", 0);
             _massOfLoadUnits = fillComboBox("mass", 0);
             _accelerationTimeUnits = fillComboBox("time", 1);
@@ -345,7 +345,7 @@ namespace Program
 
             _panel.Controls.Add(_profileNameLabel, 0, 0);
             _panel.SetColumnSpan(_profileNameLabel, 2);
-            _panel.Controls.Add(_accelerationTypeLabel, 0, 1);
+            //_panel.Controls.Add(_accelerationTypeLabel, 0, 1);
 
             _panel.Controls.Add(_solve, 2, 1);
             _panel.SetColumnSpan(_solve, 2);
@@ -428,8 +428,8 @@ namespace Program
             _panel.Controls.Add(_finalCoilTemperature, 4, 12);
             _panel.Controls.Add(_totalRMSForceForEntireSequence, 4, 13);
 
-            _panel.Controls.Add(_accelerationType, 1, 1);
-            _panel.SetColumnSpan(_accelerationType, 1);
+            //_panel.Controls.Add(_accelerationType, 1, 1);
+            //_panel.SetColumnSpan(_accelerationType, 1);
 
             _panel.Controls.Add(_lengthOfTravelUnits, 2, 4);
             _panel.Controls.Add(_massOfLoadUnits, 2, 5);

@@ -29,6 +29,7 @@ namespace Program
         private ProfileScene _ProfileScene;
         private SequenceScene _SequenceScene;
         private OutputScene _WarningScene;
+        private Dictionary<String, String> _projectValues;
 
         public ParameterInputScene ParameterInput
         {
@@ -138,6 +139,18 @@ namespace Program
             {
                 _WarningScene = value;
                 //OnUpdate(this, new EventArgs());
+            }
+        }
+
+        public Dictionary<String, String> projectValues
+        {
+            get
+            {
+                return _projectValues;
+            }
+            set
+            {
+                _projectValues = value;
             }
         }
         

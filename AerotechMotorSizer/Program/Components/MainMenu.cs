@@ -47,7 +47,7 @@ namespace Program
             ToolStripMenuItem file3 = new ToolStripMenuItem("Save");
             ToolStripMenuItem file4 = new ToolStripMenuItem("Save As..");
             ToolStripMenuItem file5 = new ToolStripMenuItem("Exit");
-            file.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { file1, file2, file3, file4, file5});
+            file.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { file1, file2, file3, file4, file5 });
             file.Name = "fileToolStripMenuItem";
             file.Text = "File";
 
@@ -60,14 +60,14 @@ namespace Program
             edit.Name = "editToolStripMenuItem";
             edit.Text = "Edit";
 
-            ToolStripMenuItem view1 = new ToolStripMenuItem("One");
-            ToolStripMenuItem view2 = new ToolStripMenuItem("Two");
+            ToolStripMenuItem view1 = new ToolStripMenuItem("Edit Motors And Stages");
+            ToolStripMenuItem view2 = new ToolStripMenuItem("Edit Project Information");
             ToolStripMenuItem view3 = new ToolStripMenuItem("Three");
             ToolStripMenuItem view4 = new ToolStripMenuItem("Four");
             ToolStripMenuItem view5 = new ToolStripMenuItem("Five");
             view.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { view1, view2, view3, view4, view5 });
             view.Name = "viewToolStripMenuItem";
-            view.Text = "View";
+            view.Text = "Tools";
 
             ToolStripMenuItem help1 = new ToolStripMenuItem("One");
             ToolStripMenuItem help2 = new ToolStripMenuItem("Two");
@@ -83,6 +83,9 @@ namespace Program
             file3.Click += new EventHandler(file3_Click);
             file2.Click += new EventHandler(file2_Click);
             file1.Click += new EventHandler(file1_Click);
+
+            view1.Click += new EventHandler(view1_Click);
+            view2.Click += new EventHandler(view2_Click);
 
             _menuStrip.ResumeLayout(false);
             _menuStrip.PerformLayout();
@@ -113,6 +116,19 @@ namespace Program
         void file5_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        void view1_Click(object sender, EventArgs e)
+        {
+            Popup popup = new Popup(_mainForm);
+            popup.Controls.Add(new EditMotorsStages(_mainForm).Component);
+            popup.Show();
+        }
+        void view2_Click(object sender, EventArgs e)
+        {
+            Popup popup = new Popup(_mainForm);
+            popup.Controls.Add(new ProjectScene(_mainForm).Component);
+            popup.Show();
         }
     }
 }

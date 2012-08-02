@@ -65,12 +65,14 @@ namespace Program
         Project _project;
         List<Motor> _motors;
         Motor _selectedMotor;
+        string _cooling;
 
         public ChooseMotorScene(MainForm mainForm)
         {
             _mainForm = mainForm;
             _project = mainForm.Project;
             _panel = new TableLayoutPanel();
+            _cooling = "No Cooling";
 
             Initialize();
         }
@@ -261,19 +263,28 @@ namespace Program
             _selectedMotor = _motors[(sender as ComboBox).SelectedIndex];
             _project.Motor = _selectedMotor;
 
+            _selectedMotor.SetCooling(_cooling);
+
             _peakForce.Text = _motors[(sender as ComboBox).SelectedIndex].PeakForce.ToString();
-            _continuousForce.Text = _motors[(sender as ComboBox).SelectedIndex].ContinuousForce_0psi.ToString();
+            _continuousForce.Text = _motors[(sender as ComboBox).SelectedIndex].ContinuousForce.ToString();
             _forceConstant.Text = _motors[(sender as ComboBox).SelectedIndex].ForceConstant.ToString();
             _motorConstant.Text = _motors[(sender as ComboBox).SelectedIndex].MotorConstant.ToString();
             _backEMF.Text = _motors[(sender as ComboBox).SelectedIndex].BackEMFConstant.ToString();
             _hotCoilResistance.Text = _motors[(sender as ComboBox).SelectedIndex].Resistance.ToString();
-            _thermalResistance.Text = _motors[(sender as ComboBox).SelectedIndex].ThermalResistance_100CTEMP_0psi.ToString();
+            _thermalResistance.Text = _motors[(sender as ComboBox).SelectedIndex].ThermalResistance.ToString();
             _coilMass.Text = _motors[(sender as ComboBox).SelectedIndex].CoilMass.ToString();
             _coilLength.Text = _motors[(sender as ComboBox).SelectedIndex].CoilLength.ToString();
             _movingMass.Text = "0";
             _totalStageMass.Text = "0";
 
             _project.Profile.Solve();
+        }
+
+        public void ChangeCooling(string cooling)
+        {
+            _cooling = cooling;
+            _continuousForce.Text = _selectedMotor.ContinuousForce.ToString();
+            _thermalResistance.Text = _selectedMotor.ThermalResistance.ToString();
         }
 
         private ComboBox fillComboBox(string units, int selectedItem)

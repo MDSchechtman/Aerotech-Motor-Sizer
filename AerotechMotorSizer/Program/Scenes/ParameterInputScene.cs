@@ -336,9 +336,9 @@ namespace Program
                 if (string.Compare(_box.SelectedItem.ToString(), "Axis 1") == 0)
                     _mainForm.Project.Axis1 = new Axis(converter);
                 else if (string.Compare(_box.SelectedItem.ToString(), "Axis 2") == 0)
-                    _mainForm.Project.Axis1 = new Axis(converter);
+                    _mainForm.Project.Axis2 = new Axis(converter);
                 else if (string.Compare(_box.SelectedItem.ToString(), "Axis 3") == 0)
-                    _mainForm.Project.Axis1 = new Axis(converter);
+                    _mainForm.Project.Axis3 = new Axis(converter);
             }       
         }
 
