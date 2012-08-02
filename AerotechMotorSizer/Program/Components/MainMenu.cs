@@ -61,7 +61,7 @@ namespace Program
             edit.Text = "Edit";
 
             ToolStripMenuItem view1 = new ToolStripMenuItem("Edit Motors And Stages");
-            ToolStripMenuItem view2 = new ToolStripMenuItem("Two");
+            ToolStripMenuItem view2 = new ToolStripMenuItem("Edit Project Information");
             ToolStripMenuItem view3 = new ToolStripMenuItem("Three");
             ToolStripMenuItem view4 = new ToolStripMenuItem("Four");
             ToolStripMenuItem view5 = new ToolStripMenuItem("Five");
@@ -85,6 +85,7 @@ namespace Program
             file1.Click += new EventHandler(file1_Click);
 
             view1.Click += new EventHandler(view1_Click);
+            view2.Click += new EventHandler(view2_Click);
 
             _menuStrip.ResumeLayout(false);
             _menuStrip.PerformLayout();
@@ -118,6 +119,12 @@ namespace Program
         }
 
         void view1_Click(object sender, EventArgs e)
+        {
+            Form popup = new Form();
+            popup.Controls.Add(new EditMotorsStages(_mainForm).Component);
+            popup.Show();
+        }
+        void view2_Click(object sender, EventArgs e)
         {
             Form popup = new Form();
             popup.Controls.Add(new ProjectScene(_mainForm).Component);

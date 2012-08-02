@@ -29,7 +29,23 @@ namespace Program
         private ProfileScene _ProfileScene;
         private SequenceScene _SequenceScene;
         private OutputScene _WarningScene;
+        private Dictionary<String, String> _projectValues;
 
+
+
+
+        public Dictionary<String, String> projectValues
+        {
+            get
+            {
+                return _projectValues;
+            }
+            set
+            {
+                _projectValues = value;
+            }
+        }
+        
         public ParameterInputScene ParameterInput
         {
             get

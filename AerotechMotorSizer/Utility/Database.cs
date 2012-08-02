@@ -206,7 +206,13 @@ namespace Utility
         public List<Motor> motors
         {
             get { return _motors; }
-            set { _motors = motors; }
+            set { _motors = value; }
+        }
+
+        public List<Motor> searchedMotors
+        {
+            get { return _searchedMotors; }
+            set { _searchedMotors = value; }
         }
 
         public Boolean Import(String filename)

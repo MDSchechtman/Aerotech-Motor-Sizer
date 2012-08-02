@@ -117,6 +117,8 @@ namespace Program
             _textBox4.Dock = DockStyle.Left;
             _textBox5.Dock = DockStyle.Left;
 
+            _textBox1.Text = _mainForm.Project.Name;
+
             _textBox1.Width = 500;
             _textBox2.Width = 500;
             _textBox3.Width = 500;
@@ -150,7 +152,6 @@ namespace Program
             row = new string[] { "Sale Engineer", ""};
             dataGridView.Rows.Add(row);
 
-            dataGridView.Rows[1].ReadOnly = true;
             _panel.Controls.Add(_label1, 1, 1);
 
 
@@ -168,7 +169,18 @@ namespace Program
 
         private void button_Click(object sender, EventArgs e)
         {
-            //Todo
+            _mainForm.Project.Name = _textBox1.Text;
+
+            Dictionary<String, String> temp = new Dictionary<String, String>();
+
+            foreach (DataGridViewRow dgvr in dataGridView.Rows)
+            {
+                if (dgvr.Cells["Name"].Value!=null)
+                {
+                    temp.Add(Convert.ToString(dgvr.Cells["Name"].Value), Convert.ToString(dgvr.Cells["Value"].Value));
+                }
+            }
+            _mainForm.Project.projectValues = temp;
         }
     }
 }
