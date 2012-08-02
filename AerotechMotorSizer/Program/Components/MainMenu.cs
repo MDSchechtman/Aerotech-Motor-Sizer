@@ -97,7 +97,6 @@ namespace Program
             if (DialogResult.OK == dialog.ShowDialog())
             {
                 _file = dialog.FileName;
-                _mainForm.Project.Name = System.IO.Path.GetFileName(_file.Substring(0, _file.IndexOf('.')));
                 Project.SaveProject(_mainForm.Project, _file);
             }
         }
