@@ -100,7 +100,8 @@ namespace Program
             if (DialogResult.OK == dialog.ShowDialog())
             {
                 _file = dialog.FileName;
-                Project.SaveProject(_mainForm.Project, _file);
+                if (!Project.SaveProject(_mainForm.Project, _file))
+                    MessageBox.Show("Unable to save project!");
             }
         }
 

@@ -180,7 +180,7 @@ namespace Program
                     temp.Add(Convert.ToString(dgvr.Cells["Name"].Value), Convert.ToString(dgvr.Cells["Value"].Value));
                 }
             }
-            _mainForm.Project.projectValues = temp;
+            _mainForm.Project.ProjectValues = temp;
         }
     }
 }

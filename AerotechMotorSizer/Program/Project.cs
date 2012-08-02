@@ -152,7 +152,8 @@ namespace Program
             }
         }
 
-        public Dictionary<String, String> projectValues
+        [XmlIgnoreAttribute]
+        public Dictionary<String, String> ProjectValues
         {
             get
             {
@@ -161,6 +162,21 @@ namespace Program
             set
             {
                 _projectValues = value;
+            }
+        }
+
+        public List<KeyValuePair<string, string>> SaveProjectValues
+        {
+            get
+            {
+                return (_projectValues != null) ? _projectValues.ToList() : new List<KeyValuePair<string, string>>();
+            }
+            set
+            {
+                foreach (KeyValuePair<string, string> p in value)
+                {
+                    _projectValues.Add(p.Key, p.Value);
+                }
             }
         }
 
@@ -309,6 +325,7 @@ namespace Program
             }
             catch (System.Exception e)
             {
+                Exception saveException = e;
                 return false;
             }
             return true;
