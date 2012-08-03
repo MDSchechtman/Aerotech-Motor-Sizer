@@ -148,14 +148,12 @@ namespace Program
         void view1_Click(object sender, EventArgs e)
         {
             Popup popup = new Popup(_mainForm);
-            popup.Controls.Add(new EditMotorsStages(_mainForm).Component);
-            popup.Show();
+            popup.Show(new EditMotorsStages(_mainForm).Component);
         }
         void view2_Click(object sender, EventArgs e)
         {
             Popup popup = new Popup(_mainForm);
-            popup.Controls.Add(new ProjectScene(_mainForm).Component);
-            popup.Show();
+            popup.Show(new ProjectScene(_mainForm).Component);
         }
     }
 }

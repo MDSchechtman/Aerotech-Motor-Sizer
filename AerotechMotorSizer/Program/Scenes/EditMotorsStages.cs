@@ -94,6 +94,8 @@ namespace Program
             _panel.RowCount = 20;
             _panel.ColumnCount = 5;
 
+            _panel.MaximumSize = new System.Drawing.Size(1000, 1000);
+
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.05F));
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.05F));
             _panel.RowStyles.Add(new RowStyle(SizeType.Percent, 0.05F));

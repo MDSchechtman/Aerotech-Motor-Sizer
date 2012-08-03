@@ -21,6 +21,7 @@ namespace Program
         public void Show(Control c)
         {
             this.Controls.Add(c);
+            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.Size = c.PreferredSize;
             this.ShowDialog(_mainForm);
         }
