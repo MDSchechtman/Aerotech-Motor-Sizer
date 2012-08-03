@@ -142,7 +142,8 @@ namespace Program
         // File -> Exit
         void file5_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (DialogResult.OK == MessageBox.Show("Are you sure you want to quit?", "", MessageBoxButtons.OKCancel))
+                Application.Exit();
         }
 
         void view1_Click(object sender, EventArgs e)
