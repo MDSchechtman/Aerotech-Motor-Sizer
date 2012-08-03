@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Windows.Forms;
 
 using Interfaces;
 
@@ -127,6 +128,27 @@ namespace Utility.Converters
             MethodInfo info = typeof(ParameterSetConverter).GetMethod(invokeString, BindingFlags.IgnoreCase | BindingFlags.NonPublic | BindingFlags.Instance);
             double[] values = new double[] { value0, value1, value2 };
             info.Invoke(this, new object[] { values });
+
+            if (_accelerationTime < 0)
+            {
+                MessageBox.Show("Acceleration Time is negative. Please check your parameters."); 
+                return;
+            }
+            else if (_traverseTime < 0)
+            {
+                MessageBox.Show("Traverse Time is negative. Please check your parameters.");
+                return;
+            }
+            else if (_distanceOfTravel < 0)
+            {
+                MessageBox.Show("Distance of Travel is negative. Please check your parameters.");
+                return;
+            }
+            else if (_timeStep <= 0)
+            {
+                MessageBox.Show("Time Step is invalid.");
+                return;
+            }
 
             if (_accelerationType == "Sinusoidal")
             {

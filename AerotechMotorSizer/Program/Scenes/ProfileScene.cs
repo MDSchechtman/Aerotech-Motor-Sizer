@@ -510,12 +510,23 @@ namespace Program
 
                 if (_project.Axis1.Record.MAXforce > _project.Motor.PeakForce)
                     warnings += "Peak force exceeds motor rating\r\n";
+                else if (_project.Axis1.Record.MAXforce * 1.05 > _project.Motor.PeakForce)
+                    warnings += "Peak force is within 5% of motor rating\r\n";
+
                 if (_project.Axis1.Record.MAXcurrent > _project.Motor.PeakCurrent)
                     warnings += "Peak current exceeds motor rating\r\n";
+                else if (_project.Axis1.Record.MAXcurrent * 1.05 > _project.Motor.PeakCurrent)
+                    warnings += "Peak current is within 5% of motor rating\r\n";
+
                 if (_project.Axis1.Record.RMSforce > _project.Motor.ContinuousForce)
                     warnings += "Continuous force exceeds motor rating\r\n";
+                else if (_project.Axis1.Record.RMSforce * 1.05 > _project.Motor.ContinuousForce)
+                    warnings += "Continuous force is within 5% of motor rating\r\n";
+
                 if (_project.Axis1.Record.RMScurrent > _project.Motor.ContinuousCurrent)
                     warnings += "Continuous current exceeds motor rating\r\n";
+                else if (_project.Axis1.Record.RMScurrent * 1.05 > _project.Motor.ContinuousCurrent)
+                    warnings += "Continuous current is within 5% of motor rating\r\n";
 
                 if (_project.Warn != null)
                     _project.Warn.Warnings = warnings;
